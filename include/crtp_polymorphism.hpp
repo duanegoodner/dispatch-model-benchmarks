@@ -1,39 +1,46 @@
 #pragma once
 
 #include "utils.hpp"
+#include "math_functions.hpp"
+
+namespace crtp_polymorphism {
 
 template <typename Derived>
 class CRTPBase {
-public:
+ public:
   double Compute(double x) const {
-    return static_cast<const Derived *>(this)->ComputeImpl(x);
+    return static_cast<const Derived*>(this)->ComputeImpl(x);
   }
 };
 
-class CRTPDerived1 : public CRTPBase<CRTPDerived1> {
-public:
+class PolyMinimal : public CRTPBase<PolyMinimal> {
+  public:
+   double ComputeImpl(double x) const { return ComputeMinimal(x); }
+ };
+
+ class PolyFMA : public CRTPBase<PolyFMA> {
+  public:
+   double ComputeImpl(double x) const { return ComputeFMA(x); }
+ };
+ 
+
+class PolySimple : public CRTPBase<PolySimple> {
+ public:
   double ComputeImpl(double x) const { return ComputeSimple(x); }
 };
 
-class CRTPSmall : public CRTPBase<CRTPSmall> {
-public:
-  double ComputeImpl(double x) const { return ComputeMinimal(x); }
-};
+class PolyMedium : public CRTPBase<PolySimple> {
+  public:
+   double ComputeImpl(double x) const { return ComputeMedium(x); }
+ };
+ 
 
-class CRTPExpensive : public CRTPBase<CRTPExpensive> {
-public:
+class PolyExpensive : public CRTPBase<PolyExpensive> {
+ public:
   double ComputeImpl(double x) const { return ComputeExpensive(x); }
 };
 
 template <typename T>
-inline void TestCRTPPolymorphism(const std::string &label, size_t n) {
-  T obj;
-  auto start = std::chrono::high_resolution_clock::now();
-  double sum = 0.0;
-  for (size_t i = 0; i < n; ++i) {
-    sum += obj.Compute(2.0);
-  }
-  prevent_optimization = sum;
-  auto end = std::chrono::high_resolution_clock::now();
-  PrintTime(label + " CRTP Polymorphism", end - start);
-}
+void TestCRTPPolymorphism(const std::string& label, size_t n);
+
+} // namespace crtp_polymorphism

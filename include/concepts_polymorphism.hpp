@@ -1,34 +1,38 @@
 #pragma once
 
+#include <concepts>
 #include "utils.hpp"
+#include "math_functions.hpp"
+
+namespace concepts_polymorphism {
 
 template <typename T>
 concept Computable = requires(T t, double x) {
   { t.Compute(x) } -> std::convertible_to<double>;
 };
 
-struct ConceptSquarer {
-  double Compute(double x) const { return ComputeSimple(x);  }
+struct PolyMinimal {
+  double Compute(double x) const { return ComputeMinimal(x); }
 };
 
-struct ConceptSmall {
-  double Compute(double x) const { return ComputeMinimal(x);  }
+struct PolyFMA {
+  double Compute(double x) const { return ComputeFMA(x); }
 };
 
-struct ConceptExpensive {
-  double Compute(double x) const {
-    return ComputeExpensive(x);
-  }
+
+struct PolySimple {
+  double Compute(double x) const { return ComputeSimple(x); }
+};
+
+struct PolyMedium {
+  double Compute(double x) const { return ComputeMedium(x); }
+};
+
+struct PolyExpensive {
+  double Compute(double x) const { return ComputeExpensive(x); }
 };
 
 template <Computable T>
-inline void TestConceptsPolymorphism(const std::string& label, size_t n, T obj) {
-  auto start = std::chrono::high_resolution_clock::now();
-  double sum = 0.0;
-  for (size_t i = 0; i < n; ++i) {
-    sum += obj.Compute(2.0);
-  }
-  prevent_optimization = sum;
-  auto end = std::chrono::high_resolution_clock::now();
-  PrintTime(label + " C++20 Concepts Polymorphism", end - start);
-}
+void TestConceptsPolymorphism(const std::string& label, size_t n, T obj);
+
+} // namespace concepts_polymorphism
