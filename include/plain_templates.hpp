@@ -11,24 +11,28 @@ public:
   double ComputeValue(double x) const { return T::ComputeImpl(x); }
 };
 
-struct PolyMinimal {
+class PolyMinimal {
+public:
   static double ComputeImpl(double x) { return ComputeMinimal(x); }
 };
 
-struct PolyFMA {
+class PolyFMA {
+public:
   static double ComputeImpl(double x) { return ComputeFMA(x); }
 };
 
-
-struct PolySimple {
+class PolySimple {
+public:
   static double ComputeImpl(double x) { return ComputeSimple(x); }
 };
 
-struct PolyMedium {
+class PolyMedium {
+public:
   static double ComputeImpl(double x) { return ComputeMedium(x); }
 };
 
-struct PolyExpensive {
+class PolyExpensive {
+public:
   static double ComputeImpl(double x) { return ComputeExpensive(x); }
 };
 

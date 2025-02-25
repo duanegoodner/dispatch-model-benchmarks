@@ -1,3 +1,4 @@
+#include <iostream>
 #include "concepts_polymorphism.hpp"
 #include "crtp_polymorphism.hpp"
 #include "plain_templates.hpp"
@@ -26,6 +27,7 @@ int main() {
       kNumIterations,
       runtimeExpensive
   );
+  std::cout << std::endl;
 
   // Plain Templates
 
@@ -51,6 +53,9 @@ int main() {
       "Expensive Computation:",
       kNumIterations
   );
+  std::cout << std::endl;
+
+
 
   // CRTP
 
@@ -75,6 +80,7 @@ int main() {
       "Expensive Computation:",
       kNumIterations
   );
+  std::cout << std::endl;
 
   // Concepts-Based
   TestConceptsPolymorphism(
@@ -102,6 +108,7 @@ int main() {
       kNumIterations,
       concepts_polymorphism::PolyExpensive()
   );
+  std::cout << std::endl;
 
   return 0;
 }
