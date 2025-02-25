@@ -8,11 +8,24 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # 🔹 BUILD CONFIGURATION OPTIONS
 # ===========================
 
+option(RESET_DEFAULTS "Reset all options to default settings" OFF)
 option(ENABLE_DEBUG "Enable Debugging Symbols (-O0 -g)" OFF)
 option(ENABLE_NO_INLINE "Disable Function Inlining (-fno-inline)" OFF)
 option(ENABLE_LOW_OPT "Use Lower Optimization (-O1 instead of -O3)" OFF)
 option(ENABLE_PROFILING "Enable Profiling (-pg, for gprof/perf)" OFF)
 option(ENABLE_CONCEPT_ERROR_DETAIL "Enable Verbose Compiler Errors for Concepts" ON)
+
+# ===========================
+# 🔹 HANDLE RESET_DEFAULTS OPTION
+# ===========================
+
+if (RESET_DEFAULTS)
+    message(STATUS "Resetting all options to default settings...")
+    set(ENABLE_DEBUG OFF CACHE BOOL "Enable Debugging Symbols (-O0 -g)" FORCE)
+    set(ENABLE_NO_INLINE OFF CACHE BOOL "Disable Function Inlining (-fno-inline)" FORCE)
+    set(ENABLE_LOW_OPT OFF CACHE BOOL "Use Lower Optimization (-O1 instead of -O3)" FORCE)
+    set(ENABLE_PROFILING OFF CACHE BOOL "Enable Profiling (-pg, for gprof/perf)" FORCE)
+endif()
 
 # ===========================
 # 🔹 DEFAULT COMPILER FLAGS (Handled Safely)
