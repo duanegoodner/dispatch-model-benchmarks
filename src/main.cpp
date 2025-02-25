@@ -1,9 +1,5 @@
 #include <iostream>
 #include <vector>
-#include "concepts_polymorphism.hpp"
-#include "crtp_polymorphism.hpp"
-#include "plain_templates.hpp"
-#include "runtime_polymorphism.hpp"
 #include "test_runner.hpp"
 
 int main() {
