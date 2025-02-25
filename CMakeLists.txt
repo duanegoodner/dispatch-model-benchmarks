@@ -74,6 +74,7 @@ set(SRC_FILES
     src/plain_templates.cpp
     src/crtp_polymorphism.cpp
     src/concepts_polymorphism.cpp
+    src/test_runner.cpp
 )
 
 # ===========================
