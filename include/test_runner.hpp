@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utils.hpp"
+#include "benchmark_utils.hpp"
 #include "concepts_polymorphism.hpp"
 #include "crtp_polymorphism.hpp"
 #include "runtime_polymorphism.hpp"

@@ -1,5 +1,5 @@
 #include "runtime_polymorphism.hpp"
-#include "utils.hpp"
+#include "benchmark_utils.hpp"
 
 namespace runtime_polymorphism {
 

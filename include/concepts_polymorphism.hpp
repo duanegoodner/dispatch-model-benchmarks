@@ -1,7 +1,7 @@
 #pragma once
 
 #include "math_functions.hpp"
-#include "utils.hpp"
+#include "benchmark_utils.hpp"
 
 namespace concepts_polymorphism {
 

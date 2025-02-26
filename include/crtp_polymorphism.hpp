@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utils.hpp"
+#include "benchmark_utils.hpp"
 #include "math_functions.hpp"
 
 namespace crtp_polymorphism {
