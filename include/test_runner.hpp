@@ -11,10 +11,6 @@ namespace runtime_polymorphism {
     void RunTests(size_t iterations);
 }
 
-namespace plain_templates {
-    void RunTests(size_t iterations);
-}
-
 namespace crtp_polymorphism {
     void RunTests(size_t iterations);
 }
