@@ -1,29 +1,21 @@
 #include <iostream>
-#include <vector>
 #include "test_runner.hpp"
 
 int main() {
     constexpr size_t kNumIterations = 1000000000;
 
-    std::vector<std::string> testLabels = {
-        "Minimal Work Function:",
-        "FMA Computation:",
-        "Simple Computation:",
-        "Medium Computation:",
-        "Expensive Computation:"
-    };
-
     std::cout << "\n--- Testing Runtime Polymorphism ---\n";
-    runtime_polymorphism::RunTests(kNumIterations, testLabels);
+    runtime_polymorphism::RunTests(kNumIterations);
 
     std::cout << "\n--- Testing Plain Templates ---\n";
-    plain_templates::RunTests(kNumIterations, testLabels);
+    plain_templates::RunTests(kNumIterations);
 
     std::cout << "\n--- Testing CRTP Polymorphism ---\n";
-    crtp_polymorphism::RunTests(kNumIterations, testLabels);
+    crtp_polymorphism::RunTests(kNumIterations);
 
     std::cout << "\n--- Testing C++20 Concepts Polymorphism ---\n";
-    concepts_polymorphism::RunTests(kNumIterations, testLabels);
+    concepts_polymorphism::RunTests(kNumIterations);
 
     return 0;
 }
+
