@@ -1,4 +1,4 @@
-#include "benchmark_utils.hpp"
+#include "utils.hpp"
 #include "crtp_polymorphism.hpp"
 
 namespace crtp_polymorphism {
