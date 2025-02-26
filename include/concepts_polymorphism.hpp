@@ -12,15 +12,19 @@ concept Computable = requires(T t, double x) {
 
 class PolyFMA {
 public:
-  double Compute(double x) const { return ComputeFMA(x); }
+  double Compute(double x) const;
 };
 
 class PolyExpensive {
 public:
-  double Compute(double x) const { return ComputeExpensive(x); }
+  double Compute(double x) const;
 };
 
 template <Computable T>
-void TestConceptsPolymorphism(const std::string &label, size_t n, T &obj);
+void TestConceptsPolymorphism(const std::string &label, size_t n, T &obj) {
+  RunBenchmark(label + " C++20 Concepts Polymorphism", n, [&](double x) {
+    return obj.Compute(x);
+  });
+}
 
 } // namespace concepts_polymorphism

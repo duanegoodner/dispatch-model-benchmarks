@@ -1,7 +1,7 @@
 #pragma once
 
-#include "math_functions.hpp"
 #include "benchmark_utils.hpp"
+#include "math_functions.hpp"
 
 namespace runtime_polymorphism {
 
@@ -13,12 +13,12 @@ public:
 
 class PolyFMA : public Base {
 public:
-  double Compute(double x) const override { return ComputeFMA(x); }
+  double Compute(double x) const override;
 };
 
 class PolyExpensive : public Base {
 public:
-  double Compute(double x) const override { return ComputeExpensive(x); }
+  double Compute(double x) const override;
 };
 
 void TestRuntimePolymorphism(const std::string &label, size_t n, Base &obj);

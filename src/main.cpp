@@ -6,15 +6,6 @@ int main() {
 
     RunAllTests(kNumIterations);
 
-    // std::cout << "\n--- Testing Runtime Polymorphism ---\n";
-    // runtime_polymorphism::RunTests(kNumIterations);
-
-    // std::cout << "\n--- Testing CRTP Polymorphism ---\n";
-    // crtp_polymorphism::RunTests(kNumIterations);
-
-    // std::cout << "\n--- Testing C++20 Concepts Polymorphism ---\n";
-    // concepts_polymorphism::RunTests(kNumIterations);
-
     return 0;
 }
 

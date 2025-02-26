@@ -3,12 +3,9 @@
 
 namespace concepts_polymorphism {
 
-template <Computable T>
-void TestConceptsPolymorphism(const std::string &label, size_t n, T &obj) {
-  RunBenchmark(label + " C++20 Concepts Polymorphism", n, [&](double x) {
-    return obj.Compute(x);
-  });
-}
+double PolyFMA::Compute(double x) const {return ComputeFMA(x);}
+
+double PolyExpensive::Compute(double x) const {return ComputeExpensive(x);}
 
 // Explicit template instantiations
 template void TestConceptsPolymorphism<PolyFMA>(

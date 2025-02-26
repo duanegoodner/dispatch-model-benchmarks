@@ -22,10 +22,6 @@ void TestExpensive(size_t iterations) {
   );
 }
 
-void RunTests(size_t iterations) {
-  TestFMA(iterations);
-  TestExpensive(iterations);
-}
 } // namespace runtime_polymorphism
 
 namespace crtp_polymorphism {
@@ -40,10 +36,6 @@ void TestExpensive(size_t iterations) {
   TestCRTPPolymorphism("Expensive Computation:", iterations, crtp_expensive);
 }
 
-void RunTests(size_t iterations) {
-  TestFMA(iterations);
-  TestExpensive(iterations);
-}
 } // namespace crtp_polymorphism
 
 namespace concepts_polymorphism {
@@ -59,10 +51,6 @@ void TestExpensive(size_t iterations) {
       iterations,
       concepts_expensive
   );
-}
-void RunTests(size_t iterations) {
-  TestFMA(iterations);
-  TestExpensive(iterations);
 }
 } // namespace concepts_polymorphism
 

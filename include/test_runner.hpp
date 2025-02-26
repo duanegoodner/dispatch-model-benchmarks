@@ -11,19 +11,16 @@
 namespace runtime_polymorphism {
 void TestFMA(size_t iterations);
 void TestExpensive(size_t iterations);
-void RunTests(size_t iterations);
 } // namespace runtime_polymorphism
 
 namespace crtp_polymorphism {
 void TestFMA(size_t iterations);
 void TestExpensive(size_t iterations);
-void RunTests(size_t iterations);
 } // namespace crtp_polymorphism
 
 namespace concepts_polymorphism {
 void TestFMA(size_t iterations);
 void TestExpensive(size_t iterations);
-void RunTests(size_t iterations);
 } // namespace concepts_polymorphism
 
 // Define a struct to hold test case information
