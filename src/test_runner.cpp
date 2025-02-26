@@ -19,14 +19,20 @@ void RunTests(size_t iterations) {
 
 namespace crtp_polymorphism {
 void RunTests(size_t iterations) {
-  TestCRTPPolymorphism<PolyFMA>(testLabels[0], iterations);
-  TestCRTPPolymorphism<PolyExpensive>(testLabels[1], iterations);
+  PolyFMA crtpFMA;
+  PolyExpensive crtpExpensive;
+
+  TestCRTPPolymorphism<PolyFMA>(testLabels[0], iterations, crtpFMA);
+  TestCRTPPolymorphism<PolyExpensive>(testLabels[1], iterations, crtpExpensive);
 }
 } // namespace crtp_polymorphism
 
 namespace concepts_polymorphism {
 void RunTests(size_t iterations) {
-  TestConceptsPolymorphism(testLabels[0], iterations, PolyFMA());
-  TestConceptsPolymorphism(testLabels[1], iterations, PolyExpensive());
+  PolyFMA conceptsFMA;
+  PolyExpensive conceptsExppensive;
+  
+  TestConceptsPolymorphism(testLabels[0], iterations, conceptsFMA);
+  TestConceptsPolymorphism(testLabels[1], iterations, conceptsExppensive);
 }
 } // namespace concepts_polymorphism

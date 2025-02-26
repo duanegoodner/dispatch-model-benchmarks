@@ -21,6 +21,6 @@ public:
 };
 
 template <Computable T>
-void TestConceptsPolymorphism(const std::string &label, size_t n, T obj);
+void TestConceptsPolymorphism(const std::string &label, size_t n, T &obj);
 
 } // namespace concepts_polymorphism

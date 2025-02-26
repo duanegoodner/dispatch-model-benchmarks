@@ -24,6 +24,6 @@ class PolyExpensive : public CRTPBase<PolyExpensive> {
 };
 
 template <typename T>
-void TestCRTPPolymorphism(const std::string& label, size_t n);
+void TestCRTPPolymorphism(const std::string& label, size_t n, T& obj);
 
 } // namespace crtp_polymorphism
