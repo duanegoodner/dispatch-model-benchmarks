@@ -10,24 +10,9 @@ concept Computable = requires(T t, double x) {
   { t.Compute(x) } -> std::convertible_to<double>;
 };
 
-class PolyMinimal {
-public:
-  double Compute(double x) const { return ComputeMinimal(x); }
-};
-
 class PolyFMA {
 public:
   double Compute(double x) const { return ComputeFMA(x); }
-};
-
-class PolySimple {
-public:
-  double Compute(double x) const { return ComputeSimple(x); }
-};
-
-class PolyMedium {
-public:
-  double Compute(double x) const { return ComputeMedium(x); }
 };
 
 class PolyExpensive {

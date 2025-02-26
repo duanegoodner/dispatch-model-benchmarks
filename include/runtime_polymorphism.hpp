@@ -11,24 +11,9 @@ public:
   virtual ~Base() = default;
 };
 
-class PolyMinimal : public Base {
-public:
-  double Compute(double x) const override { return ComputeMinimal(x); }
-};
-
 class PolyFMA : public Base {
 public:
   double Compute(double x) const override { return ComputeFMA(x); }
-};
-
-class PolySimple : public Base {
-public:
-  double Compute(double x) const override { return ComputeSimple(x); }
-};
-
-class PolyMedium : public Base {
-public:
-  double Compute(double x) const override { return ComputeMedium(x); }
 };
 
 class PolyExpensive : public Base {

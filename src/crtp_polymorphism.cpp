@@ -11,10 +11,7 @@ void TestCRTPPolymorphism(const std::string &label, size_t n) {
 }
 
 // Explicit template instantiations
-template void TestCRTPPolymorphism<PolySimple>(const std::string &, size_t);
 template void TestCRTPPolymorphism<PolyFMA>(const std::string &, size_t);
-template void TestCRTPPolymorphism<PolyMinimal>(const std::string &, size_t);
-template void TestCRTPPolymorphism<PolyMedium>(const std::string &, size_t);
 template void TestCRTPPolymorphism<PolyExpensive>(const std::string &, size_t);
 
 } // namespace crtp_polymorphism

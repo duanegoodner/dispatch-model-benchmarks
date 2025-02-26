@@ -11,24 +11,10 @@ public:
   double ComputeValue(double x) const { return T::ComputeImpl(x); }
 };
 
-class PolyMinimal {
-public:
-  static double ComputeImpl(double x) { return ComputeMinimal(x); }
-};
 
 class PolyFMA {
 public:
   static double ComputeImpl(double x) { return ComputeFMA(x); }
-};
-
-class PolySimple {
-public:
-  static double ComputeImpl(double x) { return ComputeSimple(x); }
-};
-
-class PolyMedium {
-public:
-  static double ComputeImpl(double x) { return ComputeMedium(x); }
 };
 
 class PolyExpensive {
