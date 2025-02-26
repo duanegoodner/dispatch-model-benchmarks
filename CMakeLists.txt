@@ -71,7 +71,6 @@ set(SRC_FILES
     src/main.cpp
     src/utils.cpp
     src/runtime_polymorphism.cpp
-    src/plain_templates.cpp
     src/crtp_polymorphism.cpp
     src/concepts_polymorphism.cpp
     src/test_runner.cpp

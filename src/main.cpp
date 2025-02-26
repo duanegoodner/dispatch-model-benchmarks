@@ -7,9 +7,6 @@ int main() {
     std::cout << "\n--- Testing Runtime Polymorphism ---\n";
     runtime_polymorphism::RunTests(kNumIterations);
 
-    std::cout << "\n--- Testing Plain Templates ---\n";
-    plain_templates::RunTests(kNumIterations);
-
     std::cout << "\n--- Testing CRTP Polymorphism ---\n";
     crtp_polymorphism::RunTests(kNumIterations);
 

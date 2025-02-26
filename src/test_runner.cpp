@@ -17,13 +17,6 @@ void RunTests(size_t iterations) {
 }
 } // namespace runtime_polymorphism
 
-namespace plain_templates {
-void RunTests(size_t iterations) {
-  TestPlainTemplates<PolyFMA>(testLabels[0], iterations);
-  TestPlainTemplates<PolyExpensive>(testLabels[1], iterations);
-}
-} // namespace plain_templates
-
 namespace crtp_polymorphism {
 void RunTests(size_t iterations) {
   TestCRTPPolymorphism<PolyFMA>(testLabels[0], iterations);

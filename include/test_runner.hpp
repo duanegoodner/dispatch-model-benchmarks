@@ -3,7 +3,6 @@
 // #include <iostream>
 // #include <vector>
 #include "runtime_polymorphism.hpp"
-#include "plain_templates.hpp"
 #include "crtp_polymorphism.hpp"
 #include "concepts_polymorphism.hpp"
 #include "benchmark_utils.hpp"
