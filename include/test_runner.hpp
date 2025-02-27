@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "benchmark_utils.hpp"
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -22,7 +22,8 @@ const TestCase &GetSingleTestCase(
 void RunSingleTest(
     const std::string &polymorphism_category,
     const std::string &computation_label,
-    size_t iterations
+    size_t iterations,
+    bool write_to_file
 );
 void RunAllTests(size_t iterations);
 

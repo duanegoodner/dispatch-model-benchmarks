@@ -1,0 +1,5 @@
+Compiler Flags: -O3 -march=native
+
+| Polymorphism Type | Compute Function | Time (seconds) |
+|-------------------|-----------------|---------------|
+| crtp | expensive | 0.385109 |
