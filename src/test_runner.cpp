@@ -54,12 +54,8 @@ void TestExpensive(size_t iterations) {
 }
 } // namespace concepts_polymorphism
 
-// Function to retrieve a single test case based on namespace and computation
-// name
-const TestCase &GetSingleTestCase(
-    const std::string &ns,
-    const std::string &computation
-) {
+const std::unordered_map<std::string, std::unordered_map<std::string, TestCase>>
+    &GetTestCaseMap() {
   static const std::unordered_map<
       std::string,
       std::unordered_map<std::string, TestCase>>
@@ -82,6 +78,17 @@ const TestCase &GetSingleTestCase(
             {"expensive",
              {"concepts_polymorphism::TestExpensive",
               concepts_polymorphism::TestExpensive}}}}};
+
+  return testCaseMap;
+}
+
+// Function to retrieve a single test case based on namespace and computation
+// name
+const TestCase &GetSingleTestCase(
+    const std::string &ns,
+    const std::string &computation
+) {
+  const auto& testCaseMap = GetTestCaseMap();
 
   // Look up the namespace
   auto nsIt = testCaseMap.find(ns);
@@ -116,11 +123,10 @@ void RunAllTests(size_t iterations) {
       {"crtp", "fma"},
       {"crtp", "expensive"},
       {"concepts", "fma"},
-      {"concepts", "expensive"}
-  };
+      {"concepts", "expensive"}};
 
   // Loop through each valid pair and run the test
-  for (const auto& [category, label] : testPairs) {
-      RunSingleTest(category, label, iterations);
+  for (const auto &[category, label] : testPairs) {
+    RunSingleTest(category, label, iterations);
   }
 }

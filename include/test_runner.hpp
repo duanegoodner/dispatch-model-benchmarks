@@ -29,6 +29,9 @@ struct TestCase {
   void (*function)(size_t); // Function pointer to the test function
 };
 
+const std::unordered_map<std::string, std::unordered_map<std::string, TestCase>>
+    &GetTestCaseMap();
+
 void RunAllTests(size_t iterations);
 
 const TestCase &GetSingleTestCase(
