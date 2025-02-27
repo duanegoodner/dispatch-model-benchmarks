@@ -34,7 +34,7 @@ This project is designed with modularity and ease of modification in mind, makin
 ## Building
 
 If we want to use the default compiler flags `-O3 -march=native` specified by our `CMakeLists.txt`, we can run:
-```
+```shell
 https://github.com/duanegoodner/polymorphism-compare
 cd polymorphism-compare
 mkdir build
@@ -56,17 +56,69 @@ For example, if we want to use compiler flags `-O3 -march=native -pg`, then inst
 
 ## Running
 
-### Running Both Compute Functions with All Polymorphism Variants
+### Command Line Help
 
+```shell
+./build/bin/benchmark --help
+
+# Output:
+# Usage: ./build/bin/benchmark [polymorphism_category] [computation]
+#  - No arguments: Runs all tests.
+#  - With arguments: Runs a specific test.
+#    Valid values for polymorphism_category: concepts crtp runtime 
+#    Valid values for computation: expensive fma 
 ```
+
+### Run All Compute Functions with All Polymorphism Variants
+
+To run all possible combinations of polymorphism type and compute function, run the executable file without any arguments. 
+
+```shell
 ./build/bin/benchmark
+
+# Output:
+# Running: polymorphism_tests::TestRuntimeFMA
+# FMA Computation: Runtime Polymorphism Time = 1.5178 seconds
+# 
+# Running: polymorphism_tests::TestRuntimeExpensive
+# Expensive Computation: Runtime Polymorphism Time = 6.31193 seconds
+# 
+# Running: polymorphism_tests::TestCRTPFMA
+# FMA Computation: CRTP Polymorphism Time = 0.372842 seconds
+# 
+# Running: polymorphism_tests::TestCRTPExpensive
+# Expensive Computation: CRTP Polymorphism Time = 0.372428 seconds
+# 
+# Running: polymorphism_tests::TestConceptsFMA
+# FMA Computation: C++20 Concepts Polymorphism Time = 0.373231 seconds
+# 
+# Running: polymorphism_tests::TestConceptsExpensive
+# Expensive Computation: C++20 Concepts Polymorphism Time = 0.374191 seconds
+# 
+# Test results saved to: data/run_all_tests_results/2025-02-26-23-53-19-980.txt
 ```
 
 ### Running a Single Compute Function with a Single Polymorphism Variant
 
+To run a single compute function with a single type of polymorphism, the command syntax is:
+```shell
+./build/bin/benchmark <polymorphism_category> <computation>
 ```
-./build/bin/benchmark
+For example:
 ```
+./build/bin/benchmark crtp expensive
+
+# Output:
+# Running: polymorphism_tests::TestCRTPExpensive
+# Expensive Computation: CRTP Polymorphism Time = 0.379541 seconds
+```
+
+## Results
+
+
+
+
+
 
 
 
