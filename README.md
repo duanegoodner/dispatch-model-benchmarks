@@ -33,15 +33,29 @@ This project is designed with modularity and ease of modification in mind, makin
 
 ## Building
 
-If we want to use the default compiler flags `-O3 -march=native` specified by our `CMakeLists.txt`, we can run:
+### Clone this Repository and Change Working Directory
+
 ```shell
 https://github.com/duanegoodner/polymorphism-compare
 cd polymorphism-compare
+```
+
+### Create `build/` Directory
+```shell
 mkdir build
+```
+
+### Generate Build System and Compile
+
+```shell
 cmake -B build
 cmake --build build
 ```
-The `CMakeList.txt` file also offers the following options:
+
+### CMake Configuration Options
+
+The default compiler flags specified by `CMakeLists.txt` are `-O3 -march=native`. The following CMake confiuration options are also available.
+
 
 | -D Option         | Compiler Flags |
 |-------------------|---------------------------------|
@@ -51,7 +65,15 @@ The `CMakeList.txt` file also offers the following options:
 | ENABLE_PROFILING  | `-O3 -march=native -pg`         |
 | RESET_DEFAULTS    | `-O3 -march=native`             |
 
-For example, if we want to use compiler flags `-O3 -march=native -pg`, then instead of `cmake -B build` in, we would use `cmake -B build -DENABLE_PROFILING=ON`.
+For example, in the build command sequence shown above, if replace this:
+```
+cmake -B build
+```
+with this:
+```
+cmake -B build -DENABLE_PROFILING=ON
+```
+the compiler flags will be `-O3 -march=native -pg`.
 
 
 ## Running
