@@ -32,6 +32,12 @@ void PrintUsage(const char *program_name) {
 }
 
 int main(int argc, char **argv) {
+  // Handle --help option
+  if (argc == 2 && std::string_view(argv[1]) == "--help") {
+    PrintUsage(argv[0]);
+    return EXIT_SUCCESS;
+  }
+
   if (argc == 1) {
     //  if no args provide, then run all possible tests
     test_runner::RunAllTests(kNumIterations);
