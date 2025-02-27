@@ -69,7 +69,8 @@ int main(int argc, char **argv) {
     test_runner::RunSingleTest(
         std::string(polymorphism_category),
         std::string(computation),
-        kNumIterations
+        kNumIterations,
+        true
     );
   } else {
     // invalid number of args
