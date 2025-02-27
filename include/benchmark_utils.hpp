@@ -27,6 +27,8 @@ int ValidateOutfileStream(std::ofstream &outfile, const std::string &filepath);
 
 void WriteCompileFlagsInfo(std::ofstream &outfile);
 
+void WriteNumberOfIterations(size_t num_iterations, std::ofstream &outfile);
+
 void WriteMarkdownTableHeader(std::ofstream &outfile);
 
 void WriteMarkdownTableRow(
@@ -38,18 +40,19 @@ void WriteMarkdownTableRow(
 
 void WriteSingleTestResultToFile(
     const std::string &output_dir,
+    size_t iterations,
     const std::string &polymorphism_category,
     const std::string &computation_label,
     std::chrono::duration<double> elapsed_time
 );
 
-    // Generalized benchmarking function
-    template <typename Callable>
-    std::chrono::duration<double> RunBenchmark(
-        const std::string &label,
-        size_t n,
-        Callable &&compute_func
-    ) {
+// Generalized benchmarking function
+template <typename Callable>
+std::chrono::duration<double> RunBenchmark(
+    const std::string &label,
+    size_t n,
+    Callable &&compute_func
+) {
   auto start = std::chrono::high_resolution_clock::now();
   double sum = 0.0;
   for (size_t i = 0; i < n; ++i) {

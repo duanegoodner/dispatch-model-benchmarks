@@ -88,6 +88,7 @@ std::chrono::duration<double> RunSingleTest(
     std::string output_dir = "data/single_test_results/";
     WriteSingleTestResultToFile(
         output_dir,
+        iterations,
         polymorphism_category,
         computation_label,
         elapsed_time
@@ -116,6 +117,7 @@ void RunAllTests(size_t iterations) {
   std::ofstream outfile(filepath);
   ValidateOutfileStream(outfile, filepath);
   WriteCompileFlagsInfo(outfile);
+  WriteNumberOfIterations(iterations, outfile);
   WriteMarkdownTableHeader(outfile);
 
   // Run each test and collect results
