@@ -1,6 +1,6 @@
 #pragma once
 
-#include "benchmark_utils.hpp"
+#include "test_runner.hpp"
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -26,3 +26,15 @@ bool IsValidComputation(
 // Parses an optional "-n [iterations]" argument
 std::optional<size_t>
 ParseIterationCount(int argc, char **argv, int &arg_index, int &remaining_argc);
+
+// Handles command-line arguments and runs tests
+int RunFromCLI(int argc, char **argv);
+
+// Helper functions to clean up RunFromCLI
+bool HandleHelpOption(int argc, char **argv);
+std::optional<size_t> ParseAndValidateArguments(
+    int argc,
+    char **argv,
+    int &remaining_argc
+);
+int RunAppropriateTests(int remaining_argc, char **argv, size_t iterations);

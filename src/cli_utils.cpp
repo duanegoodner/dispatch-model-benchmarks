@@ -1,7 +1,11 @@
 #include "cli_utils.hpp"
+#include "test_runner.hpp"
+#include <cstdlib>
 #include <iostream>
-#include <limits>
-#include <sstream>
+#include <string_view>
+
+// Default number of iterations
+constexpr size_t kDefaultNumIterations = 1'000'000'000;
 
 // Prints usage information for the command-line tool
 void PrintUsage(const char *program_name) {
@@ -53,6 +57,8 @@ bool IsValidComputation(
   return category_it->second.find(computation) != category_it->second.end();
 }
 
+// Parses the optional "-n [iterations]" argument, removes it from args, and
+// returns the parsed value
 std::optional<size_t> ParseIterationCount(
     int argc,
     char **argv,
@@ -80,4 +86,78 @@ std::optional<size_t> ParseIterationCount(
     }
   }
   return std::nullopt;
+}
+
+// Checks for the "--help" option and prints usage if needed
+bool HandleHelpOption(int argc, char **argv) {
+  if (argc == 2 && std::string_view(argv[1]) == "--help") {
+    PrintUsage(argv[0]);
+    return true; // Indicate that help was shown
+  }
+  return false;
+}
+
+// Parses and validates arguments, returning the iteration count if provided
+std::optional<size_t> ParseAndValidateArguments(
+    int argc,
+    char **argv,
+    int &remaining_argc
+) {
+  int arg_index = 1;
+  auto parsed_iterations =
+      ParseIterationCount(argc, argv, arg_index, remaining_argc);
+  return parsed_iterations.value_or(kDefaultNumIterations
+  ); // Default if not provided
+}
+
+// Determines whether to run all tests or a single test
+int RunAppropriateTests(int remaining_argc, char **argv, size_t iterations) {
+  if (remaining_argc == 1) {
+    // No arguments left → Run all tests
+    test_runner::RunAllTests(iterations);
+  } else if (remaining_argc == 3) {
+    std::string polymorphism_category = argv[1];
+    std::string computation = argv[2];
+
+    // Validate input arguments
+    if (!IsValidPolymorphismCategory(polymorphism_category)) {
+      std::cerr << "Error: Invalid polymorphism category '"
+                << polymorphism_category << "'\n";
+      PrintUsage(argv[0]);
+      return EXIT_FAILURE;
+    }
+
+    if (!IsValidComputation(polymorphism_category, computation)) {
+      std::cerr << "Error: Invalid computation type '" << computation << "'\n";
+      PrintUsage(argv[0]);
+      return EXIT_FAILURE;
+    }
+
+    test_runner::RunSingleTest(
+        polymorphism_category,
+        computation,
+        iterations,
+        true
+    );
+  } else {
+    // Invalid number of arguments
+    PrintUsage(argv[0]);
+    return EXIT_FAILURE;
+  }
+
+  return EXIT_SUCCESS;
+}
+
+// Handles command-line arguments and runs the appropriate test(s)
+int RunFromCLI(int argc, char **argv) {
+  if (HandleHelpOption(argc, argv)) {
+    return EXIT_SUCCESS; // Stop execution if help was printed
+  }
+
+  int remaining_argc = argc;
+  std::optional<size_t> maybe_iterations =
+      ParseAndValidateArguments(argc, argv, remaining_argc);
+  size_t iterations = maybe_iterations.value_or(kDefaultNumIterations);
+
+  return RunAppropriateTests(remaining_argc, argv, iterations);
 }
