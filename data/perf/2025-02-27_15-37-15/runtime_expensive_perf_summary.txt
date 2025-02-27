@@ -1,0 +1,47 @@
+Running: polymorphism_tests::TestRuntimeExpensive
+Expensive Computation: Runtime Polymorphism Time = 6.34927 seconds
+
+Single test result saved to: data/single_test_results/2025-02-27-15-37-33-470.txt
+Running: polymorphism_tests::TestRuntimeExpensive
+Expensive Computation: Runtime Polymorphism Time = 6.73194 seconds
+
+Single test result saved to: data/single_test_results/2025-02-27-15-37-40-205.txt
+Running: polymorphism_tests::TestRuntimeExpensive
+Expensive Computation: Runtime Polymorphism Time = 6.36725 seconds
+
+Single test result saved to: data/single_test_results/2025-02-27-15-37-46-574.txt
+Running: polymorphism_tests::TestRuntimeExpensive
+Expensive Computation: Runtime Polymorphism Time = 6.3623 seconds
+
+Single test result saved to: data/single_test_results/2025-02-27-15-37-52-939.txt
+Running: polymorphism_tests::TestRuntimeExpensive
+Expensive Computation: Runtime Polymorphism Time = 6.35153 seconds
+
+Single test result saved to: data/single_test_results/2025-02-27-15-37-59-293.txt
+
+ Performance counter stats for './build/bin/benchmark runtime expensive' (5 runs):
+
+          6,351.71 msec task-clock                       #    0.987 CPUs utilized            ( +-  1.18% )
+                31      context-switches                 #    4.819 /sec                     ( +- 12.68% )
+                11      cpu-migrations                   #    1.710 /sec                     ( +- 19.58% )
+               139      page-faults                      #   21.608 /sec                     ( +-  0.14% )
+    33,854,690,075      cpu_core/cycles/                 #    5.263 G/sec                    ( +-  1.18% )  (99.82%)
+    25,968,322,064      cpu_atom/cycles/                 #    4.037 G/sec                    ( +- 24.50% )  (0.18%)
+   154,147,710,754      cpu_core/instructions/           #   23.963 G/sec                    ( +-  0.02% )  (99.82%)
+    81,426,390,269      cpu_atom/instructions/           #   12.658 G/sec                    ( +- 24.24% )  (0.18%)
+    22,021,807,418      cpu_core/branches/               #    3.423 G/sec                    ( +-  0.02% )  (99.82%)
+    11,632,943,907      cpu_atom/branches/               #    1.808 G/sec                    ( +- 24.24% )  (0.18%)
+            39,047      cpu_core/branch-misses/          #    6.070 K/sec                    ( +-  2.10% )  (99.82%)
+           169,470      cpu_atom/branch-misses/          #   26.345 K/sec                    ( +- 43.67% )  (0.18%)
+   203,083,128,499      cpu_core/slots/                  #   31.570 G/sec                    ( +-  1.18% )  (99.82%)
+   159,280,885,096      cpu_core/topdown-retiring/       #     77.4% Retiring                ( +-  0.11% )  (99.82%)
+         2,343,818      cpu_core/topdown-bad-spec/       #      0.0% Bad Speculation         ( +- 32.80% )  (99.82%)
+    43,802,243,401      cpu_core/topdown-fe-bound/       #     22.5% Frontend Bound          ( +-  5.34% )  (99.82%)
+        18,511,268      cpu_core/topdown-be-bound/       #      0.1% Backend Bound           ( +-850.90% )  (99.82%)
+    13,538,875,232      cpu_core/topdown-heavy-ops/      #      6.8% Heavy Operations       #     70.5% Light Operations        ( +-  1.47% )  (99.82%)
+         2,268,211      cpu_core/topdown-br-mispredict/  #      0.0% Branch Mispredict      #     -0.0% Machine Clears          ( +- 35.60% )  (99.82%)
+     6,371,235,403      cpu_core/topdown-fetch-lat/      #      3.3% Fetch Latency          #     19.2% Fetch Bandwidth         ( +-  6.48% )  (99.82%)
+         7,053,278      cpu_core/topdown-mem-bound/      #      0.0% Memory Bound           #      0.1% Core Bound              ( +- 21.21% )  (99.82%)
+
+            6.4334 +- 0.0749 seconds time elapsed  ( +-  1.16% )
+

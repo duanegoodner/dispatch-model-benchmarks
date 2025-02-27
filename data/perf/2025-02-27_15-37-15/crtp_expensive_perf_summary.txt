@@ -1,0 +1,47 @@
+Running: polymorphism_tests::TestCRTPExpensive
+Expensive Computation: CRTP Polymorphism Time = 0.378185 seconds
+
+Single test result saved to: data/single_test_results/2025-02-27-15-38-05-412.txt
+Running: polymorphism_tests::TestCRTPExpensive
+Expensive Computation: CRTP Polymorphism Time = 0.376278 seconds
+
+Single test result saved to: data/single_test_results/2025-02-27-15-38-05-790.txt
+Running: polymorphism_tests::TestCRTPExpensive
+Expensive Computation: CRTP Polymorphism Time = 0.378323 seconds
+
+Single test result saved to: data/single_test_results/2025-02-27-15-38-06-171.txt
+Running: polymorphism_tests::TestCRTPExpensive
+Expensive Computation: CRTP Polymorphism Time = 0.376501 seconds
+
+Single test result saved to: data/single_test_results/2025-02-27-15-38-06-549.txt
+Running: polymorphism_tests::TestCRTPExpensive
+Expensive Computation: CRTP Polymorphism Time = 0.375053 seconds
+
+Single test result saved to: data/single_test_results/2025-02-27-15-38-06-927.txt
+
+ Performance counter stats for './build/bin/benchmark crtp expensive' (5 runs):
+
+            375.81 msec task-clock                       #    0.995 CPUs utilized            ( +-  0.16% )
+                 4      context-switches                 #   10.594 /sec                     ( +-  6.12% )
+                 1      cpu-migrations                   #    2.649 /sec                     ( +- 60.00% )
+               135      page-faults                      #  357.561 /sec                     ( +-  0.54% )
+     2,005,563,391      cpu_core/cycles/                 #    5.312 G/sec                    ( +-  0.01% )
+     <not counted>      cpu_atom/cycles/                                              (0.00%)
+     4,004,405,180      cpu_core/instructions/           #   10.606 G/sec                    ( +-  0.00% )
+     <not counted>      cpu_atom/instructions/                                        (0.00%)
+     1,000,868,254      cpu_core/branches/               #    2.651 G/sec                    ( +-  0.00% )
+     <not counted>      cpu_atom/branches/                                            (0.00%)
+            23,114      cpu_core/branch-misses/          #   61.220 K/sec                    ( +-  0.94% )
+     <not counted>      cpu_atom/branch-misses/                                       (0.00%)
+    12,028,573,584      cpu_core/slots/                  #   31.859 G/sec                    ( +-  0.05% )
+     3,018,936,115      cpu_core/topdown-retiring/       #     25.1% Retiring                ( +-  0.05% )
+         2,410,019      cpu_core/topdown-bad-spec/       #      0.0% Bad Speculation         ( +- 14.96% )
+       330,196,137      cpu_core/topdown-fe-bound/       #      2.7% Frontend Bound          ( +-  2.84% )
+     8,679,441,331      cpu_core/topdown-be-bound/       #     72.2% Backend Bound           ( +-  0.13% )
+         1,079,634      cpu_core/topdown-heavy-ops/      #      0.0% Heavy Operations       #     25.1% Light Operations        ( +- 19.90% )
+         2,410,019      cpu_core/topdown-br-mispredict/  #      0.0% Branch Mispredict      #      0.0% Machine Clears          ( +- 14.96% )
+         3,615,029      cpu_core/topdown-fetch-lat/      #      0.0% Fetch Latency          #      2.6% Fetch Bandwidth         ( +-  6.80% )
+         8,878,391      cpu_core/topdown-mem-bound/      #      0.0% Memory Bound           #     72.2% Core Bound              ( +- 12.69% )
+
+          0.377796 +- 0.000599 seconds time elapsed  ( +-  0.16% )
+
