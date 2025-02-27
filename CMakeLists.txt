@@ -73,6 +73,7 @@ set(SRC_FILES
     src/runtime_polymorphism.cpp
     src/crtp_polymorphism.cpp
     src/concepts_polymorphism.cpp
+    src/polymorphism_tests.cpp
     src/test_runner.cpp
 )
 

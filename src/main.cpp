@@ -11,7 +11,7 @@ void PrintUsage(const char* program_name) {
               << " - With arguments: Runs a specific test.\n"
               << "   Valid categories: ";
 
-    const auto& testCaseMap = GetTestCaseMap();
+    const auto& testCaseMap = test_runner::GetTestCaseMap();
     for (const auto& category : testCaseMap) {
         std::cerr << category.first << " ";
     }
@@ -27,12 +27,12 @@ void PrintUsage(const char* program_name) {
 
 int main(int argc, char** argv) {
     if (argc == 1) {
-        RunAllTests(kNumIterations);
+        test_runner::RunAllTests(kNumIterations);
     } else if (argc == 3) {
         std::string_view polymorphism_category = argv[1];
         std::string_view computation = argv[2];
 
-        const auto& testCaseMap = GetTestCaseMap();
+        const auto& testCaseMap = test_runner::GetTestCaseMap();
 
         // Validate arguments before running the test
         if (testCaseMap.find(std::string(polymorphism_category)) == testCaseMap.end()) {
@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
             return EXIT_FAILURE;
         }
 
-        RunSingleTest(std::string(polymorphism_category), std::string(computation), kNumIterations);
+        test_runner::RunSingleTest(std::string(polymorphism_category), std::string(computation), kNumIterations);
     } else {
         PrintUsage(argv[0]);
         return EXIT_FAILURE;
