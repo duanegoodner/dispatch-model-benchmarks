@@ -29,3 +29,45 @@ Each function is tested using:
 ## Provides a Template for Benchmarking Other Compute Functions
 
 This project is designed with modularity and ease of modification in mind, making it a useful starting point for benchmarking compile-time vs. runtime polymorphism with other compute functions. The codebase provides a structured comparison framework that can be easily adapted to test additional operations.
+
+
+## Building
+
+If we want to use the default compiler flags `-O3 -march=native` specified by our `CMakeLists.txt`, we can run:
+```
+https://github.com/duanegoodner/polymorphism-compare
+cd polymorphism-compare
+mkdir build
+cmake -B build
+cmake --build build
+```
+The `CMakeList.txt` file also offers the following options:
+
+| -D Option         | Compiler Flags |
+|-------------------|---------------------------------|
+| ENABLE_DEBUG      | `-O0 -g`                        |
+| ENABLE_NO_INLINE  | `-O3 -march=native -fno-inline` |
+| ENABLE_LOW_OPT    | `-O1 -march=native`             |
+| ENABLE_PROFILING  | `-O3 -march=native -pg`         |
+| RESET_DEFAULTS    | `-O3 -march=native`             |
+
+For example, if we want to use compiler flags `-O3 -march=native -pg`, then instead of `cmake -B build` in, we would use `cmake -B build -DENABLE_PROFILING=ON`.
+
+
+## Running
+
+### Running Both Compute Functions with All Polymorphism Variants
+
+```
+./build/bin/benchmark
+```
+
+### Running a Single Compute Function with a Single Polymorphism Variant
+
+```
+./build/bin/benchmark
+```
+
+
+
+
