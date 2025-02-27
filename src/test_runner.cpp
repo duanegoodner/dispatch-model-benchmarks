@@ -90,20 +90,22 @@ std::chrono::duration<double> duration = end - start;
 // If requested, write results to a file
 if (write_to_file) {
   std::string output_dir = "data/single_test_results/";
-  std::filesystem::create_directories(output_dir);
+  auto filepath = GenerateTimestampBasedFile(output_dir);
+  
+  // std::filesystem::create_directories(output_dir);
 
-  // Generate timestamp-based filename
-  auto now = std::chrono::system_clock::now();
-  auto now_time = std::chrono::system_clock::to_time_t(now);
-  auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    now.time_since_epoch()) % 1000;
+  // // Generate timestamp-based filename
+  // auto now = std::chrono::system_clock::now();
+  // auto now_time = std::chrono::system_clock::to_time_t(now);
+  // auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+  //                   now.time_since_epoch()) % 1000;
 
-  std::ostringstream filename;
-  filename << output_dir
-           << std::put_time(std::localtime(&now_time), "%Y-%m-%d-%H-%M-%S")
-           << "-" << now_ms.count() << ".txt";
+  // std::ostringstream filename;
+  // filename << output_dir
+  //          << std::put_time(std::localtime(&now_time), "%Y-%m-%d-%H-%M-%S")
+  //          << "-" << now_ms.count() << ".txt";
 
-  std::string filepath = filename.str();
+  // std::string filepath = filename.str();
 
   std::ofstream outfile(filepath);
   if (!outfile) {
@@ -136,19 +138,20 @@ void RunAllTests(size_t iterations) {
   std::string output_dir = "data/run_all_tests_results/";
 
   // Generate timestamp-based filename
-  auto now = std::chrono::system_clock::now();
-  auto now_time = std::chrono::system_clock::to_time_t(now);
-  auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    now.time_since_epoch()
-                ) %
-                1000;
+  auto filepath = GenerateTimestampBasedFile(output_dir); 
+  // auto now = std::chrono::system_clock::now();
+  // auto now_time = std::chrono::system_clock::to_time_t(now);
+  // auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+  //                   now.time_since_epoch()
+  //               ) %
+  //               1000;
 
-  std::ostringstream filename;
-  filename << output_dir
-           << std::put_time(std::localtime(&now_time), "%Y-%m-%d-%H-%M-%S")
-           << "-" << now_ms.count() << ".txt";
+  // std::ostringstream filename;
+  // filename << output_dir
+  //          << std::put_time(std::localtime(&now_time), "%Y-%m-%d-%H-%M-%S")
+  //          << "-" << now_ms.count() << ".txt";
 
-  std::string filepath = filename.str();
+  // std::string filepath = filename.str();
 
   // Ensure output directory exists
   std::filesystem::create_directories(output_dir);
