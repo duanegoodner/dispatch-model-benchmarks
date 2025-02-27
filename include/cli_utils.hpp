@@ -1,8 +1,9 @@
 #pragma once
 
+#include "benchmark_utils.hpp"
+#include <optional>
 #include <string>
 #include <unordered_map>
-#include "benchmark_utils.hpp"
 
 // Forward declaration
 namespace test_runner {
@@ -21,3 +22,7 @@ bool IsValidComputation(
     const std::string &category,
     const std::string &computation
 );
+
+// Parses an optional "-n [iterations]" argument
+std::optional<size_t>
+ParseIterationCount(int argc, char **argv, int &arg_index, int &remaining_argc);
