@@ -1,7 +1,18 @@
+
 #include "test_runner.hpp"
 #include "polymorphism_tests.hpp"
+#include <chrono>
+#include <filesystem>
+#include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <stdexcept>
+#include <vector>
+
+// Use the macro defined in CMakeLists.txt
+#ifndef COMPILER_FLAGS
+#define COMPILER_FLAGS "Unknown"
+#endif
 
 namespace test_runner {
 
@@ -81,9 +92,56 @@ void RunAllTests(size_t iterations) {
       {"concepts", "fma"},
       {"concepts", "expensive"}};
 
-  for (const auto &[category, label] : test_pairs) {
-    RunSingleTest(category, label, iterations);
-  }
-}
+  // Define output directory
+  std::string output_dir = "data/run_all_tests_results/";
 
+  // Generate timestamp-based filename
+  auto now = std::chrono::system_clock::now();
+  auto now_time = std::chrono::system_clock::to_time_t(now);
+  auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    now.time_since_epoch()
+                ) %
+                1000;
+
+  std::ostringstream filename;
+  filename << output_dir
+           << std::put_time(std::localtime(&now_time), "%Y-%m-%d-%H-%M-%S")
+           << "-" << now_ms.count() << ".txt";
+
+  std::string filepath = filename.str();
+
+  // Ensure output directory exists
+  std::filesystem::create_directories(output_dir);
+
+  // Open file for writing
+  std::ofstream outfile(filepath);
+  if (!outfile) {
+    std::cerr << "Error: Unable to open file for writing: " << filepath
+              << std::endl;
+    return;
+  }
+
+  // Write compiler flags at the top of the file
+  outfile << "Compiler Flags: " << COMPILER_FLAGS << "\n\n";
+
+  // Write Markdown table header
+  outfile << "| Polymorphism Type | Compute Function | Time (seconds) |\n";
+  outfile << "|-------------------|-----------------|---------------|\n";
+
+  // Run each test and collect results
+  for (const auto &[category, label] : test_pairs) {
+    auto start = std::chrono::high_resolution_clock::now();
+
+    RunSingleTest(category, label, iterations);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+
+    // Write result in Markdown format
+    outfile << "| " << category << " | " << label << " | " << duration.count()
+            << " |\n";
+  }
+
+  std::cout << "Test results saved to: " << filepath << std::endl;
+}
 } // namespace test_runner

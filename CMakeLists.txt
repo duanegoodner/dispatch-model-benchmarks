@@ -79,6 +79,13 @@ set(SRC_FILES
 )
 
 # ===========================
+# 🔹 ADD DEFINITIONS
+# ===========================
+
+add_definitions(-DCOMPILER_FLAGS="${CMAKE_CXX_FLAGS}")
+
+
+# ===========================
 # 🔹 BUILD TARGET
 # ===========================
 
