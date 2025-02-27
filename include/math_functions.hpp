@@ -1,4 +1,4 @@
-// Contains inlined computation functions that will be tested across different
+// Iinlined computation functions that will be tested across different
 // types of polymorphism.
 
 #pragma once

@@ -3,7 +3,8 @@
 
 namespace crtp_polymorphism {
 
-// Explicit template instantiations
+// Explicit template instantiations of concrete CRTP classes
+
 template void TestCRTPPolymorphism<PolyFMA>(
     const std::string &label,
     size_t n,

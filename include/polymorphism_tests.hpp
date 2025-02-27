@@ -1,3 +1,6 @@
+// Declarations for test functions. Each test is for a particular combination
+// of polymorphism type and compute function.
+
 #pragma once
 
 #include "runtime_polymorphism.hpp"

@@ -3,6 +3,7 @@
 namespace polymorphism_tests {
 
 // Runtime Polymorphism Tests
+
 void TestRuntimeFMA(size_t iterations) {
   runtime_polymorphism::PolyFMA runtime_fma;
   runtime_polymorphism::TestRuntimePolymorphism(
@@ -22,6 +23,7 @@ void TestRuntimeExpensive(size_t iterations) {
 }
 
 // CRTP Polymorphism Tests
+
 void TestCRTPFMA(size_t iterations) {
   crtp_polymorphism::PolyFMA crtp_fma;
   crtp_polymorphism::TestCRTPPolymorphism(
@@ -41,6 +43,7 @@ void TestCRTPExpensive(size_t iterations) {
 }
 
 // Concepts Polymorphism Tests
+
 void TestConceptsFMA(size_t iterations) {
   concepts_polymorphism::PolyFMA concepts_fma;
   concepts_polymorphism::TestConceptsPolymorphism(

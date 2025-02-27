@@ -1,3 +1,5 @@
+// Declarations and templates needed for Concepts-based polymorphism.
+
 #pragma once
 
 #include "math_functions.hpp"

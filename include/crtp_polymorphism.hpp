@@ -1,3 +1,5 @@
+// Declarations and templates for CRTP-based polymorphism.
+
 #pragma once
 
 #include "benchmark_utils.hpp"

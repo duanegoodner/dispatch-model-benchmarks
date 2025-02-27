@@ -1,3 +1,5 @@
+// Base class and declarations needed for runtime polymorphism.
+
 #pragma once
 
 #include "benchmark_utils.hpp"

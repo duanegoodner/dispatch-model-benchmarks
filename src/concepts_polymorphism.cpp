@@ -3,11 +3,15 @@
 
 namespace concepts_polymorphism {
 
+// Implement classes that comply with C++20 concept
+// concepts_polymorphism::Computeable 
+
 double PolyFMA::Compute(double x) const {return ComputeFMA(x);}
 
 double PolyExpensive::Compute(double x) const {return ComputeExpensive(x);}
 
 // Explicit template instantiations
+
 template void TestConceptsPolymorphism<PolyFMA>(
     const std::string &label,
     size_t n,

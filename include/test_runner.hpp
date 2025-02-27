@@ -1,3 +1,5 @@
+// Declarations needed for running tests.
+
 #pragma once
 
 #include "benchmark_utils.hpp"

@@ -8,6 +8,8 @@ namespace test_runner {
 // Retrieve the test case map
 const std::unordered_map<std::string, std::unordered_map<std::string, TestCase>>
     &GetTestCaseMap() {
+  // TODO: Need to edit this if want to add/remove polymorphism type or compute
+  // function. In future, consider building from a file for easier extension.
   static const std::
       unordered_map<std::string, std::unordered_map<std::string, TestCase>>
           testCaseMap = {
@@ -36,20 +38,21 @@ const std::unordered_map<std::string, std::unordered_map<std::string, TestCase>>
   return testCaseMap;
 }
 
-// Retrieve a single test case
+// Retrieve a single test case for a particular combination of
+// polymorphism type + computation
 const TestCase &GetSingleTestCase(
-    const std::string &ns,
+    const std::string &polymorphism_category,
     const std::string &computation
 ) {
   const auto &testCaseMap = GetTestCaseMap();
 
-  auto nsIt = testCaseMap.find(ns);
-  if (nsIt == testCaseMap.end()) {
-    throw std::invalid_argument("Invalid namespace: " + ns);
+  auto pcIt = testCaseMap.find(polymorphism_category);
+  if (pcIt == testCaseMap.end()) {
+    throw std::invalid_argument("Invalid namespace: " + polymorphism_category);
   }
 
-  auto compIt = nsIt->second.find(computation);
-  if (compIt == nsIt->second.end()) {
+  auto compIt = pcIt->second.find(computation);
+  if (compIt == pcIt->second.end()) {
     throw std::invalid_argument("Invalid computation: " + computation);
   }
 
