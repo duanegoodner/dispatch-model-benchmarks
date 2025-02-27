@@ -154,7 +154,7 @@ void RunAllTests(size_t iterations) {
   // std::string filepath = filename.str();
 
   // Ensure output directory exists
-  std::filesystem::create_directories(output_dir);
+  // std::filesystem::create_directories(output_dir);
 
   // Open file for writing
   std::ofstream outfile(filepath);

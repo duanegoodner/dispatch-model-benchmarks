@@ -18,6 +18,8 @@ void PrintTime(
 }
 
 std::string GenerateTimestampBasedFile(std::string output_dir) {
+  
+  // Ensure output directory exists
   std::filesystem::create_directories(output_dir);
 
   // Generate timestamp-based filename
