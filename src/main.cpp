@@ -17,14 +17,14 @@ void PrintUsage(const char *program_name) {
             << " - With arguments: Runs a specific test.\n"
             << "   Valid categories: ";
 
-  const auto &testCaseMap = test_runner::GetTestCaseMap();
-  for (const auto &category : testCaseMap) {
+  const auto &test_case_map = test_runner::GetTestCaseMap();
+  for (const auto &category : test_case_map) {
     std::cerr << category.first << " ";
   }
 
   std::cerr << "\n   Valid computations: ";
-  if (!testCaseMap.empty()) {
-    for (const auto &computation : testCaseMap.begin()->second) {
+  if (!test_case_map.empty()) {
+    for (const auto &computation : test_case_map.begin()->second) {
       std::cerr << computation.first << " ";
     }
   }
@@ -40,11 +40,11 @@ int main(int argc, char **argv) {
     std::string_view computation = argv[2];
 
     // keys in this nested unordered_map determine allowed arg values
-    const auto &testCaseMap = test_runner::GetTestCaseMap();
+    const auto &test_case_map = test_runner::GetTestCaseMap();
 
     // confirm polymorphism_category exists
-    if (testCaseMap.find(std::string(polymorphism_category)) ==
-        testCaseMap.end()) {
+    if (test_case_map.find(std::string(polymorphism_category)) ==
+        test_case_map.end()) {
       std::cerr << "Error: Invalid polymorphism category '"
                 << polymorphism_category << "'\n";
       PrintUsage(argv[0]);
@@ -52,9 +52,9 @@ int main(int argc, char **argv) {
     }
 
     // confirm computation function name exists
-    if (testCaseMap.at(std::string(polymorphism_category))
+    if (test_case_map.at(std::string(polymorphism_category))
             .find(std::string(computation)) ==
-        testCaseMap.at(std::string(polymorphism_category)).end()) {
+        test_case_map.at(std::string(polymorphism_category)).end()) {
       std::cerr << "Error: Invalid computation type '" << computation << "'\n";
       PrintUsage(argv[0]);
       return EXIT_FAILURE;

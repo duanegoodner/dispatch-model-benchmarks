@@ -12,7 +12,7 @@ const std::unordered_map<std::string, std::unordered_map<std::string, TestCase>>
   // function. In future, consider building from a file for easier extension.
   static const std::
       unordered_map<std::string, std::unordered_map<std::string, TestCase>>
-          testCaseMap = {
+          test_case_map = {
               {"runtime",
                {{"fma",
                  {"polymorphism_tests::TestRuntimeFMA",
@@ -35,7 +35,7 @@ const std::unordered_map<std::string, std::unordered_map<std::string, TestCase>>
                  {"polymorphism_tests::TestConceptsExpensive",
                   polymorphism_tests::TestConceptsExpensive}}}}};
 
-  return testCaseMap;
+  return test_case_map;
 }
 
 // Retrieve a single test case for a particular combination of
@@ -44,19 +44,19 @@ const TestCase &GetSingleTestCase(
     const std::string &polymorphism_category,
     const std::string &computation
 ) {
-  const auto &testCaseMap = GetTestCaseMap();
+  const auto &test_case_map = GetTestCaseMap();
 
-  auto pcIt = testCaseMap.find(polymorphism_category);
-  if (pcIt == testCaseMap.end()) {
+  auto pc_it = test_case_map.find(polymorphism_category);
+  if (pc_it == test_case_map.end()) {
     throw std::invalid_argument("Invalid namespace: " + polymorphism_category);
   }
 
-  auto compIt = pcIt->second.find(computation);
-  if (compIt == pcIt->second.end()) {
+  auto comp_it = pc_it->second.find(computation);
+  if (comp_it == pc_it->second.end()) {
     throw std::invalid_argument("Invalid computation: " + computation);
   }
 
-  return compIt->second;
+  return comp_it->second;
 }
 
 // Run a single test
@@ -73,7 +73,7 @@ void RunSingleTest(
 
 // Run all tests
 void RunAllTests(size_t iterations) {
-  static const std::vector<std::pair<std::string, std::string>> testPairs = {
+  static const std::vector<std::pair<std::string, std::string>> test_pairs = {
       {"runtime", "fma"},
       {"runtime", "expensive"},
       {"crtp", "fma"},
@@ -81,7 +81,7 @@ void RunAllTests(size_t iterations) {
       {"concepts", "fma"},
       {"concepts", "expensive"}};
 
-  for (const auto &[category, label] : testPairs) {
+  for (const auto &[category, label] : test_pairs) {
     RunSingleTest(category, label, iterations);
   }
 }
