@@ -1,4 +1,7 @@
 
+#include "test_runner.hpp"
+#include "benchmark_utils.hpp"
+#include "polymorphism_tests.hpp"
 #include <chrono>
 #include <filesystem>
 #include <fstream>
@@ -6,9 +9,6 @@
 #include <iostream>
 #include <stdexcept>
 #include <vector>
-#include "benchmark_utils.hpp"
-#include "test_runner.hpp"
-#include "polymorphism_tests.hpp"
 
 // Use the macro defined in CMakeLists.txt
 #ifndef COMPILER_FLAGS
@@ -72,57 +72,29 @@ const TestCase &GetSingleTestCase(
 }
 
 // Run a single test
-void RunSingleTest(
-  const std::string &polymorphism_category,
-  const std::string &computation_label,
-  size_t iterations,
-  bool write_to_file
+std::chrono::duration<double> RunSingleTest(
+    const std::string &polymorphism_category,
+    const std::string &computation_label,
+    size_t iterations,
+    bool write_to_file
 ) {
-const auto &test_case =
-    GetSingleTestCase(polymorphism_category, computation_label);
-std::cout << "Running: " << test_case.name << std::endl;
+  const auto &test_case =
+      GetSingleTestCase(polymorphism_category, computation_label);
 
-auto start = std::chrono::high_resolution_clock::now();
-test_case.function(iterations);
-auto end = std::chrono::high_resolution_clock::now();
-std::chrono::duration<double> duration = end - start;
+  auto elapsed_time = RunTestCase(test_case, iterations);
 
-// If requested, write results to a file
-if (write_to_file) {
-  std::string output_dir = "data/single_test_results/";
-  auto filepath = GenerateTimestampBasedFile(output_dir);
-  
-  // std::filesystem::create_directories(output_dir);
-
-  // // Generate timestamp-based filename
-  // auto now = std::chrono::system_clock::now();
-  // auto now_time = std::chrono::system_clock::to_time_t(now);
-  // auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-  //                   now.time_since_epoch()) % 1000;
-
-  // std::ostringstream filename;
-  // filename << output_dir
-  //          << std::put_time(std::localtime(&now_time), "%Y-%m-%d-%H-%M-%S")
-  //          << "-" << now_ms.count() << ".txt";
-
-  // std::string filepath = filename.str();
-
-  std::ofstream outfile(filepath);
-  if (!outfile) {
-    std::cerr << "Error: Unable to open file for writing: " << filepath << std::endl;
-    return;
+  // If requested, write results to a file
+  if (write_to_file) {
+    std::string output_dir = "data/single_test_results/";
+    WriteSingleTestResultToFile(
+        output_dir,
+        polymorphism_category,
+        computation_label,
+        elapsed_time
+    );
   }
-
-  // Write test details
-  outfile << "Compiler Flags: " << COMPILER_FLAGS << "\n\n";
-  outfile << "| Polymorphism Type | Compute Function | Time (seconds) |\n";
-  outfile << "|-------------------|-----------------|---------------|\n";
-  outfile << "| " << polymorphism_category << " | " << computation_label << " | " << duration.count() << " |\n";
-
-  std::cout << "Single test result saved to: " << filepath << std::endl;
+  return elapsed_time;
 }
-}
-
 
 // Run all tests
 void RunAllTests(size_t iterations) {
@@ -138,51 +110,18 @@ void RunAllTests(size_t iterations) {
   std::string output_dir = "data/run_all_tests_results/";
 
   // Generate timestamp-based filename
-  auto filepath = GenerateTimestampBasedFile(output_dir); 
-  // auto now = std::chrono::system_clock::now();
-  // auto now_time = std::chrono::system_clock::to_time_t(now);
-  // auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-  //                   now.time_since_epoch()
-  //               ) %
-  //               1000;
-
-  // std::ostringstream filename;
-  // filename << output_dir
-  //          << std::put_time(std::localtime(&now_time), "%Y-%m-%d-%H-%M-%S")
-  //          << "-" << now_ms.count() << ".txt";
-
-  // std::string filepath = filename.str();
-
-  // Ensure output directory exists
-  // std::filesystem::create_directories(output_dir);
+  auto filepath = GenerateTimestampBasedFile(output_dir);
 
   // Open file for writing
   std::ofstream outfile(filepath);
-  if (!outfile) {
-    std::cerr << "Error: Unable to open file for writing: " << filepath
-              << std::endl;
-    return;
-  }
-
-  // Write compiler flags at the top of the file
-  outfile << "Compiler Flags: " << COMPILER_FLAGS << "\n\n";
-
-  // Write Markdown table header
-  outfile << "| Polymorphism Type | Compute Function | Time (seconds) |\n";
-  outfile << "|-------------------|-----------------|---------------|\n";
+  ValidateOutfileStream(outfile, filepath);
+  WriteCompileFlagsInfo(outfile);
+  WriteMarkdownTableHeader(outfile);
 
   // Run each test and collect results
   for (const auto &[category, label] : test_pairs) {
-    auto start = std::chrono::high_resolution_clock::now();
-
-    RunSingleTest(category, label, iterations, false);
-
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> duration = end - start;
-
-    // Write result in Markdown format
-    outfile << "| " << category << " | " << label << " | " << duration.count()
-            << " |\n";
+    auto elapsed_time = RunSingleTest(category, label, iterations, false);
+    WriteMarkdownTableRow(outfile, category, label, elapsed_time);
   }
 
   std::cout << "Test results saved to: " << filepath << std::endl;
