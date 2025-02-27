@@ -15,21 +15,21 @@ void PrintUsage(const char* program_name) {
               << " - With two arguments: Runs a specific test with the default iteration count.\n"
               << " - With three arguments plus '-n iterations': Runs a specific test with a custom iteration count.\n\n"
               << "Valid options:\n"
-              << "-------------------------\n";
+              << " ------------------------\n";
 
     // Retrieve valid test cases
     const auto& test_case_map = test_runner::GetTestCaseMap();
 
     // Format valid polymorphism categories
     std::cerr << " Polymorphism Categories:\n";
-    std::cerr << "  ----------------------\n";
+    std::cerr << " ------------------------\n";
     for (const auto& category : test_case_map) {
         std::cerr << "  - " << category.first << "\n";
     }
 
     // Format valid computation functions
     std::cerr << "\n Compute Functions:\n";
-    std::cerr << "  ------------------\n";
+    std::cerr << " ------------------\n";
     if (!test_case_map.empty()) {
         for (const auto& computation : test_case_map.begin()->second) {
             std::cerr << "  - " << computation.first << "\n";
