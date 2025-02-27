@@ -69,6 +69,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(SRC_FILES
     src/main.cpp
+    src/cli_utils.cpp
     src/benchmark_utils.cpp
     src/runtime_polymorphism.cpp
     src/crtp_polymorphism.cpp
