@@ -10,7 +10,7 @@ double PolyFMA::Compute(double x) const { return ComputeFMA(x); }
 double PolyExpensive::Compute(double x) const { return ComputeExpensive(x); }
 
 // Implement TestRuntimePolymorphism
-void TestRuntimePolymorphism(const std::string &label, size_t n, Base &obj) {
+void TestRuntimePolymorphism(const std::string &label, size_t n, RuntimeBase &obj) {
   RunBenchmark(label + " Runtime Polymorphism", n, [&](double x) {
     return obj.Compute(x);
   });

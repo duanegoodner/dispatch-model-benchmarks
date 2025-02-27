@@ -5,22 +5,22 @@
 
 namespace runtime_polymorphism {
 
-class Base {
+class RuntimeBase {
 public:
   virtual double Compute(double x) const = 0;
-  virtual ~Base() = default;
+  virtual ~RuntimeBase() = default;
 };
 
-class PolyFMA : public Base {
+class PolyFMA : public RuntimeBase {
 public:
   double Compute(double x) const override;
 };
 
-class PolyExpensive : public Base {
+class PolyExpensive : public RuntimeBase {
 public:
   double Compute(double x) const override;
 };
 
-void TestRuntimePolymorphism(const std::string &label, size_t n, Base &obj);
+void TestRuntimePolymorphism(const std::string &label, size_t n, RuntimeBase &obj);
 
 } // namespace runtime_polymorphism
