@@ -153,59 +153,81 @@ For example:
 # Expensive Computation: CRTP Polymorphism Time = 0.379541 seconds
 ```
 
-### Profiling with `perf`
+## Profiling with `perf`
 
 
-#### Build and Compile Profiling ON
+### Build and Compile Profiling ON
 
 ```shell
 cmake -B build -DENABLE_PROFILING=ON
 cmake --build build
 ```
 
+### Use Shell Script to Run `perf` tests
 
 
+### Results
+
+#### Execution Time Comparison
 
 
+| Polymorphism Type | Compute Function | Execution Time (s) | Error (%) |
+|-------------------|-----------------|--------------------|-----------|
+| Runtime          | FMA             | 1.51796           | 0.19      |
+| Runtime          | Expensive       | 6.41900           | 0.02      |
+| CRTP             | FMA             | 0.379645          | 0.01      |
+| CRTP             | Expensive       | 0.38203           | 0.53      |
+| Concepts        | FMA             | 0.38525           | 0.29      |
+| Concepts        | Expensive       | 0.379779         | 0.02      |
 
+**Observations**
+- Minimal performance difference between CRTP and Concepts
+- CRTP and Concepts are ~4x faster than Runtime polymorphism for FMA and ~17x faster  for the Expensive computation
 
-## Results
+---
 
-### Execution Time Comparison
-
-| Polymorphism Type | Compute Function | Execution Time (s) |
-|-------------------|-----------------|--------------------|
-| Runtime          | FMA             | 1.50172           |
-| Runtime          | Expensive       | 6.70873           |
-| CRTP             | FMA             | 0.37878           |
-| CRTP             | Expensive       | 0.38765           |
-| Concepts         | FMA             | 0.37930           |
-| Concepts         | Expensive       | 0.38852           |
-
-
-
-
-### CPU Instructions and Branching Analysis
+#### CPU Instructions and Branching Analysis
 
 | Polymorphism Type | Compute Function | Instructions Retired (B) | Branches (B) | Branch Misses (K) |
 |-------------------|-----------------|--------------------------|--------------|------------------|
-| Runtime          | FMA             | 13.01                    | 3.00         | 26               |
-| Runtime          | Expensive       | 154.02                   | 22.00        | 38               |
-| CRTP             | FMA             | 4.00                     | 1.00         | 23               |
-| CRTP             | Expensive       | 4.04                     | 1.01         | 24               |
-| Concepts         | FMA             | 4.00                     | 1.00         | 23               |
-| Concepts         | Expensive       | 4.00                     | 1.00         | 24               |
+| Runtime          | FMA             | 13.01                    | 3.00         | 25.12           |
+| Runtime          | Expensive       | 154.02                   | 22.00        | 44.29           |
+| CRTP             | FMA             | 4.00                     | 1.00         | 22.80           |
+| CRTP             | Expensive       | 4.08                     | 1.02         | 28.36           |
+| Concepts        | FMA             | 4.00                     | 1.00         | 22.84           |
+| Concepts        | Expensive       | 4.00                     | 1.00         | 24.67           |
 
-### Top-Down Performance Breakdown
+**Observations**
+- Runtime polymorphism executes significantly more instructions than CRTP/Concepts
+- Runtime polymorphism branch mispredictions are slightly higher than CRTP/Concepts for FMA and nearly ~2x higher for Expensive computation.
+- For the FMA computation, CRTP and Conepts have ~same number of branch misses; but for Expensive computation, CRTP has ~15% more misses than Concepts.
+
+---
+
+#### Top-Down Performance Breakdown
 
 | Polymorphism Type | Compute Function | Retiring (%) | Frontend Bound (%) | Backend Bound (%) |
 |-------------------|-----------------|--------------|--------------------|-------------------|
-| Runtime          | FMA             | 29.0         | 42.0               | 29.0              |
-| Runtime          | Expensive       | 73.7         | 26.3               | 0.0               |
-| CRTP             | FMA             | 25.1         | 1.6                | 73.3              |
-| CRTP             | Expensive       | 25.1         | 2.0                | 72.9              |
-| Concepts         | FMA             | 25.0         | 2.7                | 72.2              |
-| Concepts         | Expensive       | 25.1         | 2.4                | 72.5              |
+| Runtime          | FMA             | 29.0         | 58.9               | 12.1              |
+| Runtime          | Expensive       | 78.0         | 21.7               | 0.3               |
+| CRTP             | FMA             | 25.0         | 2.4                | 72.6              |
+| CRTP             | Expensive       | 25.0         | 2.5                | 72.4              |
+| Concepts        | FMA             | 24.6         | 16.3               | 59.1              |
+| Concepts        | Expensive       | 25.1         | 2.3                | 72.7              |
+
+---
+
+**Observations**
+- Runtime is more frontend bound (fetch latency issues)
+- CRTP and Concepts shift most execution to the backend (efficient execution unit use)
+
+## Key Takeaways from `perf` Tests
+
+<!-- ### **Observations**
+- **Execution Time:** CRTP and Concepts approaches are significantly faster than runtime polymorphism.
+- **Instruction Count:** CRTP and Concepts retire far fewer instructions compared to runtime.
+- **Frontend Bound:** Runtime FMA has a high frontend-bound percentage (58.9%), while other methods see a lower impact.
+- **Backend Bound:** CRTP and Concepts have a high backend-bound percentage (~72%), indicating execution stalls due to execution resource limitations. -->
 
 
 
