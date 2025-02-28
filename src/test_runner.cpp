@@ -97,20 +97,8 @@ std::chrono::duration<double> RunSingleTest(
   return elapsed_time;
 }
 
-// static const std::vector<std::pair<std::string, std::string>> GetAllTestPairs(
-// ) {
-//   return {
-//       {"runtime", "fma"},
-//       {"runtime", "expensive"},
-//       {"crtp", "fma"},
-//       {"crtp", "expensive"},
-//       {"concepts", "fma"},
-//       {"concepts", "expensive"}};
-// }
-
 // Run all tests
 void RunAndSaveAllTests(size_t iterations) {
-  // auto test_pairs = GetAllTestPairs();
 
   // Define output directory
   std::string output_dir = "data/run_all_tests_results/";
@@ -127,17 +115,7 @@ void RunAndSaveAllTests(size_t iterations) {
 
   const auto &test_case_map = GetTestCaseMap();
 
-  // Iterate over the outer map
-  // for (const auto &[polymorphismType, innerMap] : test_case_map) {
-  //   std::cout << "Polymorphism Type: " << polymorphismType << '\n';
-
-  //   // Iterate over the inner map
-  //   for (const auto &[computeFunction, testCase] : innerMap) {
-  //     std::cout << "  Compute Function: " << computeFunction
-  //               << ", Test Case Name: " << testCase.name << '\n';
-  //   }
-  // }
-
+  // For each inner entry in nested map, run test and write data
   for (const auto &[polymorphism_type, inner_map] : test_case_map) {
     for (const auto &[compute_function, test_case] : inner_map) {
       auto elapsed_time =
@@ -151,17 +129,11 @@ void RunAndSaveAllTests(size_t iterations) {
     }
   }
 
-  // Run each test and collect results
-  // for (const auto &[category, label] : test_pairs) {
-  //   auto elapsed_time = RunSingleTest(category, label, iterations, false);
-  //   WriteMarkdownTableRow(outfile, category, label, elapsed_time);
-  // }
-
   std::cout << "Test results saved to: " << filepath << std::endl << std::endl;
 }
 
 void RunAllTestsWithoutSaving(size_t iterations) {
-  // auto test_pairs = GetAllTestPairs();
+  // For each inner entry in nested map, run test
   const auto &test_case_map = GetTestCaseMap();
   for (const auto &[polymorphism_type, inner_map] : test_case_map) {
     for (const auto &[compute_function, test_case] : inner_map) {
