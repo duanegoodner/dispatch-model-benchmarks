@@ -27,6 +27,9 @@ bool IsValidComputation(
 std::optional<size_t>
 ParseIterationCount(int argc, char **argv, int &arg_index, int &remaining_argc);
 
+// Parses the "-s" flag to enable saving execution time data
+bool ParseSaveExecutionTimesFlag(int argc, char **argv, int &remaining_argc);
+
 // Handles command-line arguments and runs tests
 int RunFromCLI(int argc, char **argv);
 
@@ -37,4 +40,9 @@ std::optional<size_t> ParseAndValidateArguments(
     char **argv,
     int &remaining_argc
 );
-int RunAppropriateTests(int remaining_argc, char **argv, size_t iterations);
+int RunAppropriateTests(
+    int remaining_argc,
+    char **argv,
+    size_t iterations,
+    bool save_execution_times
+);

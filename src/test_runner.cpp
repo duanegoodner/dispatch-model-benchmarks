@@ -98,14 +98,7 @@ std::chrono::duration<double> RunSingleTest(
 }
 
 // Run all tests
-void RunAllTests(size_t iterations) {
-  static const std::vector<std::pair<std::string, std::string>> test_pairs = {
-      {"runtime", "fma"},
-      {"runtime", "expensive"},
-      {"crtp", "fma"},
-      {"crtp", "expensive"},
-      {"concepts", "fma"},
-      {"concepts", "expensive"}};
+void RunAndSaveAllTests(size_t iterations) {
 
   // Define output directory
   std::string output_dir = "data/run_all_tests_results/";
@@ -120,12 +113,41 @@ void RunAllTests(size_t iterations) {
   WriteNumberOfIterations(iterations, outfile);
   WriteMarkdownTableHeader(outfile);
 
-  // Run each test and collect results
-  for (const auto &[category, label] : test_pairs) {
-    auto elapsed_time = RunSingleTest(category, label, iterations, false);
-    WriteMarkdownTableRow(outfile, category, label, elapsed_time);
+  const auto &test_case_map = GetTestCaseMap();
+
+  // For each inner entry in nested map, run test and write data
+  for (const auto &[polymorphism_type, inner_map] : test_case_map) {
+    for (const auto &[compute_function, test_case] : inner_map) {
+      auto elapsed_time =
+          RunSingleTest(polymorphism_type, compute_function, iterations, false);
+      WriteMarkdownTableRow(
+          outfile,
+          polymorphism_type,
+          compute_function,
+          elapsed_time
+      );
+    }
   }
 
-  std::cout << "Test results saved to: " << filepath << std::endl;
+  std::cout << "Test results saved to: " << filepath << std::endl << std::endl;
+}
+
+void RunAllTestsWithoutSaving(size_t iterations) {
+  // For each inner entry in nested map, run test
+  const auto &test_case_map = GetTestCaseMap();
+  for (const auto &[polymorphism_type, inner_map] : test_case_map) {
+    for (const auto &[compute_function, test_case] : inner_map) {
+      auto elapsed_time =
+          RunSingleTest(polymorphism_type, compute_function, iterations, false);
+    }
+  }
+}
+
+void RunAllTests(size_t iterations, bool save_execution_times) {
+  if (save_execution_times) {
+    RunAndSaveAllTests(iterations);
+  } else {
+    RunAllTestsWithoutSaving(iterations);
+  }
 }
 } // namespace test_runner

@@ -12,8 +12,8 @@ void PrintTime(
     const std::string &label,
     std::chrono::duration<double> elapsed
 ) {
-  std::cout << label << " Time = " << elapsed.count() << " seconds" << std::endl
-            << std::endl;
+  std::cout << label << " Time = " << elapsed.count() << " seconds"
+            << std::endl << std::endl;
 }
 
 std::chrono::duration<double> RunTestCase(
@@ -21,6 +21,7 @@ std::chrono::duration<double> RunTestCase(
     size_t iterations
 ) {
   std::cout << "Running: " << test_case.name << std::endl;
+  std::cout << "Iteration Count: " << iterations << std::endl;
 
   auto start = std::chrono::high_resolution_clock::now();
   test_case.function(iterations);
@@ -105,5 +106,6 @@ void WriteSingleTestResultToFile(
       elapsed_time
   );
 
-  std::cout << "Single test result saved to: " << filepath << std::endl;
+  std::cout << "Single test result saved to: " << filepath << std::endl
+            << std::endl;
 }
