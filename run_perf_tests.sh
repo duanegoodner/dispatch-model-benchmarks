@@ -17,7 +17,7 @@ for POLY_TYPE in "${POLYMORPHISM_TYPES[@]}"; do
         OUTPUT_FILE="${OUTPUT_DIR}${POLY_TYPE}_${COMP_FUNC}_perf_summary.txt"
         echo "Running perf for: ${POLY_TYPE} - ${COMP_FUNC}"
         
-        # Run perf and save output while also displaying it
+        # Run perf, capture terminal output (including iteration count), and save results
         sudo perf stat -r 5 ./build/bin/benchmark "$POLY_TYPE" "$COMP_FUNC" 2>&1 | tee "$OUTPUT_FILE"
 
         echo "Results saved to: $OUTPUT_FILE"
