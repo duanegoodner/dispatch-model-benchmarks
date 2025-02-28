@@ -10,7 +10,7 @@ As I thought about this, I started wondering: what specific comparisons had actu
 
 ### Compares Runtime vs Compile-Time Polymorphism Performance
 
-This project benchmarks runtime vs compile-time polymorphism in C++ by comparing execution times for two compute functions:
+This project benchmarks runtime vs compile-time polymorphism in C++ for two compute functions:
 - **Simple Computation** – Fused Multiply-Add (FMA):
 ```
 inline double ComputeFMA(double x) { return x * 1.414 + 2.718; }
@@ -24,7 +24,7 @@ inline double ComputeExpensive(double x) {
 Each function is tested using:
 - **Runtime polymorphism** via virtual function calls.
 - **Compile-time polymorphism** using the Curiously Recurring Template Pattern (CRTP).
-- **C++20 Concepts**  which enable **compile-time type enforcement** and selection, achieving behavior similar to polymorphism without inheritance.
+- **C++20 Concepts**  which enable compile-time type enforcement and selection, achieving behavior similar to polymorphism without inheritance.
 
 ### Provides a Template for Benchmarking Other Compute Functions
 
@@ -32,7 +32,6 @@ This project is designed with modularity and ease of modification in mind, makin
 
 
 ## Getting Started
-
 
 ### Requirements
 
@@ -50,20 +49,21 @@ This project is designed with modularity and ease of modification in mind, makin
 
 ### Building
 
-#### Clone this Repository and Change Working Directory
+#### Standard Build
+
+Clone this repository and change working directory:
 
 ```shell
 https://github.com/duanegoodner/polymorphism-compare
 cd polymorphism-compare
 ```
 
-#### Create `build/` Directory
+Create the build directory:
 ```shell
 mkdir build
 ```
 
-#### Generate Build System and Compile
-
+Then generate the build system and compile:
 ```shell
 cmake -B build
 cmake --build build
@@ -76,11 +76,11 @@ The default compiler flags specified by `CMakeLists.txt` are `-O3 -march=native`
 
 | -D Option         | Compiler Flags |
 |-------------------|---------------------------------|
-| ENABLE_DEBUG      | `-O0 -g`                        |
-| ENABLE_NO_INLINE  | `-O3 -march=native -fno-inline` |
-| ENABLE_LOW_OPT    | `-O1 -march=native`             |
-| ENABLE_PROFILING  | `-O3 -march=native -pg`         |
-| RESET_DEFAULTS    | `-O3 -march=native`             |
+| `ENABLE_DEBUG`      | `-O0 -g`                        |
+| `ENABLE_NO_INLINE`  | `-O3 -march=native -fno-inline` |
+| `ENABLE_LOW_OPT`    | `-O1 -march=native`             |
+| `ENABLE_PROFILING`  | `-O3 -march=native -pg`         |
+| `RESET_DEFAULTS`    | `-O3 -march=native`             |
 
 For example, in the build command sequence shown above, if replace this:
 ```shell
@@ -97,59 +97,87 @@ the compiler flags will be `-O3 -march=native -pg`.
 
 #### Command Line Help
 
+For help, run:
 ```shell
 ./build/bin/benchmark --help
-
-# Output:
-# Usage: ./build/bin/benchmark [polymorphism_category] [computation]
-#  - No arguments: Runs all tests.
-#  - With arguments: Runs a specific test.
-#    Valid values for polymorphism_category: concepts crtp runtime 
-#    Valid values for computation: expensive fma 
 ```
+Output:
+```
+Usage: ./build/bin/benchmark [polymorphism_category] [computation] [-n iterations] [-s]
+ - No arguments: Runs all tests with the default iteration count.
+ - With two arguments: Runs a specific test with the default iteration count.
+ - With '-n iterations': Runs all tests with a custom iteration count.
+ - With '-s': Saves execution time data.
+
+Valid arguments:
+ ------------------------
+ Polymorphism Categories:
+ ------------------------
+  - concepts
+  - crtp
+  - runtime
+
+ Compute Functions:
+ ------------------
+  - expensive
+  - fma
+
+Other Options:
+  --help              Show this help message
+  -n [iterations]     Specify a custom iteration count
+  -s                  Save execution time data
+```
+
 
 #### Run All Tests
 
-To run all possible combinations of polymorphism type and compute function, run the executable file without any arguments. 
-
+To run all possible combinations of polymorphism type and compute function, and save the execution time data, run: 
 ```shell
-./build/bin/benchmark
+./build/bin/benchmark -s
+```
 
-# Output:
-# Running: polymorphism_tests::TestRuntimeFMA
-# FMA Computation: Runtime Polymorphism Time = 1.5178 seconds
-# 
-# Running: polymorphism_tests::TestRuntimeExpensive
-# Expensive Computation: Runtime Polymorphism Time = 6.31193 seconds
-# 
-# Running: polymorphism_tests::TestCRTPFMA
-# FMA Computation: CRTP Polymorphism Time = 0.372842 seconds
-# 
-# Running: polymorphism_tests::TestCRTPExpensive
-# Expensive Computation: CRTP Polymorphism Time = 0.372428 seconds
-# 
-# Running: polymorphism_tests::TestConceptsFMA
-# FMA Computation: C++20 Concepts Polymorphism Time = 0.373231 seconds
-# 
-# Running: polymorphism_tests::TestConceptsExpensive
-# Expensive Computation: C++20 Concepts Polymorphism Time = 0.374191 seconds
-# 
-# Test results saved to: data/run_all_tests_results/2025-02-26-23-53-19-980.txt
+Output:
+```
+Running: polymorphism_tests::TestRuntimeFMA
+Iteration Count: 1000000000
+FMA Computation: Runtime Polymorphism Time = 1.52441 seconds
+
+Running: polymorphism_tests::TestRuntimeExpensive
+Iteration Count: 1000000000
+Expensive Computation: Runtime Polymorphism Time = 6.38158 seconds
+
+Running: polymorphism_tests::TestCRTPFMA
+Iteration Count: 1000000000
+FMA Computation: CRTP Polymorphism Time = 0.378618 seconds
+
+Running: polymorphism_tests::TestCRTPExpensive
+Iteration Count: 1000000000
+Expensive Computation: CRTP Polymorphism Time = 0.378513 seconds
+
+Running: polymorphism_tests::TestConceptsFMA
+Iteration Count: 1000000000
+FMA Computation: C++20 Concepts Polymorphism Time = 0.378408 seconds
+
+Running: polymorphism_tests::TestConceptsExpensive
+Iteration Count: 1000000000
+Expensive Computation: C++20 Concepts Polymorphism Time = 0.389357 seconds
+
+Test results saved to: data/run_all_tests_results/2025-02-27-21-06-49-524.txt
 ```
 
 #### Run a Single Test
 
-To run a single compute function with a single type of polymorphism, the command syntax is:
-```shell
-./build/bin/benchmark <polymorphism_category> <computation>
-```
+To run a single test, we need to provide arguments identifying the polymorphism type and the compute function:
+
 For example:
 ```
 ./build/bin/benchmark crtp expensive
-
-# Output:
-# Running: polymorphism_tests::TestCRTPExpensive
-# Expensive Computation: CRTP Polymorphism Time = 0.379541 seconds
+```
+Output:
+```
+Running: polymorphism_tests::TestCRTPExpensive
+Iteration Count: 1000000000
+Expensive Computation: CRTP Polymorphism Time = 0.391168 seconds
 ```
 
 ## Profiling with `perf`
@@ -162,7 +190,13 @@ cmake -B build -DENABLE_PROFILING=ON
 cmake --build build
 ```
 
-### Use Shell Script to Run `perf` tests
+### Run Testing Shell Script
+
+From the repo root, run:
+```
+./test/run_perf_tests.sh
+```
+This 
 
 
 
