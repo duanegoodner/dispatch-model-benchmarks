@@ -6,7 +6,7 @@ When discussing **compile-time vs runtime polymorphism** in C++, it’s often st
 
 > *Performance differences are highly use-case dependent, and profiling is required to determine the impact in a given scenario.*
 
-As I explored this, I expected to find **benchmark results** from developers evaluating whether compile-time polymorphism would benefit their specific use cases.   However, after searching the web, GitHub, and academic literature, I realized that **hard numbers were surprisingly difficult to find**—most discussions acknowledge potential differences, but few provide **concrete performance data**.
+As I explored this, I expected to find many **benchmark results** from developers evaluating whether compile-time polymorphism would benefit their specific use cases.   However, after searching the web, GitHub, and academic literature, I realized that *hard numbers were surprisingly difficult to find* — most discussions acknowledge potential differences, but few provide *concrete performance data*.
 
 ## 🎯 What This Project Does
 
