@@ -97,15 +97,28 @@ std::chrono::duration<double> RunSingleTest(
   return elapsed_time;
 }
 
-// Run all tests
-void RunAllTests(size_t iterations) {
-  static const std::vector<std::pair<std::string, std::string>> test_pairs = {
+static const std::vector<std::pair<std::string, std::string>> GetAllTestPairs(
+) {
+  return {
       {"runtime", "fma"},
       {"runtime", "expensive"},
       {"crtp", "fma"},
       {"crtp", "expensive"},
       {"concepts", "fma"},
       {"concepts", "expensive"}};
+}
+
+// Run all tests
+void RunAndSaveAllTests(size_t iterations) {
+  auto test_pairs = GetAllTestPairs();
+  // static const std::vector<std::pair<std::string, std::string>> test_pairs =
+  // {
+  //     {"runtime", "fma"},
+  //     {"runtime", "expensive"},
+  //     {"crtp", "fma"},
+  //     {"crtp", "expensive"},
+  //     {"concepts", "fma"},
+  //     {"concepts", "expensive"}};
 
   // Define output directory
   std::string output_dir = "data/run_all_tests_results/";
@@ -127,5 +140,20 @@ void RunAllTests(size_t iterations) {
   }
 
   std::cout << "Test results saved to: " << filepath << std::endl << std::endl;
+}
+
+void RunAllTestsWithoutSaving(size_t iterations) {
+  auto test_pairs = GetAllTestPairs();
+  for (const auto &[category, label] : test_pairs) {
+    auto elapsed_time = RunSingleTest(category, label, iterations, false);
+  }
+}
+
+void RunAllTests(size_t iterations, bool save_execution_times) {
+  if (save_execution_times) {
+    RunAndSaveAllTests(iterations);
+  } else {
+    RunAllTestsWithoutSaving(iterations);
+  }
 }
 } // namespace test_runner

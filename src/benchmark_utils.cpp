@@ -13,7 +13,7 @@ void PrintTime(
     std::chrono::duration<double> elapsed
 ) {
   std::cout << label << " Time = " << elapsed.count() << " seconds"
-            << std::endl;
+            << std::endl << std::endl;
 }
 
 std::chrono::duration<double> RunTestCase(

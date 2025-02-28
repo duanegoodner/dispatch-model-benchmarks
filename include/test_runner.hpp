@@ -22,6 +22,9 @@ std::chrono::duration<double> RunSingleTest(
     size_t iterations,
     bool write_to_file
 );
-void RunAllTests(size_t iterations);
+
+void RunAllTests(size_t iterations, bool save_execution_times);
+void RunAndSaveAllTests(size_t iterations);
+void RunAllTestsWithoutSaving(size_t iterations);
 
 } // namespace test_runner
