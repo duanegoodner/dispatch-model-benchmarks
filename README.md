@@ -1,22 +1,25 @@
 # polymorphism-compare
 Benchmarking Runtime vs Compile-Time Polymorphism for Different Compute Functions in C++
 
-## Background
-When discussing **compile-time vs runtime polymorphism** in C++, it’s often stated that compile-time polymorphism can be faster due to factors like function inlining, elimination of virtual table lookups, and better compiler optimizations. However, these discussions are frequently followed by a caveat: The actual performance difference depends on many factors, and profiling is necessary to determine whether compile-time polymorphism provides a meaningful advantage in any given use case.
+## 📖 Background
+When discussing **compile-time vs runtime polymorphism** in C++, it’s often stated that compile-time polymorphism can be faster due to factors like function inlining, elimination of virtual table lookups, and better compiler optimizations. However, these discussions are frequently followed by a caveat:
 
-As I thought about this, I started wondering: what specific comparisons had actually been reported? I expected to find the web, GitHub, and academic literature filled with benchmark results from developers evaluating whether compile-time polymorphism would benefit their specific use case. But after searching, I realized that **hard numbers were surprisingly difficult to find**. Most discussions acknowledge the potential differences, but very few provide concrete performance data.
+> *Performance differences are highly use-case dependent, and profiling is required to determine the impact in a given scenario.*
 
-## What This Project Does
+As I explored this, I expected to find **benchmark results** from developers evaluating whether compile-time polymorphism would benefit their specific use cases.   However, after searching the web, GitHub, and academic literature, I realized that **hard numbers were surprisingly difficult to find**—most discussions acknowledge potential differences, but few provide **concrete performance data**.
 
-### Compares Runtime vs Compile-Time Polymorphism Performance
+## 🎯 What This Project Does
 
-This project benchmarks runtime vs compile-time polymorphism in C++ for two compute functions:
-- **Simple Computation** – Fused Multiply-Add (FMA):
-```
+
+### ✅ **Compares Runtime vs Compile-Time Polymorphism Performance**
+This project benchmarks **runtime vs compile-time polymorphism** for two compute functions:
+
+#### **Simple Computation** – Fused Multiply-Add (FMA):
+```cpp
 inline double ComputeFMA(double x) { return x * 1.414 + 2.718; }
 ```
-- **Complex Computation** inolving Sin, Log and a Square Root:
-```
+#### **Complex Computation** – Sin, Log and a Square Root:
+```cpp
 inline double ComputeExpensive(double x) {
     return std::sin(x) * std::log(x + 1) + std::sqrt(x);
 }
@@ -26,30 +29,30 @@ Each function is tested using:
 - **Compile-time polymorphism** using the Curiously Recurring Template Pattern (CRTP).
 - **C++20 Concepts**  which enable compile-time type enforcement and selection, achieving behavior similar to polymorphism without inheritance.
 
-### Provides a Template for Benchmarking Other Compute Functions
+### 🔧 Provides a Template for Benchmarking Other Compute Functions
 
 This project is designed with modularity and ease of modification in mind, making it a useful starting point for benchmarking compile-time vs. runtime polymorphism with other compute functions. The codebase provides a structured comparison framework that can be easily adapted to test additional operations.
 
 
-## Getting Started
+## ⚡ Getting Started
 
-### Requirements
+### 🔹 Requirements
 
-#### For Basic Execution Time Comparisons
+#### ✅ Basic Execution Time Comparisons
 
 - C++ compiler compatible with C++20 standard
 - git
 - cmake
 
-#### For Detailed Profiling
+#### 📊 Detailed Profiling (Optional)
 
 - A Linux system with `perf` installed is required to perform the same profiling that is demonstrated in later sections.
 
 
 
-### Building
+### 🏗️ Building
 
-#### Standard Build
+#### 🔹 Standard Build
 
 Clone this repository and change working directory:
 
@@ -69,7 +72,7 @@ cmake -B build
 cmake --build build
 ```
 
-#### CMake Configuration Options
+#### 🔹CMake Configuration Options
 
 The default compiler flags specified by `CMakeLists.txt` are `-O3 -march=native`. The following CMake confiuration options are also available.
 
@@ -82,7 +85,7 @@ The default compiler flags specified by `CMakeLists.txt` are `-O3 -march=native`
 | `ENABLE_PROFILING`  | `-O3 -march=native -pg`         |
 | `RESET_DEFAULTS`    | `-O3 -march=native`             |
 
-For example, in the build command sequence shown above, if replace this:
+#### 🔹 Example: Enable Profiling
 ```shell
 cmake -B build
 ```
@@ -93,15 +96,15 @@ cmake -B build -DENABLE_PROFILING=ON
 the compiler flags will be `-O3 -march=native -pg`.
 
 
-### Running
+### 🏃 Running the Benchmarks
 
-#### Command Line Help
+#### 🔹 Command Line Help
 
 For help, run:
 ```shell
 ./build/bin/benchmark --help
 ```
-Output:
+🔹 **Output:**
 ```
 Usage: ./build/bin/benchmark [polymorphism_category] [computation] [-n iterations] [-s]
  - No arguments: Runs all tests with the default iteration count.
@@ -129,14 +132,14 @@ Other Options:
 ```
 
 
-#### Run All Tests
+#### 🔹 Run All Tests
 
 To run all possible combinations of polymorphism type and compute function, and save the execution time data, run: 
 ```shell
 ./build/bin/benchmark -s
 ```
 
-Output:
+🔹 **Output Example:**
 ```
 Running: polymorphism_tests::TestRuntimeFMA
 Iteration Count: 1000000000
@@ -165,7 +168,7 @@ Expensive Computation: C++20 Concepts Polymorphism Time = 0.389357 seconds
 Test results saved to: data/run_all_tests_results/2025-02-27-21-06-49-524.txt
 ```
 
-#### Run a Single Test
+#### 🔹 Run a Single Test
 
 To run a single test, we need to provide arguments identifying the polymorphism type and the compute function:
 
@@ -173,95 +176,119 @@ For example:
 ```
 ./build/bin/benchmark crtp expensive
 ```
-Output:
+🔹 **Output:**
 ```
 Running: polymorphism_tests::TestCRTPExpensive
 Iteration Count: 1000000000
 Expensive Computation: CRTP Polymorphism Time = 0.391168 seconds
 ```
 
-## Profiling with `perf`
+#### 🔹 Custom Number of Iterations
+
+The default number of times to run a compute function is 1e9. We can change this using the `-n` option:
+```
+./build/bin/benchmark runtime fma -n 500000
+```
+🔹**Output:**
+```
+Running: polymorphism_tests::TestRuntimeFMA
+Iteration Count: 500000
+FMA Computation: Runtime Polymorphism Time = 0.00343413 seconds
+```
+
+## 📊 Profiling with `perf`
 
 
-### Build and Compile with Profiling On
+### 🔹 Build with Profiling
 
 ```shell
 cmake -B build -DENABLE_PROFILING=ON
 cmake --build build
 ```
 
-### Run Testing Shell Script
+### 🔹 Run Profiling Tests
 
 From the repo root, run:
-```
+```shell
 ./test/run_perf_tests.sh
 ```
-This 
+To use a **custom number of iterations**:
+```shell
+./test/run_perf_tests.sh -n 80000000
+```
+
+### 🔹 Viewing Profiling Data
+
+All profiling results will be saved in:
+```
+./data/perf/<timestamp-based-directory-name>/
+```
+Example:
+
+```
+All tests completed. Results are in: ./data/perf/2025-02-27_21-37-21/
+```
 
 
 
-### Results
+### 📊 Results
 
-#### Execution Time Comparison
+
+#### ⏱ Execution Time Comparison
 
 
 | Polymorphism Type | Compute Function | Execution Time (s) | Error (%) |
 |-------------------|-----------------|--------------------|-----------|
-| Runtime          | FMA             | 1.51796           | 0.19      |
-| Runtime          | Expensive       | 6.41900           | 0.02      |
-| CRTP             | FMA             | 0.379645          | 0.01      |
-| CRTP             | Expensive       | 0.38203           | 0.53      |
-| Concepts        | FMA             | 0.38525           | 0.29      |
-| Concepts        | Expensive       | 0.379779         | 0.02      |
+| Runtime          | FMA             | 1.51022           | 0.20      |
+| Runtime          | Expensive       | 6.36580           | 0.19      |
+| CRTP             | FMA             | 0.37886           | 0.10      |
+| CRTP             | Expensive       | 0.37816           | 0.17      |
+| Concepts         | FMA             | 0.37752           | 0.12      |
+| Concepts         | Expensive       | 0.38418           | 0.64      |
 
-**Observations**
-- Minimal performance difference between CRTP and Concepts
-- CRTP and Concepts are ~4x faster than Runtime polymorphism for FMA and ~17x faster  for the Expensive computation
 
 ---
 
-#### CPU Instructions and Branching Analysis
+#### 🔄 CPU Instructions and Branching Analysis
 
 | Polymorphism Type | Compute Function | Instructions Retired (B) | Branches (B) | Branch Misses (K) |
 |-------------------|-----------------|--------------------------|--------------|------------------|
-| Runtime          | FMA             | 13.01                    | 3.00         | 25.12           |
-| Runtime          | Expensive       | 154.02                   | 22.00        | 44.29           |
-| CRTP             | FMA             | 4.00                     | 1.00         | 22.80           |
-| CRTP             | Expensive       | 4.08                     | 1.02         | 28.36           |
-| Concepts        | FMA             | 4.00                     | 1.00         | 22.84           |
-| Concepts        | Expensive       | 4.00                     | 1.00         | 24.67           |
+| Runtime          | FMA             | 13.01                    | 3.00         | 21.86           |
+| Runtime          | Expensive       | 154.11                   | 22.02        | 47.57           |
+| CRTP             | FMA             | 4.00                     | 1.00         | 19.67           |
+| CRTP             | Expensive       | 4.00                     | 1.00         | 21.45           |
+| Concepts         | FMA             | 4.00                     | 1.00         | 20.44           |
+| Concepts         | Expensive       | 4.00                     | 1.00         | 19.34           |
 
 **Observations**
-- Runtime polymorphism executes significantly more instructions than CRTP/Concepts
-- Runtime polymorphism branch mispredictions are slightly higher than CRTP/Concepts for FMA and nearly ~2x higher for Expensive computation.
-- For the FMA computation, CRTP and Conepts have ~same number of branch misses; but for Expensive computation, CRTP has ~15% more misses than Concepts.
+
 
 ---
 
-#### Top-Down Performance Breakdown
+#### 🔬 Top-Down Performance Breakdown
 
 | Polymorphism Type | Compute Function | Retiring (%) | Frontend Bound (%) | Backend Bound (%) |
 |-------------------|-----------------|--------------|--------------------|-------------------|
-| Runtime          | FMA             | 29.0         | 58.9               | 12.1              |
-| Runtime          | Expensive       | 78.0         | 21.7               | 0.3               |
-| CRTP             | FMA             | 25.0         | 2.4                | 72.6              |
-| CRTP             | Expensive       | 25.0         | 2.5                | 72.4              |
-| Concepts        | FMA             | 24.6         | 16.3               | 59.1              |
-| Concepts        | Expensive       | 25.1         | 2.3                | 72.7              |
+| Runtime          | FMA             | 29.0         | 50.9               | 20.1              |
+| Runtime          | Expensive       | 78.3         | 21.6               | 0.2               |
+| CRTP             | FMA             | 25.1         | 2.1                | 72.8              |
+| CRTP             | Expensive       | 25.1         | 1.2                | 73.7              |
+| Concepts         | FMA             | 25.0         | 1.9                | 73.0              |
+| Concepts         | Expensive       | 24.6         | 31.6               | 43.8              |
 
 ---
 
-**Observations**
-- Runtime is more frontend bound, especially for FMA (fetch latency issues) 
-- CRTP and Concepts shift most execution to the backend (efficient execution unit use)
 
-## Key Takeaways from `perf` Tests
+### 🔑 Key Takeaways from `perf` Tests
+- CRTP and Concepts are ~4x faster than Runtime polymorphism for FMA and ~17x faster  for the Expensive computation
+- No significant execution time difference between CRTP and Concepts
+- Runtime polymorphism executes significantly more instructions than CRTP/Concepts
+- Runtime polymorphism branch mispredictions are similar to CRTP/Concepts for FMA but nearly ~2x higher for Expensive computation.
+- Runtime polymorphism is more frontend bound, especially for FMA (fetch latency issues) 
+- CRTP and Concepts generally shift most execution to the backend (efficient execution unit use)
+- Surprisingly, Concepts Expensive is more frontend bound than all other tests except Runtime FMA. The reason for this difference is unclear, but may be due to differences. In any case this result warrants further investigation.
 
-<!-- ### **Observations**
-- **Execution Time:** CRTP and Concepts approaches are significantly faster than runtime polymorphism.
-- **Instruction Count:** CRTP and Concepts retire far fewer instructions compared to runtime.
-- **Frontend Bound:** Runtime FMA has a high frontend-bound percentage (58.9%), while other methods see a lower impact.
-- **Backend Bound:** CRTP and Concepts have a high backend-bound percentage (~72%), indicating execution stalls due to execution resource limitations. -->
+
 
 
 
