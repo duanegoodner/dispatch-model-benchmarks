@@ -1,0 +1,47 @@
+Running: polymorphism_tests::TestConceptsExpensive
+Iteration Count: 1000000000
+Expensive Computation: C++20 Concepts Polymorphism Time = 0.381959 seconds
+
+Running: polymorphism_tests::TestConceptsExpensive
+Iteration Count: 1000000000
+Expensive Computation: C++20 Concepts Polymorphism Time = 0.376285 seconds
+
+Running: polymorphism_tests::TestConceptsExpensive
+Iteration Count: 1000000000
+Expensive Computation: C++20 Concepts Polymorphism Time = 0.390911 seconds
+
+Running: polymorphism_tests::TestConceptsExpensive
+Iteration Count: 1000000000
+Expensive Computation: C++20 Concepts Polymorphism Time = 0.381324 seconds
+
+Running: polymorphism_tests::TestConceptsExpensive
+Iteration Count: 1000000000
+Expensive Computation: C++20 Concepts Polymorphism Time = 0.386325 seconds
+
+
+ Performance counter stats for './build/bin/benchmark concepts expensive' (5 runs):
+
+            386.93 msec task-clock                       #    1.007 CPUs utilized            ( +-  0.63% )
+                 0      context-switches                 #    0.000 /sec                   
+                 0      cpu-migrations                   #    0.000 /sec                   
+               128      page-faults                      #  333.402 /sec                     ( +-  0.35% )
+     2,046,457,396      cpu_core/cycles/                 #    5.330 G/sec                    ( +-  0.52% )
+     <not counted>      cpu_atom/cycles/                                              (0.00%)
+     4,004,113,022      cpu_core/instructions/           #   10.430 G/sec                    ( +-  0.28% )
+     <not counted>      cpu_atom/instructions/                                        (0.00%)
+     1,000,809,970      cpu_core/branches/               #    2.607 G/sec                    ( +-  0.28% )
+     <not counted>      cpu_atom/branches/                                            (0.00%)
+            19,343      cpu_core/branch-misses/          #   50.383 K/sec                    ( +-  2.44% )
+     <not counted>      cpu_atom/branch-misses/                                       (0.00%)
+    12,278,689,770      cpu_core/slots/                  #   31.982 G/sec                    ( +-  0.52% )
+     2,985,406,924      cpu_core/topdown-retiring/       #     24.6% Retiring                ( +-  0.24% )
+                 0      cpu_core/topdown-bad-spec/       #      0.0% Bad Speculation       
+     3,370,620,721      cpu_core/topdown-fe-bound/       #     31.6% Frontend Bound          ( +- 16.55% )
+     5,922,662,124      cpu_core/topdown-be-bound/       #     43.8% Backend Bound           ( +-  8.82% )
+                 0      cpu_core/topdown-heavy-ops/      #      0.0% Heavy Operations       #     24.6% Light Operations      
+                 0      cpu_core/topdown-br-mispredict/  #      0.0% Branch Mispredict      #      0.0% Machine Clears        
+       240,758,622      cpu_core/topdown-fetch-lat/      #      1.2% Fetch Latency          #     30.5% Fetch Bandwidth         ( +- 18.21% )
+                 0      cpu_core/topdown-mem-bound/      #      0.0% Memory Bound           #     43.7% Core Bound            
+
+           0.38418 +- 0.00246 seconds time elapsed  ( +-  0.64% )
+

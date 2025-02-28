@@ -1,0 +1,47 @@
+Running: polymorphism_tests::TestCRTPFMA
+Iteration Count: 1000000000
+FMA Computation: CRTP Polymorphism Time = 0.3787 seconds
+
+Running: polymorphism_tests::TestCRTPFMA
+Iteration Count: 1000000000
+FMA Computation: CRTP Polymorphism Time = 0.378575 seconds
+
+Running: polymorphism_tests::TestCRTPFMA
+Iteration Count: 1000000000
+FMA Computation: CRTP Polymorphism Time = 0.378403 seconds
+
+Running: polymorphism_tests::TestCRTPFMA
+Iteration Count: 1000000000
+FMA Computation: CRTP Polymorphism Time = 0.378198 seconds
+
+Running: polymorphism_tests::TestCRTPFMA
+Iteration Count: 1000000000
+FMA Computation: CRTP Polymorphism Time = 0.376405 seconds
+
+
+ Performance counter stats for './build/bin/benchmark crtp fma' (5 runs):
+
+            377.06 msec task-clock                       #    0.995 CPUs utilized            ( +-  0.10% )
+                 2      context-switches                 #    5.283 /sec                     ( +- 71.76% )
+                 1      cpu-migrations                   #    2.641 /sec                     ( +-141.42% )
+               129      page-faults                      #  340.736 /sec                     ( +-  0.38% )
+     2,004,300,771      cpu_core/cycles/                 #    5.294 G/sec                    ( +-  0.01% )
+     <not counted>      cpu_atom/cycles/                                              (0.00%)
+     4,004,149,637      cpu_core/instructions/           #   10.576 G/sec                    ( +-  0.00% )
+     <not counted>      cpu_atom/instructions/                                        (0.00%)
+     1,000,817,884      cpu_core/branches/               #    2.644 G/sec                    ( +-  0.00% )
+     <not counted>      cpu_atom/branches/                                            (0.00%)
+            19,669      cpu_core/branch-misses/          #   51.953 K/sec                    ( +-  1.10% )
+     <not counted>      cpu_atom/branch-misses/                                       (0.00%)
+    12,024,036,366      cpu_core/slots/                  #   31.760 G/sec                    ( +-  0.01% )
+     3,017,797,362      cpu_core/topdown-retiring/       #     25.1% Retiring                ( +-  0.01% )
+         2,015,075      cpu_core/topdown-bad-spec/       #      0.0% Bad Speculation         ( +- 27.57% )
+       235,765,418      cpu_core/topdown-fe-bound/       #      2.1% Frontend Bound          ( +- 10.20% )
+     8,770,473,584      cpu_core/topdown-be-bound/       #     72.8% Backend Bound           ( +-  0.24% )
+           227,371      cpu_core/topdown-heavy-ops/      #      0.0% Heavy Operations       #     25.0% Light Operations        ( +- 47.88% )
+         2,015,075      cpu_core/topdown-br-mispredict/  #      0.0% Branch Mispredict      #      0.0% Machine Clears          ( +- 27.57% )
+         4,030,151      cpu_core/topdown-fetch-lat/      #      0.1% Fetch Latency          #      2.0% Fetch Bandwidth         ( +-213.71% )
+         4,030,151      cpu_core/topdown-mem-bound/      #      0.1% Memory Bound           #     72.7% Core Bound              ( +-213.71% )
+
+          0.378860 +- 0.000392 seconds time elapsed  ( +-  0.10% )
+
