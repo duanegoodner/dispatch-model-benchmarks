@@ -218,7 +218,7 @@ cmake --build build
 ---
 
 **Observations**
-- Runtime is more frontend bound (fetch latency issues)
+- Runtime is more frontend bound, especially for FMA (fetch latency issues) 
 - CRTP and Concepts shift most execution to the backend (efficient execution unit use)
 
 ## Key Takeaways from `perf` Tests
