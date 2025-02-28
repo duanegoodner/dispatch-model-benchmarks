@@ -170,7 +170,7 @@ int RunFromCLI(int argc, char **argv) {
   size_t iterations = maybe_iterations.value_or(kDefaultNumIterations);
 
   //   Print the iteration count for logging in the shell script
-  std::cout << "Iteration Count: " << iterations << std::endl;
+//   std::cout << "Iteration Count: " << iterations << std::endl;
 
   return RunAppropriateTests(remaining_argc, argv, iterations);
 }

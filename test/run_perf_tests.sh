@@ -9,13 +9,16 @@ TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
 OUTPUT_DIR="./data/perf/${TIMESTAMP}/"
 mkdir -p "$OUTPUT_DIR"
 
-echo "Saving perf results to: $OUTPUT_DIR"
+echo "Results will be saved in directory: $OUTPUT_DIR"
 
 # Loop over all polymorphism types and compute functions
 for POLY_TYPE in "${POLYMORPHISM_TYPES[@]}"; do
     for COMP_FUNC in "${COMPUTE_FUNCTIONS[@]}"; do
         OUTPUT_FILE="${OUTPUT_DIR}${POLY_TYPE}_${COMP_FUNC}_perf_summary.txt"
-        echo "Running perf for: ${POLY_TYPE} - ${COMP_FUNC}"
+        echo
+        echo "-------------------------------------------------"
+        echo "Running perf for: Polymorphism Type = ${POLY_TYPE}, Compute Function = ${COMP_FUNC}"
+        echo
         
         # Run perf, capture terminal output (including iteration count), and save results
         sudo perf stat -r 5 ./build/bin/benchmark "$POLY_TYPE" "$COMP_FUNC" 2>&1 | tee "$OUTPUT_FILE"

@@ -8,22 +8,22 @@ As I thought about this, I started wondering: what specific comparisons had actu
 
 ## What This Project Does
 
-### Compares Runtime vs Compile-Time Polymorphism for Two Specific Functions
+### Compares Runtime vs Compile-Time Polymorphism Performance
 
 This project benchmarks runtime vs compile-time polymorphism in C++ by comparing execution times for two compute functions:
-- A **simple computation** – Fused Multiply-Add (FMA):
+- **Simple Computation** – Fused Multiply-Add (FMA):
 ```
 inline double ComputeFMA(double x) { return x * 1.414 + 2.718; }
 ```
-- And a (comparatively) **complex computation** inolving Sin, Log and a Square Root:
+- **Complex Computation** inolving Sin, Log and a Square Root:
 ```
 inline double ComputeExpensive(double x) {
     return std::sin(x) * std::log(x + 1) + std::sqrt(x);
 }
 ```
 Each function is tested using:
-- **Runtime polymorphism** via virtual function calls
-- **Compile-time polymorphism** using the Curiously Recurring Template Pattern (CRTP)
+- **Runtime polymorphism** via virtual function calls.
+- **Compile-time polymorphism** using the Curiously Recurring Template Pattern (CRTP).
 - **C++20 Concepts**  which enable **compile-time type enforcement** and selection, achieving behavior similar to polymorphism without inheritance.
 
 ### Provides a Template for Benchmarking Other Compute Functions
@@ -41,7 +41,6 @@ This project is designed with modularity and ease of modification in mind, makin
 - C++ compiler compatible with C++20 standard
 - git
 - cmake
-- perf
 
 #### For Detailed Profiling
 
@@ -156,7 +155,7 @@ For example:
 ## Profiling with `perf`
 
 
-### Build and Compile Profiling ON
+### Build and Compile with Profiling On
 
 ```shell
 cmake -B build -DENABLE_PROFILING=ON
@@ -164,6 +163,7 @@ cmake --build build
 ```
 
 ### Use Shell Script to Run `perf` tests
+
 
 
 ### Results
