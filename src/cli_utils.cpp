@@ -8,40 +8,44 @@
 constexpr size_t kDefaultNumIterations = 1'000'000'000;
 
 // Prints usage information for the command-line tool
-void PrintUsage(const char* program_name) {
-    std::cerr << "\nUsage: " << program_name << " [polymorphism_category] [computation] [-n iterations]\n"
-              << " - No arguments: Runs all tests with the default iteration count.\n"
-              << " - With '-n iterations': Runs all tests with a custom iteration count.\n"
-              << " - With two arguments: Runs a specific test with the default iteration count.\n"
-              << " - With three arguments plus '-n iterations': Runs a specific test with a custom iteration count.\n\n"
-              << "Valid options:\n"
-              << " ------------------------\n";
+void PrintUsage(const char *program_name) {
+  std::cerr
+      << "\nUsage: " << program_name
+      << " [polymorphism_category] [computation] [-n iterations]\n"
+      << " - No arguments: Runs all tests with the default iteration count.\n"
+      << " - With '-n iterations': Runs all tests with a custom iteration "
+         "count.\n"
+      << " - With two arguments: Runs a specific test with the default "
+         "iteration count.\n"
+      << " - With three arguments plus '-n iterations': Runs a specific test "
+         "with a custom iteration count.\n\n"
+      << "Valid options:\n"
+      << " ------------------------\n";
 
-    // Retrieve valid test cases
-    const auto& test_case_map = test_runner::GetTestCaseMap();
+  // Retrieve valid test cases
+  const auto &test_case_map = test_runner::GetTestCaseMap();
 
-    // Format valid polymorphism categories
-    std::cerr << " Polymorphism Categories:\n";
-    std::cerr << " ------------------------\n";
-    for (const auto& category : test_case_map) {
-        std::cerr << "  - " << category.first << "\n";
+  // Format valid polymorphism categories
+  std::cerr << " Polymorphism Categories:\n";
+  std::cerr << " ------------------------\n";
+  for (const auto &category : test_case_map) {
+    std::cerr << "  - " << category.first << "\n";
+  }
+
+  // Format valid computation functions
+  std::cerr << "\n Compute Functions:\n";
+  std::cerr << " ------------------\n";
+  if (!test_case_map.empty()) {
+    for (const auto &computation : test_case_map.begin()->second) {
+      std::cerr << "  - " << computation.first << "\n";
     }
+  }
 
-    // Format valid computation functions
-    std::cerr << "\n Compute Functions:\n";
-    std::cerr << " ------------------\n";
-    if (!test_case_map.empty()) {
-        for (const auto& computation : test_case_map.begin()->second) {
-            std::cerr << "  - " << computation.first << "\n";
-        }
-    }
-
-    std::cerr << "\nOther Options:\n"
-              << "  --help              Show this help message\n"
-              << "  -n [iterations]     Specify a custom iteration count\n"
-              << std::endl;
+  std::cerr << "\nOther Options:\n"
+            << "  --help              Show this help message\n"
+            << "  -n [iterations]     Specify a custom iteration count\n"
+            << std::endl;
 }
-
 
 // Validates whether the given polymorphism category exists
 bool IsValidPolymorphismCategory(const std::string &category) {
@@ -164,6 +168,9 @@ int RunFromCLI(int argc, char **argv) {
   std::optional<size_t> maybe_iterations =
       ParseAndValidateArguments(argc, argv, remaining_argc);
   size_t iterations = maybe_iterations.value_or(kDefaultNumIterations);
+
+  //   Print the iteration count for logging in the shell script
+  std::cout << "Iteration Count: " << iterations << std::endl;
 
   return RunAppropriateTests(remaining_argc, argv, iterations);
 }

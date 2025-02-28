@@ -12,7 +12,7 @@ void PrintTime(
     const std::string &label,
     std::chrono::duration<double> elapsed
 ) {
-  std::cout << label << " Time = " << elapsed.count() << " seconds" << std::endl
+  std::cout << label << " Time = " << elapsed.count() << " seconds"
             << std::endl;
 }
 
@@ -105,5 +105,6 @@ void WriteSingleTestResultToFile(
       elapsed_time
   );
 
-  std::cout << "Single test result saved to: " << filepath << std::endl;
+  std::cout << "Single test result saved to: " << filepath << std::endl
+            << std::endl;
 }

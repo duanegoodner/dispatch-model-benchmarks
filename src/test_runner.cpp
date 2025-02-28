@@ -126,6 +126,6 @@ void RunAllTests(size_t iterations) {
     WriteMarkdownTableRow(outfile, category, label, elapsed_time);
   }
 
-  std::cout << "Test results saved to: " << filepath << std::endl;
+  std::cout << "Test results saved to: " << filepath << std::endl << std::endl;
 }
 } // namespace test_runner
