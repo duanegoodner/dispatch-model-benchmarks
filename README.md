@@ -86,6 +86,7 @@ The default compiler flags specified by `CMakeLists.txt` are `-O3 -march=native`
 | `RESET_DEFAULTS`    | `-O3 -march=native`             |
 
 #### 🔹 Example: Enable Profiling
+In the build command sequence, replacing this:
 ```shell
 cmake -B build
 ```
@@ -93,18 +94,17 @@ with this:
 ```shell
 cmake -B build -DENABLE_PROFILING=ON
 ```
-the compiler flags will be `-O3 -march=native -pg`.
+will cause the compiler flags to be `-O3 -march=native -pg`.
 
 
 ### 🏃 Running the Benchmarks
 
 #### 🔹 Command Line Help
 
-For help, run:
 ```shell
 ./build/bin/benchmark --help
 ```
-🔹 **Output:**
+**Output:**
 ```
 Usage: ./build/bin/benchmark [polymorphism_category] [computation] [-n iterations] [-s]
  - No arguments: Runs all tests with the default iteration count.
@@ -139,7 +139,7 @@ To run all possible combinations of polymorphism type and compute function, and 
 ./build/bin/benchmark -s
 ```
 
-🔹 **Output Example:**
+**Output:**
 ```
 Running: polymorphism_tests::TestRuntimeFMA
 Iteration Count: 1000000000
@@ -176,7 +176,7 @@ For example:
 ```
 ./build/bin/benchmark crtp expensive
 ```
-🔹 **Output:**
+**Output:**
 ```
 Running: polymorphism_tests::TestCRTPExpensive
 Iteration Count: 1000000000
@@ -189,7 +189,7 @@ The default number of times to run a compute function is 1e9. We can change this
 ```
 ./build/bin/benchmark runtime fma -n 500000
 ```
-🔹**Output:**
+**Output:**
 ```
 Running: polymorphism_tests::TestRuntimeFMA
 Iteration Count: 500000
