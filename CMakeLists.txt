@@ -64,11 +64,8 @@ endif()
 
 message(STATUS "Building with compile options: ${CMAKE_CXX_FLAGS}")
 
-# ===========================
-# BUILD TARGET
-# ===========================
-
-add_executable(benchmark 
+# Define all source files in a variable
+set(SRC_FILES
     src/main.cpp
     src/cli_utils.cpp
     src/benchmark_utils.cpp
@@ -78,6 +75,9 @@ add_executable(benchmark
     src/polymorphism_tests.cpp
     src/test_runner.cpp
 )
+
+# Use the SRC_FILES variable in add_executable
+add_executable(benchmark ${SRC_FILES})
 
 # ===========================
 # INCLUDE DIRECTORIES
