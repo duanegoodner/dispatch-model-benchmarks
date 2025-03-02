@@ -64,6 +64,10 @@ endif()
 
 message(STATUS "Building with compile options: ${CMAKE_CXX_FLAGS}")
 
+# ===========================
+# BUILD TARGET
+# ===========================
+
 # Define all source files in a variable
 set(SRC_FILES
     src/main.cpp
