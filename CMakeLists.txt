@@ -36,7 +36,7 @@ if (RESET_DEFAULTS)
 endif()
 
 # ===========================
-# DEFAULT COMPILER FLAGS (Handled Safely)
+# APPLY COMPILER OPTIONS BASED ON CONFIGURATION
 # ===========================
 
 if (ENABLE_DEBUG)
