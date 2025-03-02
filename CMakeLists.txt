@@ -5,6 +5,12 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # ===========================
+# LOCATION OF EXECUTABLE
+# ===========================
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# ===========================
 # BUILD CONFIGURATION OPTIONS
 # ===========================
 
@@ -22,11 +28,11 @@ option(ENABLE_CONCEPT_ERROR_DETAIL "Enable Verbose Compiler Errors for Concepts"
 if (RESET_DEFAULTS)
     message(STATUS "Resetting all options to default settings (turning them OFF)...")
     
-    # Reset options to their default OFF state
     set(ENABLE_DEBUG OFF CACHE BOOL "Disable Debugging Symbols (Reset to Default)" FORCE)
     set(ENABLE_NO_INLINE OFF CACHE BOOL "Allow Function Inlining (Reset to Default)" FORCE)
     set(ENABLE_LOW_OPT OFF CACHE BOOL "Use Default Optimization (-O3, Reset)" FORCE)
     set(ENABLE_PROFILING OFF CACHE BOOL "Disable Profiling (Reset to Default)" FORCE)
+    set(ENABLE_CONCEPT_ERROR_DETAIL ON CACHE BOOL "Enable Verbose Compiler Errors for Concepts (Default)" FORCE)
 endif()
 
 # ===========================
@@ -34,16 +40,21 @@ endif()
 # ===========================
 
 if (ENABLE_DEBUG)
-    set(CMAKE_CXX_FLAGS "-O0 -g")
-elseif (ENABLE_NO_INLINE)
-    set(CMAKE_CXX_FLAGS "-O3 -march=native -fno-inline")
+    add_compile_options(-O0 -g)
 elseif (ENABLE_LOW_OPT)
-    set(CMAKE_CXX_FLAGS "-O1 -march=native")
-elseif (ENABLE_PROFILING)
-    set(CMAKE_CXX_FLAGS "-O3 -march=native -pg")
+    add_compile_options(-O1 -march=native)
 else()
-    # Default optimized build (Ensures no empty flags!)
-    set(CMAKE_CXX_FLAGS "-O3 -march=native")
+    add_compile_options(-O3 -march=native) # Default optimized build
+endif()
+
+# Apply function inlining disable
+if (ENABLE_NO_INLINE)
+    add_compile_options(-fno-inline)
+endif()
+
+# Allow profiling 
+if (ENABLE_PROFILING)
+    add_compile_options(-pg)
 endif()
 
 # Enable verbose error messages for C++ Concepts (if using GCC)
@@ -51,25 +62,13 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND ENABLE_CONCEPT_ERROR_DETAIL)
     add_compile_options(-fconcepts-diagnostics-depth=5)
 endif()
 
-message(STATUS "Building with flags: ${CMAKE_CXX_FLAGS}")
+message(STATUS "Building with compile options: ${CMAKE_CXX_FLAGS}")
 
 # ===========================
-# INCLUDE DIRECTORIES
+# BUILD TARGET
 # ===========================
 
-include_directories(include)
-
-# ===========================
-# LOCATION OF EXECUTABLE
-# ===========================
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
-# ===========================
-# SOURCE FILES
-# ===========================
-
-set(SRC_FILES
+add_executable(benchmark 
     src/main.cpp
     src/cli_utils.cpp
     src/benchmark_utils.cpp
@@ -81,14 +80,13 @@ set(SRC_FILES
 )
 
 # ===========================
+# INCLUDE DIRECTORIES
+# ===========================
+
+target_include_directories(benchmark PRIVATE include)
+
+# ===========================
 # ADD DEFINITIONS
 # ===========================
 
-add_definitions(-DCOMPILER_FLAGS="${CMAKE_CXX_FLAGS}")
-
-
-# ===========================
-# BUILD TARGET
-# ===========================
-
-add_executable(benchmark ${SRC_FILES})
+target_compile_definitions(benchmark PRIVATE COMPILER_FLAGS="${CMAKE_CXX_FLAGS}")

@@ -85,12 +85,12 @@ The default compiler flags specified by `CMakeLists.txt` are `-O3 -march=native`
 
 
 | -D Option         | Compiler Flags |
-|-------------------|---------------------------------|
-| `ENABLE_DEBUG`      | `-O0 -g`                        |
-| `ENABLE_NO_INLINE`  | `-O3 -march=native -fno-inline` |
-| `ENABLE_LOW_OPT`    | `-O1 -march=native`             |
-| `ENABLE_PROFILING`  | `-O3 -march=native -pg`         |
-| `RESET_DEFAULTS`    | `-O3 -march=native`             |
+|-------------------|-----------------------|
+| `ENABLE_DEBUG`      | `-O0 -g`            |          |
+| `ENABLE_NO_INLINE`  | `-fno-inline`       |
+| `ENABLE_LOW_OPT`    | `-O1`               |
+| `ENABLE_PROFILING`  | `-pg`               |
+| `RESET_DEFAULTS`    | `-O3 -march=native` |
 
 #### 🔹 Example: Enable Profiling
 In the build command sequence, replacing this:
