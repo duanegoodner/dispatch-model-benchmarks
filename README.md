@@ -5,7 +5,9 @@
 - This project benchmarks Runtime Polymorphism vs. Compile-Time Polymorphism (CRTP & C++20 Concepts).
 - Two compute functions are tested: one simple, one complex.
 - CRTP and C++20 Concepts are significantly faster than Runtime Polymorphism, with the gap widening for more complex computations.
-- CRTP and Concepts perform nearly identically, except Concepts show slightly higher frontend stalls and a minor (~2.5%) slowdown for the complex function.
+- CRTP and Concepts perform nearly identically.
+- Runtime Polymorphism is slower due to higher instruction counts, more branches, and reduced compiler optimizations.
+
 
 
 ## 📖 Background
@@ -247,31 +249,32 @@ All tests completed. Results are in: ./data/perf/2025-02-27_21-37-21/
 | Runtime          | FMA             | 1510.22           | 2.95     |
 | Runtime          | Expensive       | 6365.80           | 11.9     |
 | CRTP             | FMA             | 378.86           | 0.392    |
-| CRTP             | Expensive       | 378.16           | 0.626  |
+| CRTP             | Expensive       | 378.16           | 3.37  |
 | Concepts         | FMA             | 377.52           | 0.456  |
-| Concepts         | Expensive       | 384.18           | 2.46   |
+| Concepts         | Expensive       | 378.40           | 3.56   |
 #### ✅ Observations:
 - **Runtime Polymorphism (RP) is significantly slower:** ~4× slower than CRTP/Concepts for FMA and ~17× slower for Expensive computation.
-- **CRTP and Concepts are closely matched**, with negligible performance differences between FMA and Expensive, except...
-- **Concepts Expensive is slightly slower (~2.5%)** than other CRTP/Concepts tests, a small but statistically significant difference.
+- **CRTP and Concepts are closely matched**, with negligible performance differences between FMA and Expensive
 ---
 
-#### 🔄 CPU Instructions and Branching Analysis
 
-| Polymorphism Type | Compute Function | Instructions Retired (x10<sup>9</sup>) | Branches (x10<sup>9</sup>) |
-|-------------------|-----------------|--------------------------|--------------|
-| Runtime          | FMA             | 13.01                    | 3.00         |
-| Runtime          | Expensive       | 154.11                   | 22.02        | 
-| CRTP             | FMA             | 4.00                     | 1.00         | 
-| CRTP             | Expensive       | 4.00                     | 1.00         | 
-| Concepts         | FMA             | 4.00                     | 1.00         | 
-| Concepts         | Expensive       | 4.00                     | 1.00         | 
+#### 🔄 CPU Instructions, Micro-Operations, and Branching Analysis
+
+| Polymorphism Type | Compute Function | Instructions (x10⁹) | Uops Executed (x10⁹) | Branches (x10⁹) |
+|-------------------|-----------------|----------------------|----------------------|----------------|
+| **Runtime**       | FMA             | 42.02                | 66.02                | 8.00           |
+| **Runtime**       | Expensive       | 182.02               | 219.73               | 27.00          |
+| **CRTP**          | FMA             | 4.00                 | 3.00                 | 1.00           |
+| **CRTP**          | Expensive       | 4.00                 | 3.00                 | 1.00           |
+| **Concepts**      | FMA             | 4.00                 | 3.00                 | 1.00           |
+| **Concepts**      | Expensive       | 4.00                 | 3.00                 | 1.00           |
 
 #### ✅ Observations:
-- **CRTP & Concepts execute the same number of instructions** across both compute functions, suggesting aggressive compiler optimizations for Expensive.
-- **RP executes significantly more instructions:**
-    - **FMA:** ~4x more instructions and ~3x more branches
-    - **Expensive:** ~40x more instructios and ~20x more branches
+- **Runtime Polymorphism (RP) has significantly higher instruction and branch counts** compared to CRTP/Concepts.
+  - **Expensive function in RP** executes **4.3x more instructions** than FMA and incurs **3.4x more branches**.
+  - Meanwhile, **CRTP and Concepts show no change between FMA and Expensive**, suggesting effective compiler optimizations.
+- **RP Expensive requires 4.3x more instructions than RP FMA**, which aligns with the added branching complexity.
+- **Branching in RP Expensive is 3.4x higher than RP FMA**, further highlighting control flow overhead.
 
 ---
 
@@ -281,16 +284,15 @@ All tests completed. Results are in: ./data/perf/2025-02-27_21-37-21/
 |-------------------|-----------------|--------------|--------------------|-------------------|
 | Runtime          | FMA             | 29.0         | 50.9               | 20.1              |
 | Runtime          | Expensive       | 78.3         | 21.6               | 0.2               |
-| CRTP             | FMA             | 25.1         | 2.1                | 72.8              |
-| CRTP             | Expensive       | 25.1         | 1.2                | 73.7              |
+| CRTP             | FMA             | 25.1         | 2.1               | 72.8              |
+| CRTP             | Expensive       | 25.1         | 1.4                | 73.5              |
 | Concepts         | FMA             | 25.0         | 1.9                | 73.0              |
-| Concepts         | Expensive       | 24.6         | 31.6               | 43.8              |
+| Concepts         | Expensive       | 25.1         | 1.4              | 73.5              |
 
 #### ✅ Observations:
 - Runtime Polymorphism (RP) is less likely to stall, but this does not compensate for its higher instruction count.
 - When RP instructions do stall, they are usually frontend bound (fetch latency issues).
 - CRTP & Concepts are highly backend bound (~70%), meaning execution stalls are mostly due to data dependencies.
-- Concepts Expensive shows increased frontend stalls (~31%), unlike CRTP Expensive.
 
 ---
 
@@ -299,14 +301,12 @@ All tests completed. Results are in: ./data/perf/2025-02-27_21-37-21/
 #### 🏎 1️⃣ CRTP and Concepts are significantly faster than Runtime Polymorphism
 - RP requires far more instructions and branches than CRTP/Concepts.
 - Virtual function calls likely account for the large gap, with a much more pronounced slowdown in the Expensive function.
+- Uops : Instruction ratios clearly indicate more aggressive compiler optimization for CRTP/Concepts than RP. 
 - RP instructions retire at a higher rate, but this does not compensate for the sheer number of extra instructions.
 - When RP stalls, it's typically frontend bound, likely due to instruction fetch latency.
 
-#### ⚖️ 2️⃣ CRTP and Concepts are *almost* identical
+#### ⚖️ 2️⃣ CRTP and Concepts are identical
 - CRTP and Concepts retire the same number of instructions & branches.
 - Aggressive compiler optimizations likely explain why the Expensive computation is not heavier than FMA.
 - Both are backend bound (~70%), meaning execution unit stalls dominate.
-- Concepts Expensive is the only outlier, showing a higher frontend bound percentage (~31%) and a small but measurable slowdown.
-
-
 
