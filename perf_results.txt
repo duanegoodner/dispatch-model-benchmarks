@@ -1,0 +1,174 @@
+Running: polymorphism_tests::TestRuntimeFMA
+Iteration Count: 1000000000
+FMA Computation: Runtime Polymorphism Time = 5.84995 seconds
+
+
+ Performance counter stats for './build/bin/benchmark runtime fma':
+
+           110,404      cpu_core/cache-misses/                                               (62.47%)
+     <not counted>      cpu_atom/cache-misses/                                        (0.00%)
+           316,902      cpu_core/cache-references/                                           (74.98%)
+     <not counted>      cpu_atom/cache-references/                                     (0.00%)
+    21,003,679,457      cpu_core/L1-dcache-loads/                                            (74.98%)
+     <not counted>      cpu_atom/L1-dcache-loads/                                     (0.00%)
+           161,404      cpu_core/L1-dcache-load-misses/                                      (74.98%)
+            85,747      cpu_core/LLC-loads/                                                  (74.98%)
+     <not counted>      cpu_atom/LLC-loads/                                           (0.00%)
+            13,697      cpu_core/LLC-load-misses/                                            (75.04%)
+     <not counted>      cpu_atom/LLC-load-misses/                                     (0.00%)
+    21,005,578,214      cpu_core/dTLB-loads/                                                 (50.04%)
+     <not counted>      cpu_atom/dTLB-loads/                                          (0.00%)
+             3,017      cpu_core/dTLB-load-misses/                                           (49.98%)
+     <not counted>      cpu_atom/dTLB-load-misses/                                     (0.00%)
+
+       5.851543883 seconds time elapsed
+
+       5.851158000 seconds user
+       0.000000000 seconds sys
+
+
+Running: polymorphism_tests::TestRuntimeExpensive
+Iteration Count: 1000000000
+Expensive Computation: Runtime Polymorphism Time = 10.6584 seconds
+
+
+ Performance counter stats for './build/bin/benchmark runtime expensive':
+
+           136,703      cpu_core/cache-misses/                                               (62.51%)
+     <not counted>      cpu_atom/cache-misses/                                        (0.00%)
+           570,351      cpu_core/cache-references/                                           (75.01%)
+     <not counted>      cpu_atom/cache-references/                                     (0.00%)
+    58,019,666,024      cpu_core/L1-dcache-loads/                                            (75.01%)
+     <not counted>      cpu_atom/L1-dcache-loads/                                     (0.00%)
+           348,804      cpu_core/L1-dcache-load-misses/                                      (75.01%)
+           159,898      cpu_core/LLC-loads/                                                  (75.01%)
+     <not counted>      cpu_atom/LLC-loads/                                           (0.00%)
+            19,307      cpu_core/LLC-load-misses/                                            (75.01%)
+     <not counted>      cpu_atom/LLC-load-misses/                                     (0.00%)
+    58,003,259,735      cpu_core/dTLB-loads/                                                 (49.98%)
+     <not counted>      cpu_atom/dTLB-loads/                                          (0.00%)
+             2,868      cpu_core/dTLB-load-misses/                                           (49.99%)
+     <not counted>      cpu_atom/dTLB-load-misses/                                     (0.00%)
+
+      10.659270624 seconds time elapsed
+
+      10.654568000 seconds user
+       0.004000000 seconds sys
+
+
+Running: polymorphism_tests::TestCRTPFMA
+Iteration Count: 1000000000
+FMA Computation: CRTP Polymorphism Time = 0.379947 seconds
+
+
+ Performance counter stats for './build/bin/benchmark crtp fma':
+
+            39,595      cpu_core/cache-misses/                                               (62.17%)
+     <not counted>      cpu_atom/cache-misses/                                        (0.00%)
+            88,300      cpu_core/cache-references/                                           (74.78%)
+     <not counted>      cpu_atom/cache-references/                                     (0.00%)
+         1,423,382      cpu_core/L1-dcache-loads/                                            (74.78%)
+     <not counted>      cpu_atom/L1-dcache-loads/                                     (0.00%)
+            49,698      cpu_core/L1-dcache-load-misses/                                      (74.78%)
+            19,227      cpu_core/LLC-loads/                                                  (74.78%)
+     <not counted>      cpu_atom/LLC-loads/                                           (0.00%)
+             5,620      cpu_core/LLC-load-misses/                                            (75.58%)
+     <not counted>      cpu_atom/LLC-load-misses/                                     (0.00%)
+           208,177      cpu_core/dTLB-loads/                                                 (50.44%)
+     <not counted>      cpu_atom/dTLB-loads/                                          (0.00%)
+             1,224      cpu_core/dTLB-load-misses/                                           (49.64%)
+     <not counted>      cpu_atom/dTLB-load-misses/                                     (0.00%)
+
+       0.380947294 seconds time elapsed
+
+       0.380823000 seconds user
+       0.000000000 seconds sys
+
+
+Running: polymorphism_tests::TestCRTPExpensive
+Iteration Count: 1000000000
+Expensive Computation: CRTP Polymorphism Time = 0.37933 seconds
+
+
+ Performance counter stats for './build/bin/benchmark crtp expensive':
+
+            44,139      cpu_core/cache-misses/                                               (61.09%)
+             4,947      cpu_atom/cache-misses/                                               (1.03%)
+           107,779      cpu_core/cache-references/                                           (73.70%)
+           157,579      cpu_atom/cache-references/                                           (1.03%)
+         1,654,163      cpu_core/L1-dcache-loads/                                            (73.70%)
+           273,996      cpu_atom/L1-dcache-loads/                                            (1.03%)
+            56,056      cpu_core/L1-dcache-load-misses/                                      (73.68%)
+            11,495      cpu_core/LLC-loads/                                                  (74.45%)
+            17,336      cpu_atom/LLC-loads/                                                  (1.03%)
+             2,846      cpu_core/LLC-load-misses/                                            (75.49%)
+                 0      cpu_atom/LLC-load-misses/                                            (1.03%)
+           662,591      cpu_core/dTLB-loads/                                                 (49.78%)
+           273,996      cpu_atom/dTLB-loads/                                                 (1.03%)
+             1,390      cpu_core/dTLB-load-misses/                                           (48.77%)
+           757,253      cpu_atom/dTLB-load-misses/                                           (0.00%)
+
+       0.380222972 seconds time elapsed
+
+       0.377385000 seconds user
+       0.000000000 seconds sys
+
+
+Running: polymorphism_tests::TestConceptsFMA
+Iteration Count: 1000000000
+FMA Computation: C++20 Concepts Polymorphism Time = 0.3802 seconds
+
+
+ Performance counter stats for './build/bin/benchmark concepts fma':
+
+            43,274      cpu_core/cache-misses/                                               (62.21%)
+     <not counted>      cpu_atom/cache-misses/                                        (0.00%)
+           100,828      cpu_core/cache-references/                                           (74.81%)
+     <not counted>      cpu_atom/cache-references/                                     (0.00%)
+         1,428,870      cpu_core/L1-dcache-loads/                                            (74.80%)
+     <not counted>      cpu_atom/L1-dcache-loads/                                     (0.00%)
+            50,874      cpu_core/L1-dcache-load-misses/                                      (74.79%)
+            15,437      cpu_core/LLC-loads/                                                  (74.80%)
+     <not counted>      cpu_atom/LLC-loads/                                           (0.00%)
+             3,867      cpu_core/LLC-load-misses/                                            (75.11%)
+     <not counted>      cpu_atom/LLC-load-misses/                                     (0.00%)
+           232,116      cpu_core/dTLB-loads/                                                 (50.40%)
+     <not counted>      cpu_atom/dTLB-loads/                                          (0.00%)
+             1,335      cpu_core/dTLB-load-misses/                                           (50.10%)
+     <not counted>      cpu_atom/dTLB-load-misses/                                     (0.00%)
+
+       0.381095098 seconds time elapsed
+
+       0.380936000 seconds user
+       0.000000000 seconds sys
+
+
+Running: polymorphism_tests::TestConceptsExpensive
+Iteration Count: 1000000000
+Expensive Computation: C++20 Concepts Polymorphism Time = 0.378905 seconds
+
+
+ Performance counter stats for './build/bin/benchmark concepts expensive':
+
+            40,800      cpu_core/cache-misses/                                               (62.07%)
+     <not counted>      cpu_atom/cache-misses/                                        (0.00%)
+            80,742      cpu_core/cache-references/                                           (74.71%)
+     <not counted>      cpu_atom/cache-references/                                     (0.00%)
+         1,437,152      cpu_core/L1-dcache-loads/                                            (74.71%)
+     <not counted>      cpu_atom/L1-dcache-loads/                                     (0.00%)
+            50,595      cpu_core/L1-dcache-load-misses/                                      (74.71%)
+            18,870      cpu_core/LLC-loads/                                                  (74.71%)
+     <not counted>      cpu_atom/LLC-loads/                                           (0.00%)
+             5,681      cpu_core/LLC-load-misses/                                            (75.04%)
+     <not counted>      cpu_atom/LLC-load-misses/                                     (0.00%)
+           224,429      cpu_core/dTLB-loads/                                                 (50.58%)
+     <not counted>      cpu_atom/dTLB-loads/                                          (0.00%)
+             1,134      cpu_core/dTLB-load-misses/                                           (50.26%)
+     <not counted>      cpu_atom/dTLB-load-misses/                                     (0.00%)
+
+       0.379849761 seconds time elapsed
+
+       0.379679000 seconds user
+       0.000000000 seconds sys
+
+

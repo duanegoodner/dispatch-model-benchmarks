@@ -1,0 +1,45 @@
+{
+    "cpu_performance_events": [
+        "cycles",
+        "instructions",
+        "branches",
+        "branch-misses",
+        "context-switches",
+        "cpu-migrations",
+        "page-faults"
+    ],
+    "cache_events": [
+        "cache-misses",
+        "cache-references",
+        "L1-dcache-loads",
+        "L1-dcache-load-misses",
+        "LLC-loads",
+        "LLC-load-misses",
+        "dTLB-loads",
+        "dTLB-load-misses"
+    ],
+    "topdown_events": [
+        "cpu_core/topdown-retiring/",
+        "cpu_core/topdown-bad-spec/",
+        "cpu_core/topdown-fe-bound/",
+        "cpu_core/topdown-be-bound/",
+        "cpu_core/topdown-heavy-ops/",
+        "cpu_core/topdown-br-mispredict/",
+        "cpu_core/topdown-fetch-lat/",
+        "cpu_core/topdown-mem-bound/"
+    ],
+    "memory_events": [
+        "longest_lat_cache.miss",
+        "longest_lat_cache.reference",
+        "mem_load_retired.l3_hit",
+        "mem_load_retired.l3_miss",
+        "mem_load_retired.l2_hit",
+        "mem_load_retired.l2_miss"
+    ],
+    "branch_prediction_events": [
+        "cpu_core/branches/",
+        "cpu_core/branch-misses/",
+        "cpu_atom/branches/",
+        "cpu_atom/branch-misses/"
+    ]
+}

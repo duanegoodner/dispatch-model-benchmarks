@@ -45,7 +45,6 @@ for POLY_TYPE in "${POLYMORPHISM_TYPES[@]}"; do
 
         # Run perf with optional iteration count
         sudo perf stat -r 5 ./build/bin/benchmark "$POLY_TYPE" "$COMP_FUNC" $ITERATIONS 2>&1 | tee "$OUTPUT_FILE"
-
         echo "Results saved to: $OUTPUT_FILE"
         echo "-------------------------------------------------"
     done

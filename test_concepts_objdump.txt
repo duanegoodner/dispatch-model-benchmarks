@@ -1,0 +1,109 @@
+00000000000037d5 <_ZN18polymorphism_tests15TestConceptsFMAEm.cold>:
+    37d5:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+    37d9:	4c 39 e7             	cmp    %r12,%rdi
+    37dc:	74 18                	je     37f6 <_ZN18polymorphism_tests15TestConceptsFMAEm.cold+0x21>
+    37de:	48 8b 45 d0          	mov    -0x30(%rbp),%rax
+    37e2:	48 8d 70 01          	lea    0x1(%rax),%rsi
+    37e6:	c5 f8 77             	vzeroupper
+    37e9:	e8 d2 fa ff ff       	call   32c0 <_ZdlPvm@plt>
+    37ee:	48 89 df             	mov    %rbx,%rdi
+    37f1:	e8 1a fc ff ff       	call   3410 <_Unwind_Resume@plt>
+    37f6:	c5 f8 77             	vzeroupper
+    37f9:	eb f3                	jmp    37ee <_ZN18polymorphism_tests15TestConceptsFMAEm.cold+0x19>
+
+00000000000037fb <_ZN18polymorphism_tests21TestConceptsExpensiveEm.cold>:
+    37fb:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+    37ff:	4c 39 e7             	cmp    %r12,%rdi
+    3802:	74 18                	je     381c <_ZN18polymorphism_tests21TestConceptsExpensiveEm.cold+0x21>
+    3804:	48 8b 45 d0          	mov    -0x30(%rbp),%rax
+    3808:	48 8d 70 01          	lea    0x1(%rax),%rsi
+    380c:	c5 f8 77             	vzeroupper
+    380f:	e8 ac fa ff ff       	call   32c0 <_ZdlPvm@plt>
+    3814:	48 89 df             	mov    %rbx,%rdi
+    3817:	e8 f4 fb ff ff       	call   3410 <_Unwind_Resume@plt>
+    381c:	c5 f8 77             	vzeroupper
+    381f:	eb f3                	jmp    3814 <_ZN18polymorphism_tests21TestConceptsExpensiveEm.cold+0x19>
+
+0000000000003821 <_ZN11test_runner14GetTestCaseMapB5cxx11Ev.cold>:
+    3821:	41 bc 01 00 00 00    	mov    $0x1,%r12d
+    3827:	c5 f8 77             	vzeroupper
+    382a:	48 8d bd e8 fd ff ff 	lea    -0x218(%rbp),%rdi
+    3831:	41 be 01 00 00 00    	mov    $0x1,%r14d
+    3837:	e8 14 5f 00 00       	call   9750 <_ZNSt4pairIKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE8TestCaseED1Ev>
+--
+00000000000078a0 <_ZN18polymorphism_tests15TestConceptsFMAEm>:
+    78a0:	55                   	push   %rbp
+    78a1:	48 89 e5             	mov    %rsp,%rbp
+    78a4:	41 55                	push   %r13
+    78a6:	41 54                	push   %r12
+    78a8:	53                   	push   %rbx
+    78a9:	48 83 ec 38          	sub    $0x38,%rsp
+    78ad:	ff 15 05 77 00 00    	call   *0x7705(%rip)        # efb8 <mcount@GLIBC_2.2.5>
+    78b3:	48 89 fb             	mov    %rdi,%rbx
+    78b6:	4c 8d 65 d0          	lea    -0x30(%rbp),%r12
+    78ba:	4c 8d 6d c0          	lea    -0x40(%rbp),%r13
+    78be:	bf 11 00 00 00       	mov    $0x11,%edi
+    78c3:	4c 89 65 c0          	mov    %r12,-0x40(%rbp)
+    78c7:	e8 e4 b9 ff ff       	call   32b0 <_Znwm@plt>
+    78cc:	48 8d 55 bf          	lea    -0x41(%rbp),%rdx
+    78d0:	48 89 de             	mov    %rbx,%rsi
+    78d3:	4c 89 ef             	mov    %r13,%rdi
+    78d6:	c5 f9 6f 05 02 4d 00 	vmovdqa 0x4d02(%rip),%xmm0        # c5e0 <_ZTSN20runtime_polymorphism13PolyExpensiveE+0xa0>
+    78dd:	00 
+    78de:	c6 40 10 00          	movb   $0x0,0x10(%rax)
+    78e2:	48 89 45 c0          	mov    %rax,-0x40(%rbp)
+--
+    7906:	74 0d                	je     7915 <_ZN18polymorphism_tests15TestConceptsFMAEm+0x75>
+    7908:	48 8b 45 d0          	mov    -0x30(%rbp),%rax
+    790c:	48 8d 70 01          	lea    0x1(%rax),%rsi
+    7910:	e8 ab b9 ff ff       	call   32c0 <_ZdlPvm@plt>
+    7915:	48 83 c4 38          	add    $0x38,%rsp
+    7919:	5b                   	pop    %rbx
+    791a:	41 5c                	pop    %r12
+    791c:	41 5d                	pop    %r13
+    791e:	5d                   	pop    %rbp
+    791f:	c3                   	ret
+    7920:	48 89 c3             	mov    %rax,%rbx
+    7923:	e9 ad be ff ff       	jmp    37d5 <_ZN18polymorphism_tests15TestConceptsFMAEm.cold>
+    7928:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+    792f:	00 
+
+0000000000007930 <_ZN18polymorphism_tests21TestConceptsExpensiveEm>:
+    7930:	55                   	push   %rbp
+    7931:	48 89 e5             	mov    %rsp,%rbp
+    7934:	41 55                	push   %r13
+    7936:	41 54                	push   %r12
+    7938:	53                   	push   %rbx
+    7939:	48 83 ec 38          	sub    $0x38,%rsp
+    793d:	ff 15 75 76 00 00    	call   *0x7675(%rip)        # efb8 <mcount@GLIBC_2.2.5>
+    7943:	48 89 fb             	mov    %rdi,%rbx
+    7946:	4c 8d 65 d0          	lea    -0x30(%rbp),%r12
+    794a:	4c 8d 6d c0          	lea    -0x40(%rbp),%r13
+    794e:	bf 17 00 00 00       	mov    $0x17,%edi
+    7953:	4c 89 65 c0          	mov    %r12,-0x40(%rbp)
+    7957:	e8 54 b9 ff ff       	call   32b0 <_Znwm@plt>
+    795c:	48 8d 55 bf          	lea    -0x41(%rbp),%rdx
+    7960:	48 89 de             	mov    %rbx,%rsi
+    7963:	4c 89 ef             	mov    %r13,%rdi
+--
+    80df:	48 8d 05 ba f7 ff ff 	lea    -0x846(%rip),%rax        # 78a0 <_ZN18polymorphism_tests15TestConceptsFMAEm>
+    80e6:	66 89 bd 00 fb ff ff 	mov    %di,-0x500(%rbp)
+    80ed:	bf 24 00 00 00       	mov    $0x24,%edi
+    80f2:	48 89 85 10 fc ff ff 	mov    %rax,-0x3f0(%rbp)
+    80f9:	48 8d 85 00 fc ff ff 	lea    -0x400(%rbp),%rax
+    8100:	c6 85 e8 fa ff ff 00 	movb   $0x0,-0x518(%rbp)
+    8107:	c6 85 02 fb ff ff 61 	movb   $0x61,-0x4fe(%rbp)
+    810e:	48 c7 85 f8 fa ff ff 	movq   $0x3,-0x508(%rbp)
+    8115:	03 00 00 00 
+    8119:	c6 85 03 fb ff ff 00 	movb   $0x0,-0x4fd(%rbp)
+    8120:	48 89 85 78 f9 ff ff 	mov    %rax,-0x688(%rbp)
+    8127:	48 89 85 f0 fb ff ff 	mov    %rax,-0x410(%rbp)
+    812e:	e8 7d b1 ff ff       	call   32b0 <_Znwm@plt>
+    8133:	c5 f9 6f 05 15 45 00 	vmovdqa 0x4515(%rip),%xmm0        # c650 <_ZTSN20runtime_polymorphism13PolyExpensiveE+0x110>
+    813a:	00 
+    813b:	48 8b 9d f8 fa ff ff 	mov    -0x508(%rbp),%rbx
+    8142:	c6 40 23 00          	movb   $0x0,0x23(%rax)
+    8146:	4c 8d a5 40 fe ff ff 	lea    -0x1c0(%rbp),%r12
+    814d:	48 89 85 f0 fb ff ff 	mov    %rax,-0x410(%rbp)
+    8154:	4c 8b b5 f0 fa ff ff 	mov    -0x510(%rbp),%r14
+    815b:	c5 fa 7f 00          	vmovdqu %xmm0,(%rax)

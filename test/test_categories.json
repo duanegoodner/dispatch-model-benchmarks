@@ -1,0 +1,11 @@
+{
+  "polymorphism_types": [
+    "runtime",
+    "concepts",
+    "crtp"
+  ],
+  "compute_functions": [
+    "fma",
+    "expensive"
+  ]
+}
