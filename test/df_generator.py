@@ -1,5 +1,4 @@
 from pathlib import Path
-
 import pandas as pd
 import re
 
@@ -19,10 +18,10 @@ def parse_benchmark_results(output):
         benchmark_summary["Test Name"] = test_name
         benchmark_summary["Mean Iteration Count"] = int(iteration_count)
 
-    # Extract mean time from the last part
-    time_pattern = re.search(r"(\d+\.\d+) \+\- (\d+\.\d+) seconds time elapsed", output)
+    # Extract mean time and error percentage from the last part
+    time_pattern = re.search(r"(\d+\.\d+) \+\- (\d+\.\d+) seconds time elapsed  \( \+\-\s*(\d+\.\d+)% \)", output)
     if time_pattern:
-        benchmark_summary["Mean Time (seconds)"] = (float(time_pattern.group(1)), float(time_pattern.group(2)))
+        benchmark_summary["Mean Time (seconds)"] = (float(time_pattern.group(1)), float(time_pattern.group(3)))
 
     return benchmark_summary
 
@@ -44,7 +43,8 @@ def parse_performance_counters(output):
         value = match.group("value").replace(",", "")
         error = match.group("error")
         perf_results[match.group("metric")] = (
-        int(value) if value.isdigit() else None, float(error) if error is not None else None)
+            int(value) if value.isdigit() else None, float(error) if error is not None else None
+        )
 
     return perf_results
 
@@ -60,14 +60,20 @@ def perf_output_to_series(file_path: Path):
     return pd.Series(combined_results)
 
 
+def stack_perf_outputs(file_paths: list[Path]) -> pd.DataFrame:
+    series_list = []
+    for file_path in file_paths:
+        perf_series = perf_output_to_series(file_path)
+        perf_series["File Path"] = str(file_path)  # Add file path to track source
+        series_list.append(perf_series)
+
+    return pd.DataFrame(series_list)
+
+
 if __name__ == "__main__":
-    my_file_path = (
-        Path(__file__).parent.parent
-        / "data"
-        / "perf"
-        / "2025-03-15_17-16-44"
-        / "crtp_fma_perf_summary.txt"
-    )
+    my_file_paths = [
+        Path(__file__).parent.parent / "data" / "perf" / "2025-03-15_17-16-44" / "crtp_fma_perf_summary.txt"
+    ]
 
-    my_series = perf_output_to_series(my_file_path)
-
+    my_dataframe = stack_perf_outputs(my_file_paths)
+    print("pause")
