@@ -2,6 +2,8 @@
     "cpu_performance_events": [
         "cycles",
         "instructions",
+        "uops_issued.any",
+        "uops_executed.thread",
         "branches",
         "branch-misses",
         "context-switches",
@@ -13,10 +15,16 @@
         "cache-references",
         "L1-dcache-loads",
         "L1-dcache-load-misses",
+        "L1-icache-loads",
+        "L1-icache-load-misses",
         "LLC-loads",
         "LLC-load-misses",
         "dTLB-loads",
-        "dTLB-load-misses"
+        "dTLB-load-misses",
+        "iTLB-loads",
+        "iTLB-load-misses",
+        "idq_uops_not_delivered.core",
+        "cycle_activity.stalls_total"
     ],
     "topdown_events": [
         "cpu_core/topdown-retiring/",
