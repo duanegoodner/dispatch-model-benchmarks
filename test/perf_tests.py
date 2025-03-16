@@ -2,12 +2,17 @@ import os
 import subprocess
 import argparse
 import json
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 
-# Define test parameters
-POLYMORPHISM_TYPES = ["runtime", "concepts", "crtp"]
-COMPUTE_FUNCTIONS = ["fma", "expensive"]
+
+@dataclass
+class TestCondition:
+    polymorphism_type: str
+    compute_function: str
+    num_iterations_per_run: int = 1000000000
+    num_runs: int = 5
 
 
 class PerfTestRunner:
@@ -16,22 +21,17 @@ class PerfTestRunner:
 
     def __init__(
         self,
-        polymorphism_type: str,
-        compute_function: str,
-        num_iterations_per_run: int = 1000000000,
-        num_runs: int = 5,
+        test_condition: TestCondition,
         perf_categories: list[str] = None,
         extra_perf_events: list[str] = None,
         test_categories_json: Path = Path(__file__).parent
         / "test_categories.json",
         perf_events_json: Path = Path(__file__).parent / "perf_events.json",
         output_dir: Path = None,
+        seq_id: int = 1,
         output_filename: str = None,
     ):
-        self.num_iterations_per_run = num_iterations_per_run
-        self.num_runs = num_runs
-        self.polymorphism_type = polymorphism_type
-        self.compute_function = compute_function
+        self.test_condition = test_condition
         self.perf_events_json = perf_events_json
         self.perf_categories = perf_categories or [
             item
@@ -41,23 +41,37 @@ class PerfTestRunner:
         self.extra_perf_events = extra_perf_events or []
         self.test_categories_json = test_categories_json
         self.output_dir = output_dir or self.create_output_directory()
+        self.seq_id = seq_id
         self.output_filename = output_filename or self.create_output_filename()
 
-    @staticmethod
-    def timestamp() -> str:
-        """Returns a timestamp string."""
-        return datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-    def create_output_directory(self) -> Path:
+    @property
+    def polymorphism_type(self) -> str:
+        return self.test_condition.polymorphism_type
+
+    @property
+    def compute_function(self) -> str:
+        return self.test_condition.compute_function
+
+    @property
+    def num_iterations_per_run(self) -> int:
+        return self.test_condition.num_iterations_per_run
+
+    @property
+    def num_runs(self) -> int:
+        return self.test_condition.num_runs
+
+    @staticmethod
+    def create_output_directory() -> Path:
         """Creates a timestamped directory for storing results and returns its path."""
-        timestamp = self.timestamp()
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         output_dir = PerfTestRunner._default_data_dir / timestamp
         output_dir.mkdir(parents=True, exist_ok=True)
         return output_dir
 
     def create_output_filename(self) -> str:
         """Creates a filename based on the polymorphism type and compute function."""
-        return f"{self.polymorphism_type}_{self.compute_function}_perf_summary.txt"
+        return f"{self.seq_id}_{self.polymorphism_type}_{self.compute_function}.txt"
 
     @property
     def output_path(self) -> Path:
@@ -120,9 +134,21 @@ class PerfTestRunner:
         ]
         return cmd
 
+    @property
+    def test_run_header(self) -> str:
+        return (
+            f"\n------------------------------------------------\n"
+            f"Running perf for: Polymorphism Type = {self.polymorphism_type}\n"
+            f"Compute Function = {self.compute_function}\n"
+            f"Number of Runs = {self.num_runs}\n"
+            f"Number of Iterations per Run = {self.num_iterations_per_run}"
+        )
+
     def run_tests(self):
         if not self.is_valid_test:
             raise ValueError("Invalid test configuration")
+
+        print(self.test_run_header)
 
         with self.output_path.open(mode="w") as output_file:
             process = subprocess.run(
@@ -149,73 +175,28 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def create_output_directory():
-    """Creates a timestamped directory for storing results and returns its path."""
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    output_dir = f"./data/perf/{timestamp}/"
-    os.makedirs(output_dir, exist_ok=True)
-    return output_dir
+if __name__ == "__main__":
+    # Define test parameters
+    polymorphism_types = ["crtp", "concepts", "runtime"]
+    compute_functions = ["fma", "expensive"]
 
+    my_output_dir = PerfTestRunner.create_output_directory()
 
-def run_perf_test(poly_type, comp_func, iterations, output_dir):
-    """Runs the perf test for a given polymorphism type and compute function."""
-    output_file = os.path.join(
-        output_dir, f"{poly_type}_{comp_func}_perf_summary.txt"
-    )
-
-    print("\n-------------------------------------------------")
-    print(
-        f"Running perf for: Polymorphism Type = {poly_type}, Compute Function = {comp_func}"
-    )
-    if iterations:
-        print(f"Custom Iterations: {iterations}")
-
-    # Construct perf command
-    cmd = [
-        "sudo",
-        "perf",
-        "stat",
-        "-r",
-        "5",
-        "./build/bin/benchmark",
-        poly_type,
-        comp_func,
+    test_conditions = [
+        TestCondition(polymorphism_type=pt, compute_function=cf)
+        for pt in polymorphism_types
+        for cf in compute_functions
     ]
 
-    # Add iteration count if specified
-    if iterations:
-        cmd.extend(["-n", str(iterations)])
-
-    # Run the command and capture output
-    with open(output_file, "w") as f:
-        process = subprocess.run(
-            cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True
+    test_runners= []
+    for idx in range(len(test_conditions)):
+        test_runners.append(
+            PerfTestRunner(
+                test_condition=test_conditions[idx],
+                output_dir=my_output_dir,
+                seq_id=idx + 1,
+            )
         )
-        f.write(process.stdout)
-        f.write("\n-------------------------------------------------\n")
 
-    print(f"Results saved to: {output_file}")
-    print("-------------------------------------------------")
-
-
-def main():
-    """Main function to execute all perf tests."""
-    args = parse_arguments()
-    output_dir = create_output_directory()
-    print(f"Results will be saved in directory: {output_dir}")
-
-    # Run tests for all combinations of polymorphism types and compute functions
-    for poly_type in POLYMORPHISM_TYPES:
-        for comp_func in COMPUTE_FUNCTIONS:
-            run_perf_test(poly_type, comp_func, args.n, output_dir)
-
-    print(f"\nAll tests completed. Results are in: {output_dir}")
-
-
-if __name__ == "__main__":
-    # main()
-    test_runner = PerfTestRunner(
-        num_runs=5, polymorphism_type="crtp", compute_function="fma"
-    )
-
-    test_runner.run_tests()
+    for test_runner in test_runners:
+        test_runner.run_tests()

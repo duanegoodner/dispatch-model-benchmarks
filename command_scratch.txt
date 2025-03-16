@@ -1,6 +1,0 @@
-sudo perf stat -e cache-misses,cache-references,L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,dTLB-loads,dTLB-load-misses ./build/bin/benchmark runtime fma >> perf_results.txt 2>&1
-sudo perf stat -e cache-misses,cache-references,L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,dTLB-loads,dTLB-load-misses ./build/bin/benchmark runtime expensive >> perf_results.txt 2>&1
-sudo perf stat -e cache-misses,cache-references,L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,dTLB-loads,dTLB-load-misses ./build/bin/benchmark crtp fma >> perf_results.txt 2>&1
-sudo perf stat -e cache-misses,cache-references,L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,dTLB-loads,dTLB-load-misses ./build/bin/benchmark crtp expensive >> perf_results.txt 2>&1
-sudo perf stat -e cache-misses,cache-references,L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,dTLB-loads,dTLB-load-misses ./build/bin/benchmark concepts fma >> perf_results.txt 2>&1
-sudo perf stat -e cache-misses,cache-references,L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,dTLB-loads,dTLB-load-misses ./build/bin/benchmark concepts expensive >> perf_results.txt 2>&1
