@@ -354,10 +354,9 @@ All profiling results will be saved in:
 
 #### ✅ Observations:
 - **Runtime Polymorphism (RP) has significantly higher instruction and branch counts** compared to CRTP/Concepts.
-  - **Expensive function in RP** executes **4.3x more instructions** than FMA and incurs **3.4x more branches**.
-  - Meanwhile, **CRTP and Concepts show no change between FMA and Expensive**, suggesting effective compiler optimizations.
 - **RP Expensive requires 4.3x more instructions than RP FMA**, which aligns with the added branching complexity.
 - **Branching in RP Expensive is 3.4x higher than RP FMA**, further highlighting control flow overhead.
+- Branch prediction misses are low across all conditions.
 
 ---
 
@@ -376,19 +375,17 @@ All profiling results will be saved in:
 #### ✅ Observations:
 - Runtime polymorphism has **5 orders of magnitude more stores and loads** than CRTP/Concepts.
 - Runtime Expensive has ~40% more stores and ~2.8x more loads than Runtime FMA.
+- CRTP / Concepts have much higher cache miss rate than RP, but still run much faster due to lower overall workload.
 
 
 ### 🔑 Key Insights
 
 #### 🏎 1️⃣ CRTP and Concepts are significantly faster than Runtime Polymorphism
-- RP requires more instructions & branches than CRTP/Concepts.
+- RP requires more instructions & branches and massively higher memory access than CRTP/Concepts.
 - Virtual function calls likely account for the large gap, with a much more pronounced slowdown in the Expensive function.
 - Uops : Instruction ratios clearly indicate more aggressive compiler optimization for CRTP/Concepts than RP. 
-- RP instructions retire at a higher rate, but this does not compensate for the sheer number of extra instructions.
-- When RP stalls, it's typically frontend bound, likely due to instruction fetch latency.
+
 
 #### ⚖️ 2️⃣ CRTP and Concepts are identical
 - CRTP and Concepts retire the same number of instructions & branches.
 - Aggressive compiler optimizations likely explain why the Expensive computation is not heavier than FMA.
-- Both are backend bound (~70%), meaning execution unit stalls dominate.
-
