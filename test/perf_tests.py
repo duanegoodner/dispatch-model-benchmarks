@@ -1,9 +1,44 @@
-import subprocess
 import argparse
+import subprocess
 import json
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
+import perf_data_cleaner as pdc
+
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(
+        description="Runs perf tests for various combinations of polymorphism "
+                    "types and compute functions.\n"
+                    "Saves raw (.txt) and cleaned (.feather) data to a "
+                    "timestamped directory under ./data/perf."
+    )
+    parser.add_argument(
+        "-p", "--polymorphism_types",
+        nargs="+",
+        default=["crtp", "concepts", "runtime"],
+        help="List of polymorphism types to test (default: crtp concepts runtime)",
+    )
+    parser.add_argument(
+        "-c", "--compute_functions",
+        nargs="+",
+        default=["fma", "expensive"],
+        help="List of compute functions to test (default: fma expensive)",
+    )
+    parser.add_argument(
+        "-r", "--runs_per_condition",
+        type=int,
+        default=5,
+        help="Number of runs per test condition (default: 5)",
+    )
+    parser.add_argument(
+        "-i", "--iterations_per_run",
+        type=int,
+        default=1000000000,
+        help="Number of iterations per run (default: 1000000000)",
+    )
+    return parser.parse_args()
 
 
 @dataclass
@@ -44,7 +79,8 @@ class PerfTestRunner:
         self.seq_id = seq_id
         self.output_filename = output_filename or self.create_output_filename()
         self.summary_output_filename = (
-            summary_output_filename or self.create_output_filename(is_summary=True)
+            summary_output_filename
+            or self.create_output_filename(is_summary=True)
         )
 
     @property
@@ -195,42 +231,60 @@ class PerfTestRunner:
         print(f"Results saved to: {self.summary_output_path}")
 
 
-def parse_arguments():
-    """Parses command-line arguments for optional iteration count."""
-    parser = argparse.ArgumentParser(
-        description="Run perf tests for polymorphism benchmarking."
-    )
-    parser.add_argument(
-        "-n",
-        type=int,
-        help="Custom iteration count (positive integer)",
-        default=None,
-    )
-    return parser.parse_args()
+class MultiTestRunner:
+    def __init__(
+        self,
+        polymorphism_types: list[str],
+        compute_functions: list[str],
+        num_runs_per_condition: int = 5,
+        num_iterations_per_run: int = 1000000000,
+    ):
+        self.polymorphism_types = polymorphism_types
+        self.compute_functions = compute_functions
+        self.num_runs_per_condition = num_runs_per_condition
+        self.num_iterations_per_run = num_iterations_per_run
+        self.output_dir = PerfTestRunner.create_output_directory()
+
+    @property
+    def test_conditions(self) -> list[TestCondition]:
+        return [
+            TestCondition(
+                polymorphism_type=pt,
+                compute_function=cf,
+                num_runs=self.num_runs_per_condition,
+                num_iterations_per_run=self.num_iterations_per_run,
+            )
+            for pt in self.polymorphism_types
+            for cf in self.compute_functions
+        ]
+
+    @property
+    def test_runners(self) -> list[PerfTestRunner]:
+        runner_list = []
+        for idx in range(len(self.test_conditions)):
+            runner_list.append(
+                PerfTestRunner(
+                    test_condition=self.test_conditions[idx],
+                    output_dir=self.output_dir,
+                    seq_id=idx + 1,
+                )
+            )
+        return runner_list
+
+    def run_tests(self):
+        for test_runner in self.test_runners:
+            test_runner.run_tests()
 
 
 if __name__ == "__main__":
-    # Define test parameters
-    polymorphism_types = ["crtp", "concepts", "runtime"]
-    compute_functions = ["fma", "expensive"]
+    args = parse_arguments()
 
-    my_output_dir = PerfTestRunner.create_output_directory()
+    multi_test_runner = MultiTestRunner(
+        polymorphism_types=args.polymorphism_types,
+        compute_functions=args.compute_functions,
+        num_runs_per_condition=args.runs_per_condition,
+        num_iterations_per_run=args.iterations_per_run,
+    )
+    multi_test_runner.run_tests()
 
-    test_conditions = [
-        TestCondition(polymorphism_type=pt, compute_function=cf)
-        for pt in polymorphism_types
-        for cf in compute_functions
-    ]
-
-    test_runners = []
-    for idx in range(len(test_conditions)):
-        test_runners.append(
-            PerfTestRunner(
-                test_condition=test_conditions[idx],
-                output_dir=my_output_dir,
-                seq_id=idx + 1,
-            )
-        )
-
-    for test_runner in test_runners:
-        test_runner.run_tests()
+    pdc.build_detail_and_summary_dfs(data_dir=multi_test_runner.output_dir)
