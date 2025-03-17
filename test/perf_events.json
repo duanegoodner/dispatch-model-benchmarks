@@ -38,12 +38,16 @@
         "cpu_core/topdown-mem-bound/"
     ],
     "memory_events": [
+        "mem_inst_retired.all_loads",
+        "mem_inst_retired.all_stores",
         "longest_lat_cache.miss",
         "longest_lat_cache.reference",
-        "mem_load_retired.l3_hit",
-        "mem_load_retired.l3_miss",
+        "mem_load_retired.l1_hit",
+        "mem_load_retired.l1_miss",
         "mem_load_retired.l2_hit",
-        "mem_load_retired.l2_miss"
+        "mem_load_retired.l2_miss",
+        "mem_load_retired.l3_hit",
+        "mem_load_retired.l3_miss"
     ],
     "branch_prediction_events": [
         "cpu_core/branches/",
