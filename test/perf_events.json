@@ -2,6 +2,7 @@
     "cpu_performance_events": [
         "cycles",
         "instructions",
+        "inst_retired.any",
         "uops_issued.any",
         "uops_executed.thread",
         "branches",

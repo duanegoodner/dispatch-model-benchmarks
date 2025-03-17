@@ -1,4 +1,3 @@
-import os
 import subprocess
 import argparse
 import json
@@ -30,6 +29,7 @@ class PerfTestRunner:
         output_dir: Path = None,
         seq_id: int = 1,
         output_filename: str = None,
+        summary_output_filename: str = None,
     ):
         self.test_condition = test_condition
         self.perf_events_json = perf_events_json
@@ -43,7 +43,9 @@ class PerfTestRunner:
         self.output_dir = output_dir or self.create_output_directory()
         self.seq_id = seq_id
         self.output_filename = output_filename or self.create_output_filename()
-
+        self.summary_output_filename = (
+            summary_output_filename or self.create_output_filename(is_summary=True)
+        )
 
     @property
     def polymorphism_type(self) -> str:
@@ -69,14 +71,20 @@ class PerfTestRunner:
         output_dir.mkdir(parents=True, exist_ok=True)
         return output_dir
 
-    def create_output_filename(self) -> str:
+    def create_output_filename(self, is_summary: bool = False) -> str:
         """Creates a filename based on the polymorphism type and compute function."""
-        return f"{self.seq_id}_{self.polymorphism_type}_{self.compute_function}.txt"
+        suffix = "_summary" if is_summary else ""
+        return f"{self.seq_id}_{self.polymorphism_type}_{self.compute_function}{suffix}.txt"
 
     @property
     def output_path(self) -> Path:
         """Returns the full output path for the results file."""
         return self.output_dir / self.output_filename
+
+    @property
+    def summary_output_path(self) -> Path:
+        """Returns the full output path for the summary results file."""
+        return self.output_dir / self.summary_output_filename
 
     @property
     def standard_perf_events(self) -> dict:
@@ -135,6 +143,21 @@ class PerfTestRunner:
         return cmd
 
     @property
+    def summary_command(self) -> list[str]:
+        return [
+            "sudo",
+            "perf",
+            "stat",
+            "-r",
+            str(self.num_runs),
+            "./build/bin/benchmark",
+            self.polymorphism_type,
+            self.compute_function,
+            "-n",
+            str(self.num_iterations_per_run),
+        ]
+
+    @property
     def test_run_header(self) -> str:
         return (
             f"\n------------------------------------------------\n"
@@ -159,6 +182,17 @@ class PerfTestRunner:
             )
             output_file.write(process.stdout)
         print(f"Results saved to: {self.output_path}")
+
+        print("Re-running to collect perf summary...")
+        with self.summary_output_path.open(mode="w") as summary_file:
+            process = subprocess.run(
+                self.summary_command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+            )
+            summary_file.write(process.stdout)
+        print(f"Results saved to: {self.summary_output_path}")
 
 
 def parse_arguments():
@@ -188,7 +222,7 @@ if __name__ == "__main__":
         for cf in compute_functions
     ]
 
-    test_runners= []
+    test_runners = []
     for idx in range(len(test_conditions)):
         test_runners.append(
             PerfTestRunner(

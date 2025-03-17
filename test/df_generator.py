@@ -1,8 +1,7 @@
-import re
 from pathlib import Path
-
 import pandas as pd
 import pyarrow.feather as feather
+import re
 
 
 def parse_benchmark_results(output):
@@ -67,7 +66,7 @@ def parse_performance_counters(output):
 
 
 def perf_output_to_series(file_path: Path):
-    with file_path.open(mode="r") as file:
+    with file_path.open(mode="r", encoding="utf-8", errors="ignore") as file:
         output = file.read()
 
     benchmark_summary = parse_benchmark_results(output)
@@ -92,12 +91,11 @@ def stack_perf_outputs(file_paths: list[Path]) -> pd.DataFrame:
 
     df = pd.DataFrame(series_list)
 
+    # Reset index to ensure it's clean before writing
+    df = df.reset_index(drop=True)
+
     # Reorder columns: counts first, then errors
-    count_cols = [
-        col
-        for col in df.columns
-        if "(% error)" not in col and col != "File Path"
-    ]
+    count_cols = [col for col in df.columns if "(% error)" not in col]
     error_cols = [col for col in df.columns if "(% error)" in col]
     other_cols = [
         col for col in df.columns if col not in count_cols + error_cols
@@ -110,23 +108,55 @@ def stack_perf_outputs(file_paths: list[Path]) -> pd.DataFrame:
 
 
 def save_dataframe_to_feather(df: pd.DataFrame, output_path: Path):
-    feather.write_feather(df, str(output_path))
+    temp_path = output_path.with_suffix(".tmp")  # Create a temporary file
+
+    # print("\n🔍 DEBUG: DataFrame Before Writing to Feather:")
+    # print(df.head(), "\nTotal Rows:", len(df))  # Print first few rows for debugging
+
+    df.reset_index(
+        drop=True, inplace=True
+    )  # Reset index to avoid index issues
+    feather.write_feather(df, str(temp_path))  # Write to the temp file
+    temp_path.replace(output_path)  # Atomically replace the old file
+
+    print(f"DataFrame saved to {output_path}")
+
+
+def build_detail_and_summary_dfs(data_dir: Path):
+    detailed_perf_output_files = [
+        path
+        for path in list(data_dir.iterdir())
+        if path.suffix == ".txt" and "summary" not in path.name
+    ]
+    detailed_feather_output_path = data_dir / "perf_detailed_runs.feather"
+    detailed_run_dataframe = stack_perf_outputs(detailed_perf_output_files)
+    save_dataframe_to_feather(
+        detailed_run_dataframe, detailed_feather_output_path
+    )
+
+    summary_perf_output_files = [
+        path
+        for path in list(data_dir.iterdir())
+        if path.suffix == ".txt" and "summary" in path.name
+    ]
+    summary_feather_output_path = data_dir / "perf_summary_runs.feather"
+    summary_run_dataframe = stack_perf_outputs(summary_perf_output_files)
+    save_dataframe_to_feather(
+        summary_run_dataframe, summary_feather_output_path
+    )
+
 
 
 def load_dataframe_from_feather(input_path: Path) -> pd.DataFrame:
-    return feather.read_feather(input_path)
+    df = feather.read_feather(input_path)
+
+    return df
+
 
 
 if __name__ == "__main__":
     my_data_dir = (
-        Path(__file__).parent.parent / "data" / "perf" / "2025-03-16_09-37-46"
+        Path(__file__).parent.parent / "data" / "perf" / "2025-03-17_07-10-24"
     )
-    my_perf_output_files = list(my_data_dir.iterdir())
-    my_feather_output_path = my_data_dir / "perf_summary.feather"
 
-    my_dataframe = stack_perf_outputs(my_perf_output_files)
-    save_dataframe_to_feather(my_dataframe, my_feather_output_path)
-
-    # Load the dataframe back and inspect
-    reloaded_dataframe = load_dataframe_from_feather(my_feather_output_path)
-    print(reloaded_dataframe.head())
+    build_detail_and_summary_dfs(my_data_dir)
