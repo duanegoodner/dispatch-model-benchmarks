@@ -209,6 +209,7 @@ class PerfTestRunner:
 
         print(self.test_run_header)
 
+        print("Running perf to collect detailed event data...")
         with self.output_path.open(mode="w") as output_file:
             process = subprocess.run(
                 self.command,
@@ -219,7 +220,7 @@ class PerfTestRunner:
             output_file.write(process.stdout)
         print(f"Results saved to: {self.output_path}")
 
-        print("Re-running to collect perf summary...")
+        print("Re-running perf to collect summary data...")
         with self.summary_output_path.open(mode="w") as summary_file:
             process = subprocess.run(
                 self.summary_command,

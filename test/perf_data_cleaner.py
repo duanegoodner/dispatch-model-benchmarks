@@ -123,6 +123,7 @@ def save_dataframe_to_feather(df: pd.DataFrame, output_path: Path):
 
 
 def build_detail_and_summary_dfs(data_dir: Path):
+    print(f"Building Dataframe from detailed perf output...")
     detailed_perf_output_files = [
         path
         for path in list(data_dir.iterdir())
@@ -134,6 +135,7 @@ def build_detail_and_summary_dfs(data_dir: Path):
         detailed_run_dataframe, detailed_feather_output_path
     )
 
+    print(f"Building Dataframe from summary perf output...")
     summary_perf_output_files = [
         path
         for path in list(data_dir.iterdir())
