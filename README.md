@@ -204,12 +204,22 @@ FMA Computation: Runtime Polymorphism Time = 0.00343413 seconds
 
 ## 🔎 Profiling with perf
 
-Python module `./test/perf_tests.py` can be used to run the benchmarks and save results as both raw `.txt` files and as cleaned `.feather` files that can be easily read into a Pandas DataFrame.
-
-### 🔹 Command Line Help
+### 🔹 Build with Profiling
 
 ```shell
-python test/perf_tests.py --help
+cmake -B build -DENABLE_PROFILING=ON
+cmake --build build
+```
+
+
+### 🔹 Automated Test Module
+
+Python module `./test/profiling/perf_tests.py` can be used to run the benchmarks and save results as both raw `.txt` files and as cleaned `.feather` files that can be easily read into a Pandas DataFrame.
+
+***For command line help, run:**
+
+```shell
+python test/profiling/perf_tests.py --help
 ```
 **Output:**
 ```
@@ -237,7 +247,7 @@ options:
 ### 🔹 Example: Profiling a Single Test Condition
 
 ```
-python test/perf_tests.py -p concepts -c fma
+python test/profiling/perf_tests.py -p concepts -c fma
 ```
 **Output:**
 ```
@@ -261,7 +271,7 @@ Note that there are two sets of runs for each condition: one for detailed perf o
 
 The default setting is to run 5 tests per condition and 1,000,000,000 iterations per test. We can customize these values with the `-r` and `-i` flags, respectively:
 ```
-python test/perf_tests.py -p crtp -c expensive -n 10 -i 50000000
+python test/profiling/perf_tests.py -p crtp -c expensive -n 10 -i 50000000
 ```
 **Output:**
 ```
@@ -278,28 +288,10 @@ Number of Iterations per Run = 50000000
 
 To run all possible combinations of polymorphism type and compute function, we can run the script without passing any arguments for `-p` or `-c`: 
 ```shell
-python test/perf_tests.py
+python test/profiling/perf_tests.py
 ```
 
-## 🔎 Profiling with `perf`
 
-
-### 🔹 Build with Profiling
-
-```shell
-cmake -B build -DENABLE_PROFILING=ON
-cmake --build build
-```
-
-### 🔹 Run Profiling Tests
-
-From the repo root, run:
-```shell
-./test/run_perf_tests.sh
-```
-To use a **custom number of iterations**:
-```shell
-./test/run_perf_tests.sh -n 80000000
 ```
 
 ### 🔹 Viewing Profiling Data
@@ -308,6 +300,8 @@ All profiling results will be saved in:
 ```
 ./data/perf/<timestamp-based-directory-name>/
 ```
+
+
 
 ### 📊 Results
 
