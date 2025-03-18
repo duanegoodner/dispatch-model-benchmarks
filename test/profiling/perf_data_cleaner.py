@@ -158,7 +158,7 @@ def load_dataframe_from_feather(input_path: Path) -> pd.DataFrame:
 
 if __name__ == "__main__":
     my_data_dir = (
-        Path(__file__).parent.parent / "data" / "perf" / "2025-03-17_07-10-24"
+        Path(__file__).parent.parent.parent / "data" / "perf" / "2025-03-17_07-10-24"
     )
 
     build_detail_and_summary_dfs(my_data_dir)

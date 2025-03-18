@@ -4,7 +4,7 @@ from pathlib import Path
 
 if __name__ == "__main__":
     data_dir = (
-        Path(__file__).parent.parent / "data" / "perf" / "2025-03-17_10-32-06"
+        Path(__file__).parent.parent.parent / "data" / "perf" / "2025-03-17_10-32-06"
     )
     detailed_df = feather.read_feather(data_dir / "perf_detailed_runs.feather")
     summary_df = feather.read_feather(data_dir / "perf_summary_runs.feather")

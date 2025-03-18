@@ -202,15 +202,18 @@ Iteration Count: 500000
 FMA Computation: Runtime Polymorphism Time = 0.00343413 seconds
 ```
 
-## 🔎 Profiling with perf
+## 🔎 Profiling with `perf`
+
+We can use the Linux tool `perf` to gain more insight into differences among various forms of polymorphism and compute functions.
 
 ### 🔹 Build with Profiling
+
+In order to use perf, we need to build with profiling enabled.
 
 ```shell
 cmake -B build -DENABLE_PROFILING=ON
 cmake --build build
 ```
-
 
 ### 🔹 Automated Test Module
 
@@ -291,9 +294,6 @@ To run all possible combinations of polymorphism type and compute function, we c
 python test/profiling/perf_tests.py
 ```
 
-
-```
-
 ### 🔹 Viewing Profiling Data
 
 All profiling results will be saved in:
@@ -301,9 +301,11 @@ All profiling results will be saved in:
 ./data/perf/<timestamp-based-directory-name>/
 ```
 
-
+Each timestamped output directory will include raw .txt data produced by `perf` as well as cleaned data in two `.feather` files: `perf_detailed_runs.feather` and `perf_summary_runs.feather`. THe former is generally more useful. Each of these can be imported into Python as a Pandas Dataframe. 
 
 ### 📊 Results
+
+This section contains `perf` data pulled from the `perf_detailed_runs.feather` file of a series of tests that ran all possible combinations of polymorphism types and compute functions.
 
 #### ⏱ Execution Time Comparison
 

@@ -50,7 +50,7 @@ class TestCondition:
 
 
 class PerfTestRunner:
-    _default_data_dir = Path(__file__).parent.parent / "data" / "perf"
+    _default_data_dir = Path(__file__).parent.parent.parent / "data" / "perf"
     _ignored_perf_categories = ["topdown_events"]
 
     def __init__(
