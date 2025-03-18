@@ -75,7 +75,7 @@ bool HandleHelpOption(int argc, char **argv) {
 std::optional<size_t> ParseIterationCount(
     int argc,
     char **argv,
-    int &arg_index,
+    // int &arg_index,
     int &remaining_argc
 ) {
   for (int i = 1; i < argc - 1; ++i) {
@@ -122,9 +122,9 @@ std::optional<size_t> ParseAndValidateArguments(
     char **argv,
     int &remaining_argc
 ) {
-  int arg_index = 1;
+  // int arg_index = 1;
   auto parsed_iterations =
-      ParseIterationCount(argc, argv, arg_index, remaining_argc);
+      ParseIterationCount(argc, argv, remaining_argc);
   return parsed_iterations.value_or(kDefaultNumIterations);
 }
 
