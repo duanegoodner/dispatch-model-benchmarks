@@ -1,5 +1,6 @@
 build/
 .vscode/
+.idea/
 data/run_all_tests_results/
 data/single_test_results/
 
