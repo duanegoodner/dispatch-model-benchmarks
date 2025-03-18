@@ -47,14 +47,14 @@ This project is designed with modularity and ease of modification in mind, makin
 
 ### 🔹 Requirements
 
-#### For Basic Execution Time Comparisons
+#### 🔹 For Basic Execution Time Comparisons
 
 - C++ compiler compatible with C++20 standard
 - git
 - cmake
 - Miniconda or Conda (optional, )
 
-#### For Detailed Profiling
+#### 🔹 For Detailed Profiling
 
 - A Linux system with `perf` installed and a user with `sudo` privileges
 - Conda or Miniconda (optional, but recommended for easy creation of Python environment for running automated tests)
@@ -82,7 +82,7 @@ cmake -B build
 cmake --build build
 ```
 
-#### 🔹CMake Configuration Options
+#### 🔹 CMake Configuration Options
 
 The default compiler flags specified by `CMakeLists.txt` are `-O3 -march=native`. The following CMake confiuration options are also available.
 
@@ -152,7 +152,7 @@ Other Options:
   -s                  Save execution time data
 ```
 
-### 🔹Benchmarking all Conditions
+### 🔹 Benchmarking all Conditions
 To run all possible combinations of polymorphism type and compute function, and save the execution time data, run:
 
 ```shell
@@ -340,6 +340,9 @@ options:
                         Name of data-containing directory under ./data/perf/ (default =
                         view_dfs.DEFAULT_DATA_DIR_NAME)
 ```
+
+> [!NOTE]
+> Data in the **Results** section below were generated using the `view_dfs` module.
 
 #### 🔹 Collecting Additional `perf` Events
 
