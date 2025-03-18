@@ -105,6 +105,15 @@ cmake -B build -DENABLE_PROFILING=ON
 ```
 will cause the compiler flags to be `-O3 -march=native -pg`.
 
+## 🧪 Testing Core Functionality
+
+Before running benchmarks and profiling, we can verify the functionality of all core components using automated tests built with [GoogleTest](https://github.com/google/googletest). The test source code is located in `./test/core/`.  
+
+To run all tests, use the provided script:
+
+```bash
+./test/core/run_tests.sh
+```
 
 ## 🏃 Running the Benchmarks (without profiling)
 
@@ -142,7 +151,7 @@ Other Options:
   -s                  Save execution time data
 ```
 
-### 🔹 Running All Tests
+### 🔹Benchmarking all Conditions
 To run all possible combinations of polymorphism type and compute function, and save the execution time data, run:
 
 ```shell
