@@ -349,9 +349,16 @@ options:
 The specific `perf` events collected by `./test/profiling/perf_test.py` are specified in `./tests/profiling/perf_events.json`. The content of this file can be customized to collect additional `perf` events.
 
 
-### 📊 Results
+## 📊 Running `perf` with Max (-O3) Compiler Optimization
 
-This section contains `perf` data pulled from the `perf_detailed_runs.feather` file of a series of tests that ran all possible combinations of polymorphism types and compute functions.
+This section describes test conditions and results of `perf` profiling performed with the most aggressive compiler optimizations (-O3).
+
+### Experimental Setup
+
+- CPU = 13th Gen Intel(R) Core(TM) i7-13700K
+- OS = Debian 12.9
+- Linux Kernel = 6.1.0-31-amd64
+- Compiler = GCC 12.2.0
 
 #### ⏱ Execution Time Comparison
 
