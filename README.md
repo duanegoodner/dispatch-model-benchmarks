@@ -272,7 +272,7 @@ Note that there are two sets of runs for each condition: one for detailed perf o
 
 ### 🔹 Customizing Number of Iterations
 
-The default setting is to run 5 tests per condition and 1,000,000,000 iterations per test. We can customize these values with the `-r` and `-i` flags, respectively:
+The default setting is to run 5 tests per condition and 1e+9 iterations per test. We can customize these values with the `-r` and `-i` flags, respectively:
 ```
 python test/profiling/perf_tests.py -p crtp -c expensive -n 10 -i 50000000
 ```
@@ -322,7 +322,7 @@ This section contains `perf` data pulled from the `perf_detailed_runs.feather` f
 - **CRTP and Concepts are closely matched**, with negligible performance differences between FMA and Expensive
 ---
 
-#### 📝 Instructions and Micro-Operations
+#### 📝 Instructions and Micro Ops
 
 | Polymorphism Condition | Compute Function |   Mean Time |   Instructions | Micro Ops |
 |:-----------------------|:-----------------|------------:|---------------:|----------:|
@@ -334,12 +334,14 @@ This section contains `perf` data pulled from the `perf_detailed_runs.feather` f
 | CRTP                  | Expensive        |    0.37642  |      4.003e+09 |  3.01e+09 |
 #### ✅ Observations:
 
-- **Runtime Polymorphism (RP) has significantly higher instruction and micro-operation counts** compared to CRTP/Concepts.
-- For CRTP/Concepts, Micro Ops counts are lower than Instruction counts, suggesting aggressive optimization by the compiler.
+- **RP has significantly higher instruction and Micro Ops counts**: ~10x higher for FMA, and ~50x higher for Expensive.
+- For **CRTP/Concepts, Micro Ops counts are lower than Instruction counts**, suggesting aggressive optimization by the compiler.
+
+---
 
 
-#### 🔄 CPU Instructions, Micro-Operations, and Branching Analysis
-| Polymorphism Condition | Compute Function |   branches |   branch-misses |   miss_fraction |
+#### 🔀 Branching Analysis
+| Polymorphism Condition | Compute Function |   Branches |   Branch Misses |   Miss Fraction |
 |:-----------------------|:-----------------|-----------:|----------------:|----------------:|
 | Runtime               | FMA              |  8.008e+09 |           13410 |       1.675e-06 |
 | Runtime               | Expensive        |  2.699e+10 |           31860 |       1.18e-06  |
@@ -349,9 +351,7 @@ This section contains `perf` data pulled from the `perf_detailed_runs.feather` f
 | CRTP                  | Expensive        |  1.004e+09 |             966 |       9.618e-07 |
 
 #### ✅ Observations:
-- **Runtime Polymorphism (RP) has significantly higher instruction and branch counts** compared to CRTP/Concepts.
-- **RP Expensive requires 4.3x more instructions than RP FMA**, which aligns with the added branching complexity.
-- **Branching in RP Expensive is 3.4x higher than RP FMA**, further highlighting control flow overhead.
+- **Runtime Polymorphism (RP) has significantly higher branch counts** compared to CRTP/Concepts (8x higher for FMA, and 27x higher for Expensive).
 - Branch prediction misses are low across all conditions.
 
 ---
@@ -369,10 +369,11 @@ This section contains `perf` data pulled from the `perf_detailed_runs.feather` f
 | CRTP                  | Expensive        |  9.40e+04 | 1.78e+05    | 7.25e+04     | 4.08e-01           |
 
 #### ✅ Observations:
-- Runtime polymorphism has **5 orders of magnitude more stores and loads** than CRTP/Concepts.
-- Runtime Expensive has ~40% more stores and ~2.8x more loads than Runtime FMA.
-- CRTP / Concepts have much higher cache miss rate than RP, but still run much faster due to lower overall workload.
+- **Runtime polymorphism: 5 orders of magnitude more stores and loads** than CRTP/Concepts.
+- **Runtime Expensive** has ~40% more stores and ~2.8x more loads than Runtime FMA.
+- **CRTP / Concepts have much higher cache miss rate** than RP, but still run much faster due to lower overall workload.
 
+---
 
 ### 🔑 Key Insights
 
