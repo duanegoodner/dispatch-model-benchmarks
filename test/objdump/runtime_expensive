@@ -1,0 +1,44 @@
+0000000000007560 <_ZN18polymorphism_tests20TestRuntimeExpensiveEm>:
+    7560:	41 54                	push   %r12
+    7562:	48 8d 05 bf 74 00 00 	lea    0x74bf(%rip),%rax        # ea28 <_ZTVN20runtime_polymorphism13PolyExpensiveE+0x10>
+    7569:	55                   	push   %rbp
+    756a:	53                   	push   %rbx
+    756b:	48 89 fb             	mov    %rdi,%rbx
+    756e:	bf 17 00 00 00       	mov    $0x17,%edi
+    7573:	48 83 ec 30          	sub    $0x30,%rsp
+    7577:	48 8d 6c 24 20       	lea    0x20(%rsp),%rbp
+    757c:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+    7581:	4c 8d 64 24 10       	lea    0x10(%rsp),%r12
+    7586:	48 89 6c 24 10       	mov    %rbp,0x10(%rsp)
+    758b:	e8 20 bd ff ff       	call   32b0 <_Znwm@plt>
+    7590:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx
+    7595:	48 89 de             	mov    %rbx,%rsi
+    7598:	4c 89 e7             	mov    %r12,%rdi
+    759b:	c5 f9 6f 05 4d 40 00 	vmovdqa 0x404d(%rip),%xmm0        # b5f0 <_ZTSN20runtime_polymorphism13PolyExpensiveE+0xb0>
+    75a2:	00 
+    75a3:	c6 40 16 00          	movb   $0x0,0x16(%rax)
+    75a7:	48 b9 75 74 61 74 69 	movabs $0x3a6e6f6974617475,%rcx
+    75ae:	6f 6e 3a 
+    75b1:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+    75b6:	c5 fa 7f 00          	vmovdqu %xmm0,(%rax)
+    75ba:	48 89 48 0e          	mov    %rcx,0xe(%rax)
+    75be:	48 c7 44 24 20 16 00 	movq   $0x16,0x20(%rsp)
+    75c5:	00 00 
+    75c7:	48 c7 44 24 18 16 00 	movq   $0x16,0x18(%rsp)
+    75ce:	00 00 
+    75d0:	e8 eb f0 ff ff       	call   66c0 <_ZN20runtime_polymorphism23TestRuntimePolymorphismERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRNS_11RuntimeBaseE>
+    75d5:	48 8b 7c 24 10       	mov    0x10(%rsp),%rdi
+    75da:	48 39 ef             	cmp    %rbp,%rdi
+    75dd:	74 0e                	je     75ed <_ZN18polymorphism_tests20TestRuntimeExpensiveEm+0x8d>
+    75df:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+    75e4:	48 8d 70 01          	lea    0x1(%rax),%rsi
+    75e8:	e8 d3 bc ff ff       	call   32c0 <_ZdlPvm@plt>
+    75ed:	48 83 c4 30          	add    $0x30,%rsp
+    75f1:	5b                   	pop    %rbx
+    75f2:	5d                   	pop    %rbp
+    75f3:	41 5c                	pop    %r12
+    75f5:	c3                   	ret
+    75f6:	48 89 c3             	mov    %rax,%rbx
+    75f9:	e9 69 c1 ff ff       	jmp    3767 <_ZN18polymorphism_tests20TestRuntimeExpensiveEm.cold>
+    75fe:	66 90                	xchg   %ax,%ax
+

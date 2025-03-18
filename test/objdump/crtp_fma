@@ -1,0 +1,216 @@
+0000000000007600 <_ZN18polymorphism_tests11TestCRTPFMAEm>:
+    7600:	41 54                	push   %r12
+    7602:	55                   	push   %rbp
+    7603:	53                   	push   %rbx
+    7604:	48 89 fb             	mov    %rdi,%rbx
+    7607:	bf 11 00 00 00       	mov    $0x11,%edi
+    760c:	48 83 ec 30          	sub    $0x30,%rsp
+    7610:	48 8d 6c 24 20       	lea    0x20(%rsp),%rbp
+    7615:	4c 8d 64 24 10       	lea    0x10(%rsp),%r12
+    761a:	48 89 6c 24 10       	mov    %rbp,0x10(%rsp)
+    761f:	e8 8c bc ff ff       	call   32b0 <_Znwm@plt>
+    7624:	48 8d 54 24 0f       	lea    0xf(%rsp),%rdx
+    7629:	48 89 de             	mov    %rbx,%rsi
+    762c:	4c 89 e7             	mov    %r12,%rdi
+    762f:	c5 f9 6f 05 a9 3f 00 	vmovdqa 0x3fa9(%rip),%xmm0        # b5e0 <_ZTSN20runtime_polymorphism13PolyExpensiveE+0xa0>
+    7636:	00 
+    7637:	c6 40 10 00          	movb   $0x0,0x10(%rax)
+    763b:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+    7640:	c5 fa 7f 00          	vmovdqu %xmm0,(%rax)
+    7644:	48 c7 44 24 20 10 00 	movq   $0x10,0x20(%rsp)
+    764b:	00 00 
+    764d:	48 c7 44 24 18 10 00 	movq   $0x10,0x18(%rsp)
+    7654:	00 00 
+    7656:	e8 85 f3 ff ff       	call   69e0 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_>
+    765b:	48 8b 7c 24 10       	mov    0x10(%rsp),%rdi
+    7660:	48 39 ef             	cmp    %rbp,%rdi
+    7663:	74 0e                	je     7673 <_ZN18polymorphism_tests11TestCRTPFMAEm+0x73>
+    7665:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+    766a:	48 8d 70 01          	lea    0x1(%rax),%rsi
+    766e:	e8 4d bc ff ff       	call   32c0 <_ZdlPvm@plt>
+    7673:	48 83 c4 30          	add    $0x30,%rsp
+    7677:	5b                   	pop    %rbx
+    7678:	5d                   	pop    %rbp
+    7679:	41 5c                	pop    %r12
+    767b:	c3                   	ret
+    767c:	48 89 c3             	mov    %rax,%rbx
+    767f:	e9 0b c1 ff ff       	jmp    378f <_ZN18polymorphism_tests11TestCRTPFMAEm.cold>
+    7684:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+    768b:	00 00 00 00 
+    768f:	90                   	nop
+
+
+    00000000000069e0 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_>:
+    69e0:	41 57                	push   %r15
+    69e2:	41 56                	push   %r14
+    69e4:	41 55                	push   %r13
+    69e6:	41 54                	push   %r12
+    69e8:	55                   	push   %rbp
+    69e9:	53                   	push   %rbx
+    69ea:	48 89 f3             	mov    %rsi,%rbx
+    69ed:	48 83 ec 38          	sub    $0x38,%rsp
+    69f1:	48 8b 6f 08          	mov    0x8(%rdi),%rbp
+    69f5:	4c 8b 2f             	mov    (%rdi),%r13
+    69f8:	4c 8d 64 24 20       	lea    0x20(%rsp),%r12
+    69fd:	4c 89 64 24 10       	mov    %r12,0x10(%rsp)
+    6a02:	48 83 fd 0f          	cmp    $0xf,%rbp
+    6a06:	0f 87 14 01 00 00    	ja     6b20 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x140>
+    6a0c:	48 83 fd 01          	cmp    $0x1,%rbp
+    6a10:	0f 85 fa 00 00 00    	jne    6b10 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x130>
+    6a16:	41 0f b6 45 00       	movzbl 0x0(%r13),%eax
+    6a1b:	88 44 24 20          	mov    %al,0x20(%rsp)
+    6a1f:	4c 89 e0             	mov    %r12,%rax
+    6a22:	48 89 6c 24 18       	mov    %rbp,0x18(%rsp)
+    6a27:	c6 04 28 00          	movb   $0x0,(%rax,%rbp,1)
+    6a2b:	48 8b 6c 24 18       	mov    0x18(%rsp),%rbp
+    6a30:	48 b8 ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rax
+    6a37:	ff ff 7f 
+    6a3a:	48 29 e8             	sub    %rbp,%rax
+    6a3d:	48 83 f8 11          	cmp    $0x11,%rax
+    6a41:	0f 86 c9 01 00 00    	jbe    6c10 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x230>
+    6a47:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+    6a4c:	4c 8d 6d 12          	lea    0x12(%rbp),%r13
+    6a50:	4c 39 e0             	cmp    %r12,%rax
+    6a53:	0f 84 9f 01 00 00    	je     6bf8 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x218>
+    6a59:	4c 8b 74 24 20       	mov    0x20(%rsp),%r14
+    6a5e:	4d 39 ee             	cmp    %r13,%r14
+    6a61:	0f 82 f9 00 00 00    	jb     6b60 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x180>
+    6a67:	48 01 e8             	add    %rbp,%rax
+    6a6a:	c5 f9 6f 05 3e 4b 00 	vmovdqa 0x4b3e(%rip),%xmm0        # b5b0 <_ZTSN20runtime_polymorphism13PolyExpensiveE+0x70>
+    6a71:	00 
+    6a72:	b9 73 6d 00 00       	mov    $0x6d73,%ecx
+    6a77:	66 89 48 10          	mov    %cx,0x10(%rax)
+    6a7b:	c5 fa 7f 00          	vmovdqu %xmm0,(%rax)
+    6a7f:	4c 8b 7c 24 10       	mov    0x10(%rsp),%r15
+    6a84:	4c 89 6c 24 18       	mov    %r13,0x18(%rsp)
+    6a89:	41 c6 44 2f 12 00    	movb   $0x0,0x12(%r15,%rbp,1)
+    6a8f:	e8 bc c5 ff ff       	call   3050 <_ZNSt6chrono3_V212system_clock3nowEv@plt>
+    6a94:	c5 f9 57 c0          	vxorpd %xmm0,%xmm0,%xmm0
+    6a98:	48 89 c5             	mov    %rax,%rbp
+    6a9b:	48 85 db             	test   %rbx,%rbx
+    6a9e:	74 1d                	je     6abd <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0xdd>
+    6aa0:	c5 fb 10 0d f8 4a 00 	vmovsd 0x4af8(%rip),%xmm1        # b5a0 <_ZTSN20runtime_polymorphism13PolyExpensiveE+0x60>
+    6aa7:	00 
+    6aa8:	31 d2                	xor    %edx,%edx
+    6aaa:	c5 f9 57 c0          	vxorpd %xmm0,%xmm0,%xmm0
+    6aae:	66 90                	xchg   %ax,%ax
+    6ab0:	48 83 c2 01          	add    $0x1,%rdx
+    6ab4:	c5 fb 58 c1          	vaddsd %xmm1,%xmm0,%xmm0
+    6ab8:	48 39 d3             	cmp    %rdx,%rbx
+    6abb:	75 f3                	jne    6ab0 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0xd0>
+    6abd:	c5 fb 11 05 b3 89 00 	vmovsd %xmm0,0x89b3(%rip)        # f478 <prevent_optimization>
+    6ac4:	00 
+    6ac5:	e8 86 c5 ff ff       	call   3050 <_ZNSt6chrono3_V212system_clock3nowEv@plt>
+    6aca:	c5 f8 57 c0          	vxorps %xmm0,%xmm0,%xmm0
+    6ace:	48 8d 7c 24 10       	lea    0x10(%rsp),%rdi
+    6ad3:	48 29 e8             	sub    %rbp,%rax
+    6ad6:	c4 e1 fb 2a c0       	vcvtsi2sd %rax,%xmm0,%xmm0
+    6adb:	c5 fb 5e 05 a5 49 00 	vdivsd 0x49a5(%rip),%xmm0,%xmm0        # b488 <_IO_stdin_used+0x488>
+    6ae2:	00 
+    6ae3:	e8 c8 e7 ff ff       	call   52b0 <_Z9PrintTimeRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEENSt6chrono8durationIdSt5ratioILl1ELl1EEEE>
+    6ae8:	48 8b 7c 24 10       	mov    0x10(%rsp),%rdi
+    6aed:	4c 39 e7             	cmp    %r12,%rdi
+    6af0:	74 0e                	je     6b00 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x120>
+    6af2:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+    6af7:	48 8d 70 01          	lea    0x1(%rax),%rsi
+    6afb:	e8 c0 c7 ff ff       	call   32c0 <_ZdlPvm@plt>
+    6b00:	48 83 c4 38          	add    $0x38,%rsp
+    6b04:	5b                   	pop    %rbx
+    6b05:	5d                   	pop    %rbp
+    6b06:	41 5c                	pop    %r12
+    6b08:	41 5d                	pop    %r13
+    6b0a:	41 5e                	pop    %r14
+    6b0c:	41 5f                	pop    %r15
+    6b0e:	c3                   	ret
+    6b0f:	90                   	nop
+    6b10:	48 85 ed             	test   %rbp,%rbp
+    6b13:	0f 84 06 ff ff ff    	je     6a1f <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x3f>
+    6b19:	4c 89 e7             	mov    %r12,%rdi
+    6b1c:	eb 2a                	jmp    6b48 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x168>
+    6b1e:	66 90                	xchg   %ax,%ax
+    6b20:	48 85 ed             	test   %rbp,%rbp
+    6b23:	0f 88 ff 00 00 00    	js     6c28 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x248>
+    6b29:	48 89 ef             	mov    %rbp,%rdi
+    6b2c:	48 83 c7 01          	add    $0x1,%rdi
+    6b30:	0f 88 d5 00 00 00    	js     6c0b <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x22b>
+    6b36:	e8 75 c7 ff ff       	call   32b0 <_Znwm@plt>
+    6b3b:	48 89 6c 24 20       	mov    %rbp,0x20(%rsp)
+    6b40:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+    6b45:	48 89 c7             	mov    %rax,%rdi
+    6b48:	48 89 ea             	mov    %rbp,%rdx
+    6b4b:	4c 89 ee             	mov    %r13,%rsi
+    6b4e:	e8 1d c7 ff ff       	call   3270 <memcpy@plt>
+    6b53:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+    6b58:	e9 c5 fe ff ff       	jmp    6a22 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x42>
+    6b5d:	0f 1f 00             	nopl   (%rax)
+    6b60:	4d 85 ed             	test   %r13,%r13
+    6b63:	0f 88 b3 00 00 00    	js     6c1c <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x23c>
+    6b69:	4d 01 f6             	add    %r14,%r14
+    6b6c:	4d 39 f5             	cmp    %r14,%r13
+    6b6f:	72 7a                	jb     6beb <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x20b>
+    6b71:	4d 89 ee             	mov    %r13,%r14
+    6b74:	4c 89 f7             	mov    %r14,%rdi
+    6b77:	48 83 c7 01          	add    $0x1,%rdi
+    6b7b:	78 73                	js     6bf0 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x210>
+    6b7d:	e8 2e c7 ff ff       	call   32b0 <_Znwm@plt>
+    6b82:	48 8b 4c 24 10       	mov    0x10(%rsp),%rcx
+    6b87:	49 89 c7             	mov    %rax,%r15
+    6b8a:	48 85 ed             	test   %rbp,%rbp
+    6b8d:	74 1e                	je     6bad <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x1cd>
+    6b8f:	48 83 fd 01          	cmp    $0x1,%rbp
+    6b93:	74 6e                	je     6c03 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x223>
+    6b95:	48 89 ce             	mov    %rcx,%rsi
+    6b98:	48 89 ea             	mov    %rbp,%rdx
+    6b9b:	48 89 c7             	mov    %rax,%rdi
+    6b9e:	48 89 4c 24 08       	mov    %rcx,0x8(%rsp)
+    6ba3:	e8 c8 c6 ff ff       	call   3270 <memcpy@plt>
+    6ba8:	48 8b 4c 24 08       	mov    0x8(%rsp),%rcx
+    6bad:	c5 f9 6f 05 fb 49 00 	vmovdqa 0x49fb(%rip),%xmm0        # b5b0 <_ZTSN20runtime_polymorphism13PolyExpensiveE+0x70>
+    6bb4:	00 
+    6bb5:	49 8d 04 2f          	lea    (%r15,%rbp,1),%rax
+    6bb9:	ba 73 6d 00 00       	mov    $0x6d73,%edx
+    6bbe:	66 89 50 10          	mov    %dx,0x10(%rax)
+    6bc2:	c5 fa 7f 00          	vmovdqu %xmm0,(%rax)
+    6bc6:	4c 39 e1             	cmp    %r12,%rcx
+    6bc9:	74 11                	je     6bdc <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x1fc>
+    6bcb:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+    6bd0:	48 89 cf             	mov    %rcx,%rdi
+    6bd3:	48 8d 70 01          	lea    0x1(%rax),%rsi
+    6bd7:	e8 e4 c6 ff ff       	call   32c0 <_ZdlPvm@plt>
+    6bdc:	4c 89 7c 24 10       	mov    %r15,0x10(%rsp)
+    6be1:	4c 89 74 24 20       	mov    %r14,0x20(%rsp)
+    6be6:	e9 99 fe ff ff       	jmp    6a84 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0xa4>
+    6beb:	4d 85 f6             	test   %r14,%r14
+    6bee:	79 84                	jns    6b74 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x194>
+    6bf0:	e8 eb c4 ff ff       	call   30e0 <_ZSt17__throw_bad_allocv@plt>
+    6bf5:	0f 1f 00             	nopl   (%rax)
+    6bf8:	41 be 0f 00 00 00    	mov    $0xf,%r14d
+    6bfe:	e9 5b fe ff ff       	jmp    6a5e <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x7e>
+    6c03:	0f b6 01             	movzbl (%rcx),%eax
+    6c06:	41 88 07             	mov    %al,(%r15)
+    6c09:	eb a2                	jmp    6bad <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x1cd>
+    6c0b:	e8 d0 c4 ff ff       	call   30e0 <_ZSt17__throw_bad_allocv@plt>
+    6c10:	48 8d 3d 79 48 00 00 	lea    0x4879(%rip),%rdi        # b490 <_IO_stdin_used+0x490>
+    6c17:	e8 34 c5 ff ff       	call   3150 <_ZSt20__throw_length_errorPKc@plt>
+    6c1c:	48 8d 3d 48 47 00 00 	lea    0x4748(%rip),%rdi        # b36b <_IO_stdin_used+0x36b>
+    6c23:	e8 28 c5 ff ff       	call   3150 <_ZSt20__throw_length_errorPKc@plt>
+    6c28:	48 8d 3d 3c 47 00 00 	lea    0x473c(%rip),%rdi        # b36b <_IO_stdin_used+0x36b>
+    6c2f:	e8 1c c5 ff ff       	call   3150 <_ZSt20__throw_length_errorPKc@plt>
+    6c34:	48 89 c3             	mov    %rax,%rbx
+    6c37:	eb 02                	jmp    6c3b <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x25b>
+    6c39:	eb f9                	jmp    6c34 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x254>
+    6c3b:	48 8b 7c 24 10       	mov    0x10(%rsp),%rdi
+    6c40:	4c 39 e7             	cmp    %r12,%rdi
+    6c43:	74 19                	je     6c5e <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x27e>
+    6c45:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+    6c4a:	48 8d 70 01          	lea    0x1(%rax),%rsi
+    6c4e:	c5 f8 77             	vzeroupper
+    6c51:	e8 6a c6 ff ff       	call   32c0 <_ZdlPvm@plt>
+    6c56:	48 89 df             	mov    %rbx,%rdi
+    6c59:	e8 b2 c7 ff ff       	call   3410 <_Unwind_Resume@plt>
+    6c5e:	c5 f8 77             	vzeroupper
+    6c61:	eb f3                	jmp    6c56 <_ZN17crtp_polymorphism20TestCRTPPolymorphismINS_7PolyFMAEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRT_+0x276>
+    6c63:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+    6c6a:	00 00 00 
+    6c6d:	0f 1f 00             	nopl   (%rax)
+

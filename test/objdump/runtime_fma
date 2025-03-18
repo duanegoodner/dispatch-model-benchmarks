@@ -1,0 +1,39 @@
+00000000000074d0 <_ZN18polymorphism_tests14TestRuntimeFMAEm>:
+    74d0:	41 54                	push   %r12
+    74d2:	48 8d 05 27 75 00 00 	lea    0x7527(%rip),%rax        # ea00 <_ZTVN20runtime_polymorphism7PolyFMAE+0x10>
+    74d9:	55                   	push   %rbp
+    74da:	53                   	push   %rbx
+    74db:	48 89 fb             	mov    %rdi,%rbx
+    74de:	bf 11 00 00 00       	mov    $0x11,%edi
+    74e3:	48 83 ec 30          	sub    $0x30,%rsp
+    74e7:	48 8d 6c 24 20       	lea    0x20(%rsp),%rbp
+    74ec:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+    74f1:	4c 8d 64 24 10       	lea    0x10(%rsp),%r12
+    74f6:	48 89 6c 24 10       	mov    %rbp,0x10(%rsp)
+    74fb:	e8 b0 bd ff ff       	call   32b0 <_Znwm@plt>
+    7500:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx
+    7505:	48 89 de             	mov    %rbx,%rsi
+    7508:	4c 89 e7             	mov    %r12,%rdi
+    750b:	c5 f9 6f 05 cd 40 00 	vmovdqa 0x40cd(%rip),%xmm0        # b5e0 <_ZTSN20runtime_polymorphism13PolyExpensiveE+0xa0>
+    7512:	00 
+    7513:	c6 40 10 00          	movb   $0x0,0x10(%rax)
+    7517:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+    751c:	c5 fa 7f 00          	vmovdqu %xmm0,(%rax)
+    7520:	48 c7 44 24 20 10 00 	movq   $0x10,0x20(%rsp)
+    7527:	00 00 
+    7529:	48 c7 44 24 18 10 00 	movq   $0x10,0x18(%rsp)
+    7530:	00 00 
+    7532:	e8 89 f1 ff ff       	call   66c0 <_ZN20runtime_polymorphism23TestRuntimePolymorphismERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEmRNS_11RuntimeBaseE>
+    7537:	48 8b 7c 24 10       	mov    0x10(%rsp),%rdi
+    753c:	48 39 ef             	cmp    %rbp,%rdi
+    753f:	74 0e                	je     754f <_ZN18polymorphism_tests14TestRuntimeFMAEm+0x7f>
+    7541:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+    7546:	48 8d 70 01          	lea    0x1(%rax),%rsi
+    754a:	e8 71 bd ff ff       	call   32c0 <_ZdlPvm@plt>
+    754f:	48 83 c4 30          	add    $0x30,%rsp
+    7553:	5b                   	pop    %rbx
+    7554:	5d                   	pop    %rbp
+    7555:	41 5c                	pop    %r12
+    7557:	c3                   	ret
+    7558:	48 89 c3             	mov    %rax,%rbx
+    755b:	e9 df c1 ff ff       	jmp    373f <_ZN18polymorphism_tests14TestRuntimeFMAEm.cold>

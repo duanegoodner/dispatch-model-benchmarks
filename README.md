@@ -5,8 +5,8 @@
 - This project benchmarks Runtime Polymorphism vs. Compile-Time Polymorphism (CRTP & C++20 Concepts).
 - Two compute functions are tested: one simple, one complex.
 - CRTP and C++20 Concepts are significantly faster than Runtime Polymorphism, with the gap widening for more complex computations.
+- For the more complex computation, Runtime Polymorphism shows: 17x longer runtime, 27x more branches, 50x more instructions, and 5 orders of magnitude more memory accesses.
 - CRTP and Concepts perform nearly identically.
-- Runtime Polymorphism is slower due to higher instruction counts, more branches, reduced compiler optimizations and massively higher (5 orders of magnitude) memory access.
 
 
 
@@ -375,14 +375,26 @@ This section contains `perf` data pulled from the `perf_detailed_runs.feather` f
 
 ---
 
+
 ### 🔑 Key Insights
 
 #### 🏎 1️⃣ CRTP and Concepts are significantly faster than Runtime Polymorphism
 - RP requires more instructions & branches and massively higher memory access than CRTP/Concepts.
 - Virtual function calls likely account for the large gap, with a much more pronounced slowdown in the Expensive function.
+- The heap-to-stack usage ratio is likely higher for RP which would contribute to its higher memory access needs. 
 - Uops : Instruction ratios clearly indicate more aggressive compiler optimization for CRTP/Concepts than RP. 
 
 
 #### ⚖️ 2️⃣ CRTP and Concepts are identical
 - CRTP and Concepts retire the same number of instructions & branches.
 - Aggressive compiler optimizations likely explain why the Expensive computation is not heavier than FMA.
+
+
+### Further Investigation
+
+#### Assembly Code Review with `objdump`
+- Assambly code review with `objdump` is underway.
+- Code extracted as part of this analysis saved under `./test/objdump/`
+
+
+
