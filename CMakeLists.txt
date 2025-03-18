@@ -105,6 +105,10 @@ set(SRC_FILES
 # BUILD TESTS
 # ===========================
 
+
+# Define test output directory
+set(TEST_OUTPUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test)
+
 add_executable(test_cli_utils test/core/test_cli_utils.cpp ${SRC_FILES})
 target_include_directories(test_cli_utils PRIVATE include)
 target_link_libraries(
@@ -112,9 +116,15 @@ target_link_libraries(
     GTest::gtest_main
     )
 
+# Ensure test_cli_utils is placed in ./build/bin/test/
+set_target_properties(test_cli_utils PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIR})
+
 add_executable(test_benchmark_utils test/core/test_benchmark_utils.cpp ${SRC_FILES})
 target_include_directories(test_benchmark_utils PRIVATE include)
 target_link_libraries(test_benchmark_utils PRIVATE GTest::gtest_main)
+
+# Ensure test_benchmark_utils is placed in ./build/bin/test/
+set_target_properties(test_benchmark_utils PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIR})
 
 
 # ===========================
