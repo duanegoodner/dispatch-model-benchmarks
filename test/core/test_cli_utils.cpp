@@ -1,5 +1,5 @@
-#include "cli_utils.hpp"
 #include <gtest/gtest.h>
+#include "cli_utils.hpp"
 
 class CLIUtilsTest : public ::testing::Test {};
 
