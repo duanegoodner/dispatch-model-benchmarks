@@ -25,7 +25,7 @@ bool IsValidComputation(
 
 // Parses an optional "-n [iterations]" argument
 std::optional<size_t>
-ParseIterationCount(int argc, char **argv, int &arg_index, int &remaining_argc);
+ParseIterationCount(int argc, char **argv, int &remaining_argc);
 
 // Parses the "-s" flag to enable saving execution time data
 bool ParseSaveExecutionTimesFlag(int argc, char **argv, int &remaining_argc);
