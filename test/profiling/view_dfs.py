@@ -1,8 +1,26 @@
+import argparse
 from functools import cached_property
+from pathlib import Path
 
 import pandas as pd
 import pyarrow.feather as feather
-from pathlib import Path
+
+
+DEFAULT_DATA_DIR_NAME = "2025-03-18_14-01-51"
+
+
+def get_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Analyze and display performance data."
+    )
+    parser.add_argument(
+        "-d",
+        "--data_dir",
+        type=str,
+        help="Name of data-containing directory under ./data/perf/"
+        "(default = view_dfs.DEFAULT_DATA_DIR_NAME)",
+    )
+    return parser.parse_args()
 
 
 class PerfDataAnalyzer:
@@ -41,10 +59,7 @@ class PerfDataAnalyzer:
 
     def display_basic_work_df(self):
         basic_work_copy = self.basic_work_df.copy()
-        basic_work_formatted = basic_work_copy.map(
-            lambda x: f"{x:.3e}" if isinstance(x, int) else x
-        )
-        print(basic_work_formatted.to_markdown(index=False))
+        print(basic_work_copy.to_markdown(index=False))
 
     @cached_property
     def branch_info_df(self) -> pd.DataFrame:
@@ -56,10 +71,7 @@ class PerfDataAnalyzer:
 
     def display_branch_info_df(self):
         branch_info_copy = self.branch_info_df.copy()
-        branch_info_formatted = branch_info_copy.map(
-            lambda x: f"{x:.3e}" if isinstance(x, int | float) else x
-        )
-        print(branch_info_formatted.to_markdown(index=False))
+        print(branch_info_copy.to_markdown(index=False))
 
     @cached_property
     def memory_info_df(self) -> pd.DataFrame:
@@ -79,22 +91,29 @@ class PerfDataAnalyzer:
 
     def display_memory_info_df(self):
         memory_info_copy = self.memory_info_df.copy()
-        memory_info_formatted = memory_info_copy.map(
-            lambda x: f"{x:.3e}" if isinstance(x, int | float) else x
-        )
-
-        print(memory_info_formatted.to_markdown(index=False))
+        print(memory_info_copy.to_markdown(index=False))
 
 
 if __name__ == "__main__":
+    args = get_args()
+
+    my_data_dir_name = (
+        args.data_dir if args.data_dir else DEFAULT_DATA_DIR_NAME
+    )
+
     my_data_dir = (
         Path(__file__).parent.parent.parent
         / "data"
         / "perf"
-        / "2025-03-18_12-35-11"
+        / my_data_dir_name
     )
 
+    print(f"Viewing data from:\n" f"{str(my_data_dir)}")
+
     data_analyzer = PerfDataAnalyzer(data_dir=my_data_dir)
+    print()
     data_analyzer.display_basic_work_df()
+    print()
     data_analyzer.display_branch_info_df()
+    print()
     data_analyzer.display_memory_info_df()

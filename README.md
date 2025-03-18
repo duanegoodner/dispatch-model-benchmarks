@@ -52,11 +52,12 @@ This project is designed with modularity and ease of modification in mind, makin
 - C++ compiler compatible with C++20 standard
 - git
 - cmake
+- Miniconda or Conda (optional, )
 
-#### For Detailed Profiling (Optional)
+#### For Detailed Profiling
 
-- A Linux system with `perf` installed is required to perform the same profiling that is demonstrated in later sections.
-
+- A Linux system with `perf` installed and a user with `sudo` privileges
+- Conda or Miniconda (optional, but recommended for easy creation of Python environment for running automated tests)
 
 
 ### 🔹 Building
@@ -226,9 +227,15 @@ cmake --build build
 
 ### 🔹 Automated Test Module
 
-Python module `./test/profiling/perf_tests.py` can be used to run the benchmarks and save results as both raw `.txt` files and as cleaned `.feather` files that can be easily read into a Pandas DataFrame.
+Python module `./test/profiling/perf_tests.py` can be used to run the benchmarks and save results as both raw `.txt` files and as cleaned `.feather` files that can be easily read into a Pandas DataFrame. All Python dependencies needed to run this module are specified in `environment.yml`.
 
-***For command line help, run:**
+#### Create and Activate Conda Environment
+From the project root, run:
+```shell
+conda env create -f environment.yml
+conda activate polymorphism-compare-env
+````
+Once our Conda environment is activated, can get command line help by running:
 
 ```shell
 python test/profiling/perf_tests.py --help
@@ -295,22 +302,49 @@ Number of Iterations per Run = 50000000
 [...]
 ```
 
-
 ### 🔹 Run All Tests
 
 To run all possible combinations of polymorphism type and compute function, we can run the script without passing any arguments for `-p` or `-c`: 
 ```shell
 python test/profiling/perf_tests.py
 ```
-
-### 🔹 Viewing Profiling Data
-
-All profiling results will be saved in:
+The final lines of output will tell us where the .feather files with cleaned output data are saved:
 ```
-./data/perf/<timestamp-based-directory-name>/
+...
+Building Dataframe from detailed perf output...
+DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-18_14-01-51/perf_detailed_runs.feather
+Building Dataframe from summary perf output...
+DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-18_14-01-51/perf_summary_runs.feather
 ```
 
-Each timestamped output directory will include raw .txt data produced by `perf` as well as cleaned data in two `.feather` files: `perf_detailed_runs.feather` and `perf_summary_runs.feather`. THe former is generally more useful. Each of these can be imported into Python as a Pandas Dataframe. 
+### 🔹 Profiling Data
+
+Output from the profiling runs will be saved in a timestamped directory under `./data/perf/`. The directory  will include raw .txt data produced by `perf` as well as cleaned data in two `.feather` files: `perf_detailed_runs.feather` and `perf_summary_runs.feather`. Each of these can be imported into Python as a Pandas Dataframe. For example usage, see the code in`./test/profiling/view_dfs.py`.
+
+
+#### 🔹 View Key Profiling Data
+
+Markdown-formatted tables with some of the more interesting `perf` events data can be generated using Python module `test/profiling/view_dfs.py`. Get command line help for this simple module with:
+```
+python test/profiling/view_dfs.py --help
+```
+**Output**:
+```
+usage: view_dfs.py [-h] [-d DATA_DIR]
+
+Analyze and display performance data.
+
+options:
+  -h, --help            show this help message and exit
+  -d DATA_DIR, --data_dir DATA_DIR
+                        Name of data-containing directory under ./data/perf/ (default =
+                        view_dfs.DEFAULT_DATA_DIR_NAME)
+```
+
+#### 🔹 Collecting Additional `perf` Events
+
+The specific `perf` events collected by `./test/profiling/perf_test.py` are specified in `./tests/profiling/perf_events.json`. The content of this file can be customized to collect additional `perf` events.
+
 
 ### 📊 Results
 
