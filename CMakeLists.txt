@@ -85,12 +85,13 @@ FetchContent_MakeAvailable(googletest)
 
 
 # ===========================
-# BUILD TARGET
+# DEFINE SRC FILES
 # ===========================
 
 # Define all source files in a variable
+# NOTE: If project gets any bigger, recommend using
+#       multiple libraries.
 set(SRC_FILES
-    src/main.cpp
     src/cli_utils.cpp
     src/benchmark_utils.cpp
     src/runtime_polymorphism.cpp
@@ -100,8 +101,26 @@ set(SRC_FILES
     src/test_runner.cpp
 )
 
+# ===========================
+# BUILD TESTS
+# ===========================
+
+add_executable(test_cli_utils test/core/test_cli_utils.cpp ${SRC_FILES})
+
+target_include_directories(test_cli_utils PRIVATE include)
+
+target_link_libraries(
+    test_cli_utils PRIVATE
+    GTest::gtest_main
+    )
+
+
+# ===========================
+# BUILD TARGET
+# ===========================
+
 # Use the SRC_FILES variable in add_executable
-add_executable(benchmark ${SRC_FILES})
+add_executable(benchmark src/main.cpp ${SRC_FILES})
 
 # ===========================
 # INCLUDE DIRECTORIES
@@ -114,3 +133,6 @@ target_include_directories(benchmark PRIVATE include)
 # ===========================
 
 target_compile_definitions(benchmark PRIVATE COMPILER_FLAGS="${CMAKE_CXX_FLAGS}")
+target_compile_definitions(test_cli_utils PRIVATE COMPILER_FLAGS="${CMAKE_CXX_FLAGS}")
+
+
