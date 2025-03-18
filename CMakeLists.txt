@@ -15,9 +15,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # ===========================
 
 option(RESET_DEFAULTS "Reset all options to default settings" OFF)
+option(ENABLE_O0 "No optimization")
+option(ENABLE_O1 "Use Lower Optimization (-O1 instead of -O3)" OFF)
+option(ENABLE_O2 "Use Moderate Optimization (-O2 instead of -O3)" OFF)
+option(ENABLE_O3 "Use Maximum Optimization (-O3, Default)" OFF)
 option(ENABLE_DEBUG "Enable Debugging Symbols (-O0 -g)" OFF)
 option(ENABLE_NO_INLINE "Disable Function Inlining (-fno-inline)" OFF)
-option(ENABLE_LOW_OPT "Use Lower Optimization (-O1 instead of -O3)" OFF)
 option(ENABLE_PROFILING "Enable Profiling (-pg, for gprof/perf)" OFF)
 option(ENABLE_CONCEPT_ERROR_DETAIL "Enable Verbose Compiler Errors for Concepts" ON)
 
@@ -27,13 +30,52 @@ option(ENABLE_CONCEPT_ERROR_DETAIL "Enable Verbose Compiler Errors for Concepts"
 
 if (RESET_DEFAULTS)
     message(STATUS "Resetting all options to default settings (turning them OFF)...")
-    
     set(ENABLE_DEBUG OFF CACHE BOOL "Disable Debugging Symbols (Reset to Default)" FORCE)
+    set(ENABLE_O0 OFF CACHE BOOL "Disable -O0 Optimization (Reset to Default)" FORCE)
+    set(ENABLE_O1 OFF CACHE BOOL "Disable -O1 Optimization (Reset to Default)" FORCE)
+    set(ENABLE_O2 OFF CACHE BOOL "Disable -O2 Optimization (Reset to Default)" FORCE)
+    set(ENABLE_O3 ON CACHE BOOL "Enable -O3 Optimization (Default)" FORCE)
     set(ENABLE_NO_INLINE OFF CACHE BOOL "Allow Function Inlining (Reset to Default)" FORCE)
-    set(ENABLE_LOW_OPT OFF CACHE BOOL "Use Default Optimization (-O3, Reset)" FORCE)
     set(ENABLE_PROFILING OFF CACHE BOOL "Disable Profiling (Reset to Default)" FORCE)
     set(ENABLE_CONCEPT_ERROR_DETAIL ON CACHE BOOL "Enable Verbose Compiler Errors for Concepts (Default)" FORCE)
 endif()
+
+
+# ===========================
+# ENSURE AT MOST ONE OPTIMIZATION LEVEL IS SET
+# ===========================
+
+# Convert ON/OFF values to 1/0 manually
+set(VALUE_DEBUG 0)
+set(VALUE_O0 0)
+set(VALUE_O1 0)
+set(VALUE_O2 0)
+set(VALUE_O3 0)
+
+if(ENABLE_DEBUG)
+    set(VALUE_DEBUG 1)
+endif()
+if(ENABLE_O0)
+    set(VALUE_O0 0)
+endif()
+if(ENABLE_O1)
+    set(VALUE_O1 1)
+endif()
+if(ENABLE_O2)
+    set(VALUE_O2 1)
+endif()
+if(ENABLE_O3)
+    set(VALUE_O3 1)
+endif()
+
+# Compute the sum of enabled options
+math(EXPR COUNT_ENABLED_OPTIMIZATION_LEVELS "${VALUE_DEBUG} + ${VALUE_O0} + ${VALUE_O1} + ${VALUE_O2} + ${VALUE_O3}")
+
+# Check if more than one option is enabled
+if(COUNT_ENABLED_OPTIMIZATION_LEVELS GREATER 1)
+    message(FATAL_ERROR "Only one of ENABLE_DEBUG, ENABLE_O1, ENABLE_O2, or ENABLE_O3 can be enabled at a time.")
+endif()
+
 
 # ===========================
 # APPLY COMPILER OPTIONS BASED ON CONFIGURATION
@@ -41,8 +83,12 @@ endif()
 
 if (ENABLE_DEBUG)
     add_compile_options(-O0 -g)
-elseif (ENABLE_LOW_OPT)
+elseif(ENABLE_O0)
+    add_compile_options(-O0 -march=native)
+elseif (ENABLE_O1)
     add_compile_options(-O1 -march=native)
+elseif (ENABLE_O2)
+    add_compile_options(-O2 -march=native)
 else()
     add_compile_options(-O3 -march=native) # Default optimized build
 endif()
