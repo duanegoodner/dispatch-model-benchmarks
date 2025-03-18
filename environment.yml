@@ -1,4 +1,4 @@
-name: null
+name: polymorphism-compare-env
 
 channels:
   - conda-forge
@@ -7,6 +7,8 @@ channels:
 dependencies:
   - python=3.11
   - pip:
+    - black
+    - isort
     - pandas
     - pyarrow
     - tabulate
