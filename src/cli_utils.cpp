@@ -13,8 +13,10 @@ void PrintUsage(const char *program_name) {
       << "\nUsage: " << program_name
       << " [polymorphism_category] [computation] [-n iterations] [-s]\n"
       << " - No arguments: Runs all tests with the default iteration count.\n"
-      << " - With two arguments: Runs a specific test with the default iteration count.\n"
-      << " - With '-n iterations': Runs all tests with a custom iteration count.\n"
+      << " - With two arguments: Runs a specific test with the default "
+         "iteration count.\n"
+      << " - With '-n iterations': Runs all tests with a custom iteration "
+         "count.\n"
       << " - With '-s': Saves execution time data.\n\n"
       << "Valid arguments:\n"
       << " ------------------------\n";
@@ -70,42 +72,49 @@ bool HandleHelpOption(int argc, char **argv) {
   return false;
 }
 
-std::optional<size_t> ParseIterationCount(int argc, char **argv, int &arg_index, int &remaining_argc) {
-    for (int i = 1; i < argc - 1; ++i) {
-        if (std::string_view(argv[i]) == "-n") {
-            std::istringstream iss(argv[i + 1]);
-            size_t iterations;
-            if (!(iss >> iterations) || iterations == 0 || !iss.eof()) {
-                return std::nullopt;
-            }
+std::optional<size_t> ParseIterationCount(
+    int argc,
+    char **argv,
+    int &arg_index,
+    int &remaining_argc
+) {
+  for (int i = 1; i < argc - 1; ++i) {
+    if (std::string_view(argv[i]) == "-n") {
+      std::istringstream iss(argv[i + 1]);
+      size_t iterations;
+      if (!(iss >> iterations) || iterations == 0 || !iss.eof()) {
+        return std::nullopt;
+      }
 
-            // Shift remaining arguments forward
-            for (int j = i; j < argc - 2; ++j) {
-                argv[j] = argv[j + 2];
-            }
+      // Shift remaining arguments forward
+      for (int j = i; j < argc - 2; ++j) {
+        argv[j] = argv[j + 2];
+      }
 
-            // Reduce argument count
-            remaining_argc -= 2;
-            return iterations;
-        }
+      // Reduce argument count
+      remaining_argc -= 2;
+      return iterations;
     }
-    return std::nullopt;
+  }
+  return std::nullopt;
 }
 
 bool IsValidPolymorphismCategory(const std::string &category) {
-    const auto &test_case_map = test_runner::GetTestCaseMap();
-    return test_case_map.find(category) != test_case_map.end();
+  const auto &test_case_map = test_runner::GetTestCaseMap();
+  return test_case_map.find(category) != test_case_map.end();
 }
 
-bool IsValidComputation(const std::string &category, const std::string &computation) {
-    const auto &test_case_map = test_runner::GetTestCaseMap();
-    auto category_it = test_case_map.find(category);
-    if (category_it == test_case_map.end()) {
-        return false;
-    }
-    return category_it->second.find(computation) != category_it->second.end();
+bool IsValidComputation(
+    const std::string &category,
+    const std::string &computation
+) {
+  const auto &test_case_map = test_runner::GetTestCaseMap();
+  auto category_it = test_case_map.find(category);
+  if (category_it == test_case_map.end()) {
+    return false;
+  }
+  return category_it->second.find(computation) != category_it->second.end();
 }
-
 
 // Parses and validates arguments, returning the iteration count if provided
 std::optional<size_t> ParseAndValidateArguments(
@@ -174,7 +183,13 @@ int RunFromCLI(int argc, char **argv) {
   size_t iterations = maybe_iterations.value_or(kDefaultNumIterations);
 
   // Parse the "-s" flag
-  bool save_execution_times = ParseSaveExecutionTimesFlag(argc, argv, remaining_argc);
+  bool save_execution_times =
+      ParseSaveExecutionTimesFlag(argc, argv, remaining_argc);
 
-  return RunAppropriateTests(remaining_argc, argv, iterations, save_execution_times);
+  return RunAppropriateTests(
+      remaining_argc,
+      argv,
+      iterations,
+      save_execution_times
+  );
 }
