@@ -38,10 +38,11 @@ class PerfDataAnalyzer:
         return df
 
     @cached_property
-    def summary_df(self) -> pd.DataFrame:
-        df = feather.read_feather(self.data_dir / "perf_summary_runs.feather")
-        df = self.sort_df(df=df)
-        return df
+    def summary_df(self) -> pd.DataFrame | None:
+        if (self.data_dir / "perf_summary_runs.feather").exists():
+            df = feather.read_feather(self.data_dir / "perf_summary_runs.feather")
+            df = self.sort_df(df=df)
+            return df
 
     @cached_property
     def basic_work_df(self) -> pd.DataFrame:

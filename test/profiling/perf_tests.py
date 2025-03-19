@@ -10,33 +10,44 @@ import perf_data_cleaner as pdc
 def parse_arguments():
     parser = argparse.ArgumentParser(
         description="Runs perf tests for various combinations of polymorphism "
-                    "types and compute functions.\n"
-                    "Saves raw (.txt) and cleaned (.feather) data to a "
-                    "timestamped directory under ./data/perf."
+        "types and compute functions.\n"
+        "Saves raw (.txt) and cleaned (.feather) data to a "
+        "timestamped directory under ./data/perf."
     )
     parser.add_argument(
-        "-p", "--polymorphism_types",
+        "-p",
+        "--polymorphism_types",
         nargs="+",
         default=["crtp", "concepts", "runtime"],
         help="List of polymorphism types to test (default: crtp concepts runtime)",
     )
     parser.add_argument(
-        "-c", "--compute_functions",
+        "-c",
+        "--compute_functions",
         nargs="+",
         default=["fma", "expensive"],
         help="List of compute functions to test (default: fma expensive)",
     )
     parser.add_argument(
-        "-r", "--runs_per_condition",
+        "-r",
+        "--runs_per_condition",
         type=int,
         default=5,
         help="Number of runs per test condition (default: 5)",
     )
     parser.add_argument(
-        "-i", "--iterations_per_run",
+        "-i",
+        "--iterations_per_run",
         type=int,
         default=1000000000,
         help="Number of iterations per run (default: 1000000000)",
+    )
+    parser.add_argument(
+        "-d",
+        "--dir_suffix",
+        type=str,
+        default=None,
+        help="Suffix to append to the output directory name (default: None)",
     )
     return parser.parse_args()
 
@@ -61,6 +72,7 @@ class PerfTestRunner:
         test_categories_json: Path = Path(__file__).parent
         / "test_categories.json",
         perf_events_json: Path = Path(__file__).parent / "perf_events.json",
+        dir_suffix: str = None,
         output_dir: Path = None,
         seq_id: int = 1,
         output_filename: str = None,
@@ -75,6 +87,7 @@ class PerfTestRunner:
         ]
         self.extra_perf_events = extra_perf_events or []
         self.test_categories_json = test_categories_json
+        self.dir_suffix = dir_suffix
         self.output_dir = output_dir or self.create_output_directory()
         self.seq_id = seq_id
         self.output_filename = output_filename or self.create_output_filename()
@@ -100,10 +113,16 @@ class PerfTestRunner:
         return self.test_condition.num_runs
 
     @staticmethod
-    def create_output_directory() -> Path:
+    def create_output_directory(dir_suffix: str = None) -> Path:
         """Creates a timestamped directory for storing results and returns its path."""
+        if dir_suffix is not None:
+            dir_ending = f"_{dir_suffix}"
+        else:
+            dir_ending = ""
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        output_dir = PerfTestRunner._default_data_dir / timestamp
+        output_dir = (
+            PerfTestRunner._default_data_dir / f"{timestamp}{dir_ending}"
+        )
         output_dir.mkdir(parents=True, exist_ok=True)
         return output_dir
 
@@ -238,13 +257,17 @@ class MultiTestRunner:
         polymorphism_types: list[str],
         compute_functions: list[str],
         num_runs_per_condition: int = 5,
+        dir_suffix: str = None,
         num_iterations_per_run: int = 1000000000,
     ):
         self.polymorphism_types = polymorphism_types
         self.compute_functions = compute_functions
         self.num_runs_per_condition = num_runs_per_condition
         self.num_iterations_per_run = num_iterations_per_run
-        self.output_dir = PerfTestRunner.create_output_directory()
+        self.dir_suffix = dir_suffix
+        self.output_dir = PerfTestRunner.create_output_directory(
+            dir_suffix=dir_suffix
+        )
 
     @property
     def test_conditions(self) -> list[TestCondition]:
@@ -285,6 +308,7 @@ if __name__ == "__main__":
         compute_functions=args.compute_functions,
         num_runs_per_condition=args.runs_per_condition,
         num_iterations_per_run=args.iterations_per_run,
+        dir_suffix=args.dir_suffix,
     )
     multi_test_runner.run_tests()
 

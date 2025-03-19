@@ -1,0 +1,182 @@
+/usr/bin/cmake -S/home/duane/dproj/polymorphism-compare -B/home/duane/dproj/polymorphism-compare/build --check-build-system CMakeFiles/Makefile.cmake 0
+/usr/bin/cmake -E cmake_progress_start /home/duane/dproj/polymorphism-compare/build/CMakeFiles /home/duane/dproj/polymorphism-compare/build//CMakeFiles/progress.marks
+/usr/bin/gmake  -f CMakeFiles/Makefile2 all
+gmake[1]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+/usr/bin/gmake  -f _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest.dir/depend
+gmake[2]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+cd /home/duane/dproj/polymorphism-compare/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/duane/dproj/polymorphism-compare /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest /home/duane/dproj/polymorphism-compare/build /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googletest /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googletest/CMakeFiles/gtest.dir/DependInfo.cmake --color=
+Dependencies file "_deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googletest/CMakeFiles/gtest.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target gtest
+gmake[2]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+/usr/bin/gmake  -f _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build
+gmake[2]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+[  2%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+cd /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googletest && /usr/bin/c++  -I/home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -I/home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -O1 -march=native -std=c++20 -MD -MT _deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o -MF CMakeFiles/gtest.dir/src/gtest-all.cc.o.d -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[  5%] Linking CXX static library ../../../lib/libgtest.a
+cd /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googletest && /usr/bin/cmake -P CMakeFiles/gtest.dir/cmake_clean_target.cmake
+cd /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googletest && /usr/bin/cmake -E cmake_link_script CMakeFiles/gtest.dir/link.txt --verbose=1
+/usr/bin/ar qc ../../../lib/libgtest.a "CMakeFiles/gtest.dir/src/gtest-all.cc.o"
+/usr/bin/ranlib ../../../lib/libgtest.a
+gmake[2]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+[  5%] Built target gtest
+/usr/bin/gmake  -f _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/depend
+gmake[2]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+cd /home/duane/dproj/polymorphism-compare/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/duane/dproj/polymorphism-compare /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest /home/duane/dproj/polymorphism-compare/build /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googletest /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/DependInfo.cmake --color=
+Dependencies file "_deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target gtest_main
+gmake[2]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+/usr/bin/gmake  -f _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build
+gmake[2]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+[  8%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+cd /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googletest && /usr/bin/c++  -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -O1 -march=native -std=c++20 -MD -MT _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -MF CMakeFiles/gtest_main.dir/src/gtest_main.cc.o.d -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[ 11%] Linking CXX static library ../../../lib/libgtest_main.a
+cd /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googletest && /usr/bin/cmake -P CMakeFiles/gtest_main.dir/cmake_clean_target.cmake
+cd /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googletest && /usr/bin/cmake -E cmake_link_script CMakeFiles/gtest_main.dir/link.txt --verbose=1
+/usr/bin/ar qc ../../../lib/libgtest_main.a CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+/usr/bin/ranlib ../../../lib/libgtest_main.a
+gmake[2]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+[ 11%] Built target gtest_main
+/usr/bin/gmake  -f CMakeFiles/test_cli_utils.dir/build.make CMakeFiles/test_cli_utils.dir/depend
+gmake[2]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+cd /home/duane/dproj/polymorphism-compare/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/duane/dproj/polymorphism-compare /home/duane/dproj/polymorphism-compare /home/duane/dproj/polymorphism-compare/build /home/duane/dproj/polymorphism-compare/build /home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_cli_utils.dir/DependInfo.cmake --color=
+Dependencies file "CMakeFiles/test_cli_utils.dir/src/benchmark_utils.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_cli_utils.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/test_cli_utils.dir/src/cli_utils.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_cli_utils.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/test_cli_utils.dir/src/concepts_polymorphism.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_cli_utils.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/test_cli_utils.dir/src/crtp_polymorphism.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_cli_utils.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/test_cli_utils.dir/src/polymorphism_tests.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_cli_utils.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/test_cli_utils.dir/src/runtime_polymorphism.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_cli_utils.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/test_cli_utils.dir/src/test_runner.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_cli_utils.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/test_cli_utils.dir/test/core/test_cli_utils.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_cli_utils.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target test_cli_utils
+gmake[2]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+/usr/bin/gmake  -f CMakeFiles/test_cli_utils.dir/build.make CMakeFiles/test_cli_utils.dir/build
+gmake[2]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+[ 14%] Building CXX object CMakeFiles/test_cli_utils.dir/test/core/test_cli_utils.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_cli_utils.dir/test/core/test_cli_utils.cpp.o -MF CMakeFiles/test_cli_utils.dir/test/core/test_cli_utils.cpp.o.d -o CMakeFiles/test_cli_utils.dir/test/core/test_cli_utils.cpp.o -c /home/duane/dproj/polymorphism-compare/test/core/test_cli_utils.cpp
+[ 17%] Building CXX object CMakeFiles/test_cli_utils.dir/src/cli_utils.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_cli_utils.dir/src/cli_utils.cpp.o -MF CMakeFiles/test_cli_utils.dir/src/cli_utils.cpp.o.d -o CMakeFiles/test_cli_utils.dir/src/cli_utils.cpp.o -c /home/duane/dproj/polymorphism-compare/src/cli_utils.cpp
+[ 20%] Building CXX object CMakeFiles/test_cli_utils.dir/src/benchmark_utils.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_cli_utils.dir/src/benchmark_utils.cpp.o -MF CMakeFiles/test_cli_utils.dir/src/benchmark_utils.cpp.o.d -o CMakeFiles/test_cli_utils.dir/src/benchmark_utils.cpp.o -c /home/duane/dproj/polymorphism-compare/src/benchmark_utils.cpp
+[ 22%] Building CXX object CMakeFiles/test_cli_utils.dir/src/runtime_polymorphism.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_cli_utils.dir/src/runtime_polymorphism.cpp.o -MF CMakeFiles/test_cli_utils.dir/src/runtime_polymorphism.cpp.o.d -o CMakeFiles/test_cli_utils.dir/src/runtime_polymorphism.cpp.o -c /home/duane/dproj/polymorphism-compare/src/runtime_polymorphism.cpp
+[ 25%] Building CXX object CMakeFiles/test_cli_utils.dir/src/crtp_polymorphism.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_cli_utils.dir/src/crtp_polymorphism.cpp.o -MF CMakeFiles/test_cli_utils.dir/src/crtp_polymorphism.cpp.o.d -o CMakeFiles/test_cli_utils.dir/src/crtp_polymorphism.cpp.o -c /home/duane/dproj/polymorphism-compare/src/crtp_polymorphism.cpp
+[ 28%] Building CXX object CMakeFiles/test_cli_utils.dir/src/concepts_polymorphism.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_cli_utils.dir/src/concepts_polymorphism.cpp.o -MF CMakeFiles/test_cli_utils.dir/src/concepts_polymorphism.cpp.o.d -o CMakeFiles/test_cli_utils.dir/src/concepts_polymorphism.cpp.o -c /home/duane/dproj/polymorphism-compare/src/concepts_polymorphism.cpp
+[ 31%] Building CXX object CMakeFiles/test_cli_utils.dir/src/polymorphism_tests.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_cli_utils.dir/src/polymorphism_tests.cpp.o -MF CMakeFiles/test_cli_utils.dir/src/polymorphism_tests.cpp.o.d -o CMakeFiles/test_cli_utils.dir/src/polymorphism_tests.cpp.o -c /home/duane/dproj/polymorphism-compare/src/polymorphism_tests.cpp
+[ 34%] Building CXX object CMakeFiles/test_cli_utils.dir/src/test_runner.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_cli_utils.dir/src/test_runner.cpp.o -MF CMakeFiles/test_cli_utils.dir/src/test_runner.cpp.o.d -o CMakeFiles/test_cli_utils.dir/src/test_runner.cpp.o -c /home/duane/dproj/polymorphism-compare/src/test_runner.cpp
+[ 37%] Linking CXX executable bin/test/test_cli_utils
+/usr/bin/cmake -E cmake_link_script CMakeFiles/test_cli_utils.dir/link.txt --verbose=1
+/usr/bin/c++ CMakeFiles/test_cli_utils.dir/test/core/test_cli_utils.cpp.o CMakeFiles/test_cli_utils.dir/src/cli_utils.cpp.o CMakeFiles/test_cli_utils.dir/src/benchmark_utils.cpp.o CMakeFiles/test_cli_utils.dir/src/runtime_polymorphism.cpp.o CMakeFiles/test_cli_utils.dir/src/crtp_polymorphism.cpp.o CMakeFiles/test_cli_utils.dir/src/concepts_polymorphism.cpp.o CMakeFiles/test_cli_utils.dir/src/polymorphism_tests.cpp.o CMakeFiles/test_cli_utils.dir/src/test_runner.cpp.o -o bin/test/test_cli_utils  lib/libgtest_main.a lib/libgtest.a 
+gmake[2]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+[ 37%] Built target test_cli_utils
+/usr/bin/gmake  -f CMakeFiles/test_benchmark_utils.dir/build.make CMakeFiles/test_benchmark_utils.dir/depend
+gmake[2]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+cd /home/duane/dproj/polymorphism-compare/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/duane/dproj/polymorphism-compare /home/duane/dproj/polymorphism-compare /home/duane/dproj/polymorphism-compare/build /home/duane/dproj/polymorphism-compare/build /home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_benchmark_utils.dir/DependInfo.cmake --color=
+Dependencies file "CMakeFiles/test_benchmark_utils.dir/src/benchmark_utils.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_benchmark_utils.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/test_benchmark_utils.dir/src/cli_utils.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_benchmark_utils.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/test_benchmark_utils.dir/src/concepts_polymorphism.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_benchmark_utils.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/test_benchmark_utils.dir/src/crtp_polymorphism.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_benchmark_utils.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/test_benchmark_utils.dir/src/polymorphism_tests.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_benchmark_utils.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/test_benchmark_utils.dir/src/runtime_polymorphism.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_benchmark_utils.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/test_benchmark_utils.dir/src/test_runner.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_benchmark_utils.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/test_benchmark_utils.dir/test/core/test_benchmark_utils.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/test_benchmark_utils.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target test_benchmark_utils
+gmake[2]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+/usr/bin/gmake  -f CMakeFiles/test_benchmark_utils.dir/build.make CMakeFiles/test_benchmark_utils.dir/build
+gmake[2]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+[ 40%] Building CXX object CMakeFiles/test_benchmark_utils.dir/test/core/test_benchmark_utils.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_benchmark_utils.dir/test/core/test_benchmark_utils.cpp.o -MF CMakeFiles/test_benchmark_utils.dir/test/core/test_benchmark_utils.cpp.o.d -o CMakeFiles/test_benchmark_utils.dir/test/core/test_benchmark_utils.cpp.o -c /home/duane/dproj/polymorphism-compare/test/core/test_benchmark_utils.cpp
+[ 42%] Building CXX object CMakeFiles/test_benchmark_utils.dir/src/cli_utils.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_benchmark_utils.dir/src/cli_utils.cpp.o -MF CMakeFiles/test_benchmark_utils.dir/src/cli_utils.cpp.o.d -o CMakeFiles/test_benchmark_utils.dir/src/cli_utils.cpp.o -c /home/duane/dproj/polymorphism-compare/src/cli_utils.cpp
+[ 45%] Building CXX object CMakeFiles/test_benchmark_utils.dir/src/benchmark_utils.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_benchmark_utils.dir/src/benchmark_utils.cpp.o -MF CMakeFiles/test_benchmark_utils.dir/src/benchmark_utils.cpp.o.d -o CMakeFiles/test_benchmark_utils.dir/src/benchmark_utils.cpp.o -c /home/duane/dproj/polymorphism-compare/src/benchmark_utils.cpp
+[ 48%] Building CXX object CMakeFiles/test_benchmark_utils.dir/src/runtime_polymorphism.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_benchmark_utils.dir/src/runtime_polymorphism.cpp.o -MF CMakeFiles/test_benchmark_utils.dir/src/runtime_polymorphism.cpp.o.d -o CMakeFiles/test_benchmark_utils.dir/src/runtime_polymorphism.cpp.o -c /home/duane/dproj/polymorphism-compare/src/runtime_polymorphism.cpp
+[ 51%] Building CXX object CMakeFiles/test_benchmark_utils.dir/src/crtp_polymorphism.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_benchmark_utils.dir/src/crtp_polymorphism.cpp.o -MF CMakeFiles/test_benchmark_utils.dir/src/crtp_polymorphism.cpp.o.d -o CMakeFiles/test_benchmark_utils.dir/src/crtp_polymorphism.cpp.o -c /home/duane/dproj/polymorphism-compare/src/crtp_polymorphism.cpp
+[ 54%] Building CXX object CMakeFiles/test_benchmark_utils.dir/src/concepts_polymorphism.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_benchmark_utils.dir/src/concepts_polymorphism.cpp.o -MF CMakeFiles/test_benchmark_utils.dir/src/concepts_polymorphism.cpp.o.d -o CMakeFiles/test_benchmark_utils.dir/src/concepts_polymorphism.cpp.o -c /home/duane/dproj/polymorphism-compare/src/concepts_polymorphism.cpp
+[ 57%] Building CXX object CMakeFiles/test_benchmark_utils.dir/src/polymorphism_tests.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_benchmark_utils.dir/src/polymorphism_tests.cpp.o -MF CMakeFiles/test_benchmark_utils.dir/src/polymorphism_tests.cpp.o.d -o CMakeFiles/test_benchmark_utils.dir/src/polymorphism_tests.cpp.o -c /home/duane/dproj/polymorphism-compare/src/polymorphism_tests.cpp
+[ 60%] Building CXX object CMakeFiles/test_benchmark_utils.dir/src/test_runner.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/test_benchmark_utils.dir/src/test_runner.cpp.o -MF CMakeFiles/test_benchmark_utils.dir/src/test_runner.cpp.o.d -o CMakeFiles/test_benchmark_utils.dir/src/test_runner.cpp.o -c /home/duane/dproj/polymorphism-compare/src/test_runner.cpp
+[ 62%] Linking CXX executable bin/test/test_benchmark_utils
+/usr/bin/cmake -E cmake_link_script CMakeFiles/test_benchmark_utils.dir/link.txt --verbose=1
+/usr/bin/c++ CMakeFiles/test_benchmark_utils.dir/test/core/test_benchmark_utils.cpp.o CMakeFiles/test_benchmark_utils.dir/src/cli_utils.cpp.o CMakeFiles/test_benchmark_utils.dir/src/benchmark_utils.cpp.o CMakeFiles/test_benchmark_utils.dir/src/runtime_polymorphism.cpp.o CMakeFiles/test_benchmark_utils.dir/src/crtp_polymorphism.cpp.o CMakeFiles/test_benchmark_utils.dir/src/concepts_polymorphism.cpp.o CMakeFiles/test_benchmark_utils.dir/src/polymorphism_tests.cpp.o CMakeFiles/test_benchmark_utils.dir/src/test_runner.cpp.o -o bin/test/test_benchmark_utils  lib/libgtest_main.a lib/libgtest.a 
+gmake[2]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+[ 62%] Built target test_benchmark_utils
+/usr/bin/gmake  -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/depend
+gmake[2]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+cd /home/duane/dproj/polymorphism-compare/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/duane/dproj/polymorphism-compare /home/duane/dproj/polymorphism-compare /home/duane/dproj/polymorphism-compare/build /home/duane/dproj/polymorphism-compare/build /home/duane/dproj/polymorphism-compare/build/CMakeFiles/benchmark.dir/DependInfo.cmake --color=
+Dependencies file "CMakeFiles/benchmark.dir/src/benchmark_utils.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/benchmark.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/benchmark.dir/src/cli_utils.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/benchmark.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/benchmark.dir/src/concepts_polymorphism.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/benchmark.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/benchmark.dir/src/crtp_polymorphism.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/benchmark.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/benchmark.dir/src/main.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/benchmark.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/benchmark.dir/src/polymorphism_tests.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/benchmark.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/benchmark.dir/src/runtime_polymorphism.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/benchmark.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/benchmark.dir/src/test_runner.cpp.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/CMakeFiles/benchmark.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target benchmark
+gmake[2]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+/usr/bin/gmake  -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/build
+gmake[2]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+[ 65%] Building CXX object CMakeFiles/benchmark.dir/src/main.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/benchmark.dir/src/main.cpp.o -MF CMakeFiles/benchmark.dir/src/main.cpp.o.d -o CMakeFiles/benchmark.dir/src/main.cpp.o -c /home/duane/dproj/polymorphism-compare/src/main.cpp
+[ 68%] Building CXX object CMakeFiles/benchmark.dir/src/cli_utils.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/benchmark.dir/src/cli_utils.cpp.o -MF CMakeFiles/benchmark.dir/src/cli_utils.cpp.o.d -o CMakeFiles/benchmark.dir/src/cli_utils.cpp.o -c /home/duane/dproj/polymorphism-compare/src/cli_utils.cpp
+[ 71%] Building CXX object CMakeFiles/benchmark.dir/src/benchmark_utils.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/benchmark.dir/src/benchmark_utils.cpp.o -MF CMakeFiles/benchmark.dir/src/benchmark_utils.cpp.o.d -o CMakeFiles/benchmark.dir/src/benchmark_utils.cpp.o -c /home/duane/dproj/polymorphism-compare/src/benchmark_utils.cpp
+[ 74%] Building CXX object CMakeFiles/benchmark.dir/src/runtime_polymorphism.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/benchmark.dir/src/runtime_polymorphism.cpp.o -MF CMakeFiles/benchmark.dir/src/runtime_polymorphism.cpp.o.d -o CMakeFiles/benchmark.dir/src/runtime_polymorphism.cpp.o -c /home/duane/dproj/polymorphism-compare/src/runtime_polymorphism.cpp
+[ 77%] Building CXX object CMakeFiles/benchmark.dir/src/crtp_polymorphism.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/benchmark.dir/src/crtp_polymorphism.cpp.o -MF CMakeFiles/benchmark.dir/src/crtp_polymorphism.cpp.o.d -o CMakeFiles/benchmark.dir/src/crtp_polymorphism.cpp.o -c /home/duane/dproj/polymorphism-compare/src/crtp_polymorphism.cpp
+[ 80%] Building CXX object CMakeFiles/benchmark.dir/src/concepts_polymorphism.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/benchmark.dir/src/concepts_polymorphism.cpp.o -MF CMakeFiles/benchmark.dir/src/concepts_polymorphism.cpp.o.d -o CMakeFiles/benchmark.dir/src/concepts_polymorphism.cpp.o -c /home/duane/dproj/polymorphism-compare/src/concepts_polymorphism.cpp
+[ 82%] Building CXX object CMakeFiles/benchmark.dir/src/polymorphism_tests.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/benchmark.dir/src/polymorphism_tests.cpp.o -MF CMakeFiles/benchmark.dir/src/polymorphism_tests.cpp.o.d -o CMakeFiles/benchmark.dir/src/polymorphism_tests.cpp.o -c /home/duane/dproj/polymorphism-compare/src/polymorphism_tests.cpp
+[ 85%] Building CXX object CMakeFiles/benchmark.dir/src/test_runner.cpp.o
+/usr/bin/c++ -DCOMPILER_FLAGS="\" -O1 -march=native\"" -I/home/duane/dproj/polymorphism-compare/include -O1 -march=native -std=gnu++20 -MD -MT CMakeFiles/benchmark.dir/src/test_runner.cpp.o -MF CMakeFiles/benchmark.dir/src/test_runner.cpp.o.d -o CMakeFiles/benchmark.dir/src/test_runner.cpp.o -c /home/duane/dproj/polymorphism-compare/src/test_runner.cpp
+[ 88%] Linking CXX executable bin/benchmark
+/usr/bin/cmake -E cmake_link_script CMakeFiles/benchmark.dir/link.txt --verbose=1
+/usr/bin/c++ CMakeFiles/benchmark.dir/src/main.cpp.o CMakeFiles/benchmark.dir/src/cli_utils.cpp.o CMakeFiles/benchmark.dir/src/benchmark_utils.cpp.o CMakeFiles/benchmark.dir/src/runtime_polymorphism.cpp.o CMakeFiles/benchmark.dir/src/crtp_polymorphism.cpp.o CMakeFiles/benchmark.dir/src/concepts_polymorphism.cpp.o CMakeFiles/benchmark.dir/src/polymorphism_tests.cpp.o CMakeFiles/benchmark.dir/src/test_runner.cpp.o -o bin/benchmark 
+gmake[2]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+[ 88%] Built target benchmark
+/usr/bin/gmake  -f _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/depend
+gmake[2]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+cd /home/duane/dproj/polymorphism-compare/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/duane/dproj/polymorphism-compare /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googlemock /home/duane/dproj/polymorphism-compare/build /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googlemock /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googlemock/CMakeFiles/gmock.dir/DependInfo.cmake --color=
+Dependencies file "_deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googlemock/CMakeFiles/gmock.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target gmock
+gmake[2]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+/usr/bin/gmake  -f _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build
+gmake[2]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+[ 91%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+cd /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googlemock && /usr/bin/c++  -I/home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googlemock/include -I/home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googlemock -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -O1 -march=native -std=c++20 -MD -MT _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o -MF CMakeFiles/gmock.dir/src/gmock-all.cc.o.d -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[ 94%] Linking CXX static library ../../../lib/libgmock.a
+cd /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googlemock && /usr/bin/cmake -P CMakeFiles/gmock.dir/cmake_clean_target.cmake
+cd /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googlemock && /usr/bin/cmake -E cmake_link_script CMakeFiles/gmock.dir/link.txt --verbose=1
+/usr/bin/ar qc ../../../lib/libgmock.a "CMakeFiles/gmock.dir/src/gmock-all.cc.o"
+/usr/bin/ranlib ../../../lib/libgmock.a
+gmake[2]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+[ 94%] Built target gmock
+/usr/bin/gmake  -f _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/depend
+gmake[2]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+cd /home/duane/dproj/polymorphism-compare/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/duane/dproj/polymorphism-compare /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googlemock /home/duane/dproj/polymorphism-compare/build /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googlemock /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/DependInfo.cmake --color=
+Dependencies file "_deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o.d" is newer than depends file "/home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target gmock_main
+gmake[2]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+/usr/bin/gmake  -f _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build
+gmake[2]: Entering directory '/home/duane/dproj/polymorphism-compare/build'
+[ 97%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+cd /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googlemock && /usr/bin/c++  -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googlemock/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googlemock -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest/include -isystem /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googletest -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -O1 -march=native -std=c++20 -MD -MT _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -MF CMakeFiles/gmock_main.dir/src/gmock_main.cc.o.d -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /home/duane/dproj/polymorphism-compare/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[100%] Linking CXX static library ../../../lib/libgmock_main.a
+cd /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googlemock && /usr/bin/cmake -P CMakeFiles/gmock_main.dir/cmake_clean_target.cmake
+cd /home/duane/dproj/polymorphism-compare/build/_deps/googletest-build/googlemock && /usr/bin/cmake -E cmake_link_script CMakeFiles/gmock_main.dir/link.txt --verbose=1
+/usr/bin/ar qc ../../../lib/libgmock_main.a CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+/usr/bin/ranlib ../../../lib/libgmock_main.a
+gmake[2]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+[100%] Built target gmock_main
+gmake[1]: Leaving directory '/home/duane/dproj/polymorphism-compare/build'
+/usr/bin/cmake -E cmake_progress_start /home/duane/dproj/polymorphism-compare/build/CMakeFiles 0

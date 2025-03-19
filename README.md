@@ -2,12 +2,19 @@
 *Benchmarking Runtime vs Compile-Time Polymorphism for compute functions in C++*
 
 ## ⚡ TL;DR
-- This project benchmarks Runtime Polymorphism vs. Compile-Time Polymorphism (CRTP & C++20 Concepts).
-- Two compute functions are tested: one simple, one complex.
-- CRTP and C++20 Concepts are significantly faster than Runtime Polymorphism, with the gap widening for more complex computations.
-- For the more complex computation, Runtime Polymorphism shows: 17x longer runtime, 27x more branches, 50x more instructions, and 5 orders of magnitude more memory accesses.
-- CRTP and Concepts perform nearly identically.
+- This project benchmarks Runtime Polymorphism vs. Compile-Time Polymorphism (CRTP & C++20 Concepts) across multiple compiler optimization levels (-O0, -O1, -O2, -O3).
+- Without compiler optimizations (-O0), Runtime Polymorphism is the fastest due to lower template instantiation overhead.
+- However, CRTP and Concepts benefit massively from compiler optimizations, while Runtime Polymorphism sees only minor improvements—especially for complex computations.
+- With full optimization (-O3), Runtime Polymorphism has:
+    - 17× longer execution time
+    - 27× more branches
+    - 50× more instructions
+    - 5 orders of magnitude more memory accesses
+- C++20 Concepts perform similarly to CRTP at -O3, but miss out on CRTP’s -O2 performance gains.
 
+> [!IMPORTANT]
+> **Polymorphism performance differences depend on your specific use case.**  
+> While these benchmarks highlight significant trends, **your mileage may vary** depending on factors like **CPU architecture, compiler version, optimization settings, and workload characteristics**.  Always **profile in your own environment** before making design decisions!
 
 
 ## 📖 Background
@@ -20,23 +27,34 @@ As I explored this, I expected to find many benchmark results from developers ev
 ## 🎯 What This Project Does
 
 
-### 🔹 Compares Runtime vs Compile-Time Polymorphism Performance
-This project benchmarks runtime vs compile-time polymorphism for two compute functions:
+### 🔹 Examines how Permance is Affected by...
 
-#### Simple Computation – Fused Multiply-Add (FMA):
+#### Approach to Polymorphism
+
+- **Runtime polymorphism** via virtual function calls.
+- **Compile-time polymorphism** using the Curiously Recurring Template Pattern (CRTP).
+- **C++20 Concepts**  which enable compile-time type enforcement and selection, achieving behavior similar to polymorphism without inheritance &mdash; and offer much clearer compiler error messages than other uses of template programming (including CRTP).
+
+#### Different Compute Functions
+
+*Simple Computation – Fused Multiply-Add (FMA):*
 ```cpp
 inline double ComputeFMA(double x) { return x * 1.414 + 2.718; }
 ```
-#### Complex Computation – Sin, Log and a Square Root:
+*Complex Computation – Sin, Log and a Square Root:*
 ```cpp
 inline double ComputeExpensive(double x) {
     return std::sin(x) * std::log(x + 1) + std::sqrt(x);
 }
 ```
-Each function is tested using:
-- **Runtime polymorphism** via virtual function calls.
-- **Compile-time polymorphism** using the Curiously Recurring Template Pattern (CRTP).
-- **C++20 Concepts**  which enable compile-time type enforcement and selection, achieving behavior similar to polymorphism without inheritance.
+
+#### Compiler Optimization Levels
+
+ - O0
+ - O1
+ - O2
+ - O3
+
 
 ### 🔹 Provides a Template for Benchmarking Other Compute Functions
 
@@ -160,27 +178,27 @@ To run all possible combinations of polymorphism type and compute function, and 
 ```
 **Output:**
 ```shell
-Running: polymorphism_tests::TestRuntimeFMA
+Running: polymorphism_tests::TestRuntime FMA
 Iteration Count: 1000000000
 FMA Computation: Runtime Polymorphism Time = 1.52441 seconds
 
-Running: polymorphism_tests::TestRuntimeExpensive
+Running: polymorphism_tests::TestRuntime Expensive
 Iteration Count: 1000000000
 Expensive Computation: Runtime Polymorphism Time = 6.38158 seconds
 
-Running: polymorphism_tests::TestCRTPFMA
+Running: polymorphism_tests::TestCRTP FMA
 Iteration Count: 1000000000
 FMA Computation: CRTP Polymorphism Time = 0.378618 seconds
 
-Running: polymorphism_tests::TestCRTPExpensive
+Running: polymorphism_tests::TestCRTP Expensive
 Iteration Count: 1000000000
 Expensive Computation: CRTP Polymorphism Time = 0.378513 seconds
 
-Running: polymorphism_tests::TestConceptsFMA
+Running: polymorphism_tests::TestConcepts FMA
 Iteration Count: 1000000000
 FMA Computation: C++20 Concepts Polymorphism Time = 0.378408 seconds
 
-Running: polymorphism_tests::TestConceptsExpensive
+Running: polymorphism_tests::TestConcepts Expensive
 Iteration Count: 1000000000
 Expensive Computation: C++20 Concepts Polymorphism Time = 0.389357 seconds
 
@@ -195,7 +213,7 @@ To run a single test, we need to provide arguments identifying the polymorphism 
 
 **Output:**
 ```shell
-Running: polymorphism_tests::TestCRTPExpensive
+Running: polymorphism_tests::TestCRTP Expensive
 Iteration Count: 1000000000
 Expensive Computation: CRTP Polymorphism Time = 0.391168 seconds
 ````
@@ -207,7 +225,7 @@ Expensive Computation: CRTP Polymorphism Time = 0.391168 seconds
 ```
 **Output:**
 ```shell
-Running: polymorphism_tests::TestRuntimeFMA
+Running: polymorphism_tests::TestRuntime FMA
 Iteration Count: 500000
 FMA Computation: Runtime Polymorphism Time = 0.00343413 seconds
 ```
@@ -216,18 +234,10 @@ FMA Computation: Runtime Polymorphism Time = 0.00343413 seconds
 
 We can use the Linux tool `perf` to gain more insight into differences among various forms of polymorphism and compute functions.
 
-### 🔹 Build with Profiling
-
-In order to use perf, we need to build with profiling enabled.
-
-```shell
-cmake -B build -DENABLE_PROFILING=ON
-cmake --build build
-```
 
 ### 🔹 Automated Test Module
 
-Python module `./test/profiling/perf_tests.py` can be used to run the benchmarks and save results as both raw `.txt` files and as cleaned `.feather` files that can be easily read into a Pandas DataFrame. All Python dependencies needed to run this module are specified in `environment.yml`.
+Python module `./test/profiling/multi_build_per_tester` can be used to run the benchmarks and save results as both raw `.txt` files and as cleaned `.feather` files that can be easily read into a Pandas DataFrame. All Python dependencies needed to run this module are specified in `environment.yml`.
 
 #### Create and Activate Conda Environment
 From the project root, run:
@@ -238,88 +248,79 @@ conda activate polymorphism-compare-env
 Once our Conda environment is activated, can get command line help by running:
 
 ```shell
-python test/profiling/perf_tests.py --help
+python test/profiling/multi_build_perf_tester.py --help
 ```
 **Output:**
 ```
-usage: perf_tests.py [-h] [-p POLYMORPHISM_TYPES [POLYMORPHISM_TYPES ...]]
-                     [-c COMPUTE_FUNCTIONS [COMPUTE_FUNCTIONS ...]] [-r RUNS_PER_CONDITION]
-                     [-i ITERATIONS_PER_RUN]
+usage: multi_build_perf_tester.py [-h] [-o OPTIMIZATION_LEVELS [OPTIMIZATION_LEVELS ...]] [-p POLYMORPHISM_TYPES [POLYMORPHISM_TYPES ...]]
+                                  [-c COMPUTE_FUNCTIONS [COMPUTE_FUNCTIONS ...]] [-r NUM_RUNS_PER_CONDITION] [-i NUM_ITERATIONS_PER_RUN]
 
-Runs perf tests for various combinations of polymorphism types and compute functions. Saves raw (.txt) and
-cleaned (.feather) data to a timestamped directory under ./data/perf.
+Run performance tests for multiple build configurations.
 
 options:
   -h, --help            show this help message and exit
+  -o OPTIMIZATION_LEVELS [OPTIMIZATION_LEVELS ...], --optimization_levels OPTIMIZATION_LEVELS [OPTIMIZATION_LEVELS ...]
+                        List of optimization levels to test (default = O0, O1, O2, O3).
   -p POLYMORPHISM_TYPES [POLYMORPHISM_TYPES ...], --polymorphism_types POLYMORPHISM_TYPES [POLYMORPHISM_TYPES ...]
-                        List of polymorphism types to test (default: crtp concepts runtime)
+                        List of polymorphism types to test (default = crtp, concepts, runtime).
   -c COMPUTE_FUNCTIONS [COMPUTE_FUNCTIONS ...], --compute_functions COMPUTE_FUNCTIONS [COMPUTE_FUNCTIONS ...]
-                        List of compute functions to test (default: fma expensive)
-  -r RUNS_PER_CONDITION, --runs_per_condition RUNS_PER_CONDITION
-                        Number of runs per test condition (default: 5)
-  -i ITERATIONS_PER_RUN, --iterations_per_run ITERATIONS_PER_RUN
-                        Number of iterations per run (default: 1000000000)
+                        List of compute functions to test (default = fma, expensive).
+  -r NUM_RUNS_PER_CONDITION, --num_runs_per_condition NUM_RUNS_PER_CONDITION
+                        Number of runs per condition (default = 5).
+  -i NUM_ITERATIONS_PER_RUN, --num_iterations_per_run NUM_ITERATIONS_PER_RUN
+                        Number of iterations per run (default = 1000000000).
 
 ```
 
 
 ### 🔹 Example: Profiling a Single Test Condition
 
+To profile our FMA compute function using C++20 Concepts and aggressive (-O3) compiler optimization, we can run:
+
 ```
-python test/profiling/perf_tests.py -p concepts -c fma
+python -o 03 -p concepts -c fma
 ```
-**Output:**
+This will initiate a fresh build of the project binary (`./build/bin/benchmark`) prior to running the test. The terminal output should look similar to
 ```
+...
+
+✅ Build completed for -O3
+
+Binary size for optimization levelO3: 79936 bytes (78.06 KB)
+
 ------------------------------------------------
 Running perf for: Polymorphism Type = concepts
 Compute Function = fma
 Number of Runs = 5
 Number of Iterations per Run = 1000000000
-Results saved to: /home/duane/dproj/polymorphism-compare/data/perf/2025-03-17_09-03-37/1_concepts_fma.txt
-Re-running to collect perf summary...
-Results saved to: /home/duane/dproj/polymorphism-compare/data/perf/2025-03-17_09-03-37/1_concepts_fma_summary.txt
-Building Dataframe from detailed perf output
-DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-17_09-03-37/perf_detailed_runs.feather
-Building Dataframe from summary perf output
-DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-17_09-03-37/perf_summary_runs.feather
+Running perf to collect detailed event data...
+Results saved to: /home/duane/dproj/polymorphism-compare/data/perf/2025-03-19_15-37-38_O3/1_concepts_fma.txt
+Re-running perf to collect summary data...
+Results saved to: /home/duane/dproj/polymorphism-compare/data/perf/2025-03-19_15-37-38_O3/1_concepts_fma_summary.txt
+Building Dataframe from detailed perf output...
+DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-19_15-37-38_O3/perf_detailed_runs.feather
+Building Dataframe from summary perf output...
+DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-19_15-37-38_O3/perf_summary_runs.feather
 ```
 
 Note that there are two sets of runs for each condition: one for detailed perf output and one for summary perf output (perf does not support collecting summary info and custom events in the same run).
 
-### 🔹 Customizing Number of Iterations
-
-The default setting is to run 5 tests per condition and 1e+9 iterations per test. We can customize these values with the `-r` and `-i` flags, respectively:
-```
-python test/profiling/perf_tests.py -p crtp -c expensive -n 10 -i 50000000
-```
-**Output:**
-```
-------------------------------------------------
-Running perf for: Polymorphism Type = crtp
-Compute Function = expensive
-Number of Runs = 10
-Number of Iterations per Run = 50000000
-[...]
-```
 
 ### 🔹 Run All Tests
 
-To run all possible combinations of polymorphism type and compute function, we can run the script without passing any arguments for `-p` or `-c`: 
+To run all possible combinations of polymorphism type and compute function, we can run the test module without passing any: 
 ```shell
-python test/profiling/perf_tests.py
+python test/profiling/multi_build_perf_tester.py
 ```
-The final lines of output will tell us where the .feather files with cleaned output data are saved:
-```
-...
-Building Dataframe from detailed perf output...
-DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-18_14-01-51/perf_detailed_runs.feather
-Building Dataframe from summary perf output...
-DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-18_14-01-51/perf_summary_runs.feather
-```
+This will result in builds at four different optimization levels, and will all possible combinations of Polymorphism Type and Compute Function with each resulting binary.
+
 
 ### 🔹 Profiling Data
 
 Output from the profiling runs will be saved in a timestamped directory under `./data/perf/`. The directory  will include raw .txt data produced by `perf` as well as cleaned data in two `.feather` files: `perf_detailed_runs.feather` and `perf_summary_runs.feather`. Each of these can be imported into Python as a Pandas Dataframe. For example usage, see the code in`./test/profiling/view_dfs.py`.
+
+> [!TIP]
+> The compiler optimizaton level for a particular set of runs is indicated in the output directory name and is also included in `.txt` files located in the output directory.
 
 
 #### 🔹 View Key Profiling Data
@@ -349,105 +350,191 @@ options:
 The specific `perf` events collected by `./test/profiling/perf_test.py` are specified in `./tests/profiling/perf_events.json`. The content of this file can be customized to collect additional `perf` events.
 
 
-## 📊 Running `perf` with Max (-O3) Compiler Optimization
+## 🏃 Running `perf` for All Test Conditions
 
-This section describes test conditions and results of `perf` profiling performed with the most aggressive compiler optimizations (-O3).
+This section describes test conditions and results of `perf` profiling performed for all possible combinations:
 
-### Experimental Setup
+- Polymorphism Type: Runtime, CRTP, C++20 Concepts
+- Compute Function: FMA, Expensive
+- Compiler Optimization Levels: -O0, -O1, -O2, -O3
+
+### Test Platform Details
 
 - CPU = 13th Gen Intel(R) Core(TM) i7-13700K
 - OS = Debian 12.9
 - Linux Kernel = 6.1.0-31-amd64
 - Compiler = GCC 12.2.0
 
-#### ⏱ Execution Time Comparison
-
-| Polymorphism Type | Compute Function | Execution Time (ms) | Error (ms) |
-|-------------------|-----------------|--------------------|-----------|
-| Runtime          | FMA             | 1510.22           | 2.95     |
-| Runtime          | Expensive       | 6365.80           | 11.9     |
-| CRTP             | FMA             | 378.86           | 0.392    |
-| CRTP             | Expensive       | 378.16           | 3.37  |
-| Concepts         | FMA             | 377.52           | 0.456  |
-| Concepts         | Expensive       | 378.40           | 3.56   |
-#### ✅ Observations:
-- **Runtime Polymorphism (RP) is significantly slower:** ~4× slower than CRTP/Concepts for FMA and ~17× slower for Expensive computation.
-- **CRTP and Concepts are closely matched**, with negligible performance differences between FMA and Expensive
----
-
-#### 📝 Instructions and Micro Ops
-
-| Polymorphism Condition | Compute Function |   Mean Time |   Instructions | Micro Ops |
-|:-----------------------|:-----------------|------------:|---------------:|----------:|
-| Runtime               | FMA              |    5.8034   |      4.202e+10 | 5.903e+10 |
-| Runtime               | Expensive        |   10.7571   |      1.82e+11  | 2.065e+11 |
-| Concepts              | FMA              |    0.377829 |      3.998e+09 | 3.009e+09 |
-| Concepts              | Expensive        |    0.3779   |      4.009e+09 | 3.017e+09 |
-| CRTP                  | FMA              |    0.38061  |      4.012e+09 | 3.015e+09 |
-| CRTP                  | Expensive        |    0.37642  |      4.003e+09 |  3.01e+09 |
-#### ✅ Observations:
-
-- **RP has significantly higher instruction and Micro Ops counts**: ~10x higher for FMA, and ~50x higher for Expensive.
-- For **CRTP/Concepts, Micro Ops counts are lower than Instruction counts**, suggesting aggressive optimization by the compiler.
-
----
-
-
-#### 🔀 Branching Analysis
-| Polymorphism Condition | Compute Function |   Branches |   Branch Misses |   Miss Fraction |
-|:-----------------------|:-----------------|-----------:|----------------:|----------------:|
-| Runtime               | FMA              |  8.008e+09 |           13410 |       1.675e-06 |
-| Runtime               | Expensive        |  2.699e+10 |           31860 |       1.18e-06  |
-| Concepts              | FMA              |  1.002e+09 |             674 |       6.729e-07 |
-| Concepts              | Expensive        |  1.005e+09 |            1752 |       1.743e-06 |
-| CRTP                  | FMA              |  1.006e+09 |            1309 |       1.301e-06 |
-| CRTP                  | Expensive        |  1.004e+09 |             966 |       9.618e-07 |
-
-#### ✅ Observations:
-- **Runtime Polymorphism (RP) has significantly higher branch counts** compared to CRTP/Concepts (8x higher for FMA, and 27x higher for Expensive).
-- Branch prediction misses are low across all conditions.
-
----
-
-
-#### 📥📤 Memory Access
-
-| Polymorphism Condition | Compute Function | Stores    | Loads | Cache Misses | Cache Miss Fraction |
-|:-----------------------|:-----------------|----------:|------------:|-------------:|--------------------:|
-| Runtime               | FMA              |  1.30e+10 | 2.10e+10    | 8.41e+04     | 4.01e-06           |
-| Runtime               | Expensive        |  2.10e+10 | 5.80e+10    | 9.40e+04     | 1.62e-06           |
-| Concepts              | FMA              |  1.02e+05 | 1.97e+05    | 6.10e+04     | 3.10e-01           |
-| Concepts              | Expensive        |  9.37e+04 | 1.79e+05    | 7.39e+04     | 4.13e-01           |
-| CRTP                  | FMA              |  9.16e+04 | 1.73e+05    | 7.27e+04     | 4.21e-01           |
-| CRTP                  | Expensive        |  9.40e+04 | 1.78e+05    | 7.25e+04     | 4.08e-01           |
-
-#### ✅ Observations:
-- **Runtime polymorphism: 5 orders of magnitude more stores and loads** than CRTP/Concepts.
-- **Runtime Expensive** has ~40% more stores and ~2.8x more loads than Runtime FMA.
-- **CRTP / Concepts have much higher cache miss rate** than RP, but still run much faster due to lower overall workload.
-
----
-
 
 ### 🔑 Key Insights
 
-#### 🏎 1️⃣ CRTP and Concepts are significantly faster than Runtime Polymorphism
-- RP requires more instructions & branches and massively higher memory access than CRTP/Concepts.
-- Virtual function calls likely account for the large gap, with a much more pronounced slowdown in the Expensive function.
-- The heap-to-stack usage ratio is likely higher for RP which would contribute to its higher memory access needs. 
-- Uops : Instruction ratios clearly indicate more aggressive compiler optimization for CRTP/Concepts than RP. 
+> [!NOTE]
+> The data in the results section below is from **fresh test runs** including all optimization levels (`-O0`, `-O1`, `-O2`, `-O3`).  
+> A **detailed analysis and visualization of trends will be added soon.**
+
+- **Runtime Polymorphism (`virtual` functions) is consistently the slowest** across all optimization levels, with the gap widening significantly for complex computations.
+- **CRTP is consistently the fastest approach**, outperforming both Runtime Polymorphism and C++20 Concepts, particularly at `-O2`.
+- **C++20 Concepts behave similarly to CRTP at `-O3` but struggle at `-O2`**, showing significantly slower execution times.
+- **Compiler Optimization Level Matters**:
+  - **At `-O1` and `-O3`**, Concepts and CRTP perform nearly identically.
+  - **At `-O2`**, CRTP remains fast, but Concepts slow down dramatically.
+- **Branch Mispredictions & Cache Misses** are significantly worse for Runtime Polymorphism, making it less efficient than compile-time alternatives.
+- **Binary size shrinks from `-O0` to `-O3`**, with **`-O3` generating the smallest executables** while also delivering the best performance.
+- **Loop Unrolling and Function Inlining seem to play a major role in CRTP’s advantage**, particularly at `-O2` where Concepts do not benefit from the same optimizations.
 
 
-#### ⚖️ 2️⃣ CRTP and Concepts are identical
-- CRTP and Concepts retire the same number of instructions & branches.
-- Aggressive compiler optimizations likely explain why the Expensive computation is not heavier than FMA.
+### 📌 Next Steps
+- Investigate **assembly differences (`objdump`)** between Concepts and CRTP at `-O2`.  
+- Examine **additional compiler flags** to see if Concepts can be optimized further.  
+- Compare **binary size trends** for all approaches across optimization levels.  
 
 
-### Further Investigation
-
-#### Assembly Code Review with `objdump`
-- Assambly code review with `objdump` is underway.
-- Code extracted as part of this analysis saved under `./test/objdump/`
+## 📊 Event Data from `perf`
 
 
+### ⏱ 📝 Execution Time and Instructions
 
+#### 🐌 Optimization Level: -O0
+
+| Test Name         |   Time (s) |      Branches |   Instructions |   Micro Ops |
+|:------------------|------------:|--------------:|---------------:|------------------:|
+| Runtime FMA        |     2.95447 |   6.98418e+09 |    5.48726e+10 |       6.23562e+10 |
+| Runtime Expensive  |    10.0609  |   3.00041e+10 |    2.021e+11   |       2.19918e+11 |
+| Concepts FMA       |     3.33434 |   7.00953e+09 |    5.10138e+10 |       5.94976e+10 |
+| Concepts Expensive |     9.9803  |   2.99839e+10 |    1.97852e+11 |       2.14807e+11 |
+| CRTP FMA           |     4.5475  |   9.00312e+09 |    6.50036e+10 |       7.57248e+10 |
+| CRTP Expensive     |    11.8889  |   3.19839e+10 |    2.11878e+11 |       2.31614e+11 |
+
+#### 🐢 Optimization Level: -O1
+
+| Test Name         |   Time (s) |      Branches |   Instructions |   Micro Ops |
+|:------------------|------------:|--------------:|---------------:|------------------:|
+| Runtime FMA        |    1.51398  |   4.00473e+09 |    1.30049e+10 |       1.40098e+10 |
+| Runtime Expensive  |    6.7236   |   2.29037e+10 |    1.57141e+11 |       1.62151e+11 |
+| Concepts FMA       |    0.37788  |   1.00527e+09 |    4.00984e+09 |       3.01393e+09 |
+| Concepts Expensive |    6.17581  |   2.20039e+10 |    1.55921e+11 |       1.59944e+11 |
+| CRTP FMA           |    0.38335  |   1.00169e+09 |    3.99376e+09 |       3.00774e+09 |
+| CRTP Expensive     |    0.379375 |   1.00166e+09 |    3.99497e+09 |       3.00839e+09 |
+
+
+#### 🚗 Optimization Level: -O2
+
+| Test Name         |   Time (s) |      Branches |   Instructions |   Micro Ops |
+|:------------------|------------:|--------------:|---------------:|------------------:|
+| Runtime FMA        |    1.51137  |   3.00754e+09 |    1.30168e+10 |       1.40358e+10 |
+| Runtime Expensive  |    6.4254   |   2.19883e+10 |    1.5375e+11  |       1.58809e+11 |
+| Concepts FMA       |    1.51909  |   3.00082e+09 |    1.20043e+10 |       1.20152e+10 |
+| Concepts Expensive |    6.4359   |   2.20507e+10 |    1.53393e+11 |       1.57767e+11 |
+| CRTP FMA           |    0.38022  |   1.00184e+09 |    3.99637e+09 |       3.00877e+09 |
+| CRTP Expensive     |    0.378914 |   9.9946e+08  |    3.99163e+09 |       3.00997e+09 |
+
+
+#### 🚀 Optimization Level: -O3
+
+| Test Name         |   Time (s) |      Branches |   Instructions |   Micro Ops |
+|:------------------|------------:|--------------:|---------------:|------------------:|
+| Runtime FMA        |    1.51615  |   3.00083e+09 |    1.30127e+10 |       1.4032e+10  |
+| Runtime Expensive  |    6.4408   |   2.19913e+10 |    1.53851e+11 |       1.58795e+11 |
+| Concepts FMA       |    0.378842 |   1.00299e+09 |    3.99507e+09 |       3.00684e+09 |
+| Concepts Expensive |    0.379948 |   1.00221e+09 |    3.99772e+09 |       3.00826e+09 |
+| CRTP FMA           |    0.38215  |   1.00139e+09 |    3.99694e+09 |       3.01604e+09 |
+| CRTP Expensive     |    0.38097  |   1.00037e+09 |    3.99236e+09 |       3.00623e+09 |
+
+---
+
+### 🔀 Branches
+
+#### 🐌 Optimization Level: -O0
+
+| Test Name         |      Branches |    Branch Misses |   Miss Fraction |
+|:------------------|--------------:|-----------------:|----------------:|
+| Runtime FMA        |   6.98418e+09 |   7656           |     1.09619e-06 |
+| Runtime Expensive  |   3.00041e+10 |  32902           |     1.09658e-06 |
+| Concepts FMA       |   7.00953e+09 |      4.38924e+06 |     0.000626182 |
+| Concepts Expensive |   2.99839e+10 |  29983           |     9.9997e-07  |
+| CRTP FMA           |   9.00312e+09 | 175674           |     1.95126e-05 |
+| CRTP Expensive     |   3.19839e+10 |  47488           |     1.48475e-06 |
+
+#### 🐢 Optimization Level: -O1
+
+| Test Name         |      Branches |   Branch Misses |   Miss Fraction |
+|:------------------|--------------:|----------------:|----------------:|
+| Runtime FMA        |   4.00473e+09 |            5640 |     1.40834e-06 |
+| Runtime Expensive  |   2.29037e+10 |           21518 |     9.39501e-07 |
+| Concepts FMA       |   1.00527e+09 |             956 |     9.50986e-07 |
+| Concepts Expensive |   2.20039e+10 |           25431 |     1.15575e-06 |
+| CRTP FMA           |   1.00169e+09 |            1866 |     1.86286e-06 |
+| CRTP Expensive     |   1.00166e+09 |            2317 |     2.31317e-06 |
+
+#### 🚗 Optimization Level: -O2
+
+| Test Name         |      Branches |   Branch Misses |   Miss Fraction |
+|:------------------|--------------:|----------------:|----------------:|
+| Runtime FMA        |   3.00754e+09 |            6469 |     2.15093e-06 |
+| Runtime Expensive  |   2.19883e+10 |           24512 |     1.11477e-06 |
+| Concepts FMA       |   3.00082e+09 |            3955 |     1.31797e-06 |
+| Concepts Expensive |   2.20507e+10 |           18777 |     8.51538e-07 |
+| CRTP FMA           |   1.00184e+09 |            1249 |     1.24671e-06 |
+| CRTP Expensive     |   9.9946e+08  |             956 |     9.56516e-07 |
+
+
+#### 🚀 Optimization Level: -O3
+
+| Test Name         |      Branches |   Branch Misses |   Miss Fraction |
+|:------------------|--------------:|----------------:|----------------:|
+| Runtime FMA        |   3.00083e+09 |            6426 |     2.1414e-06  |
+| Runtime Expensive  |   2.19913e+10 |           28481 |     1.2951e-06  |
+| Concepts FMA       |   1.00299e+09 |            2031 |     2.02495e-06 |
+| Concepts Expensive |   1.00221e+09 |            3443 |     3.43542e-06 |
+| CRTP FMA           |   1.00139e+09 |            1766 |     1.76355e-06 |
+| CRTP Expensive     |   1.00037e+09 |            1886 |     1.88531e-06 |
+
+---
+
+### 📥📤 Memory Access
+
+#### 🐌 Optimization Level: -O0
+
+| Test Name         |   mem_inst_retired.all_stores |   mem_inst_retired.all_loads |   cache-misses |   cache-Miss Fraction |
+|:------------------|------------------------------:|-----------------------------:|---------------:|----------------------:|
+| Runtime FMA        |                   1.30384e+10 |                  2.30473e+10 |          75973 |           3.2964e-06  |
+| Runtime Expensive  |                   2.19943e+10 |                  6.29821e+10 |         186677 |           2.96397e-06 |
+| Concepts FMA       |                   1.30167e+10 |                  1.90293e+10 |          81142 |           4.26405e-06 |
+| Concepts Expensive |                   2.20129e+10 |                  5.90384e+10 |         121468 |           2.05744e-06 |
+| CRTP FMA           |                   1.70017e+10 |                  2.30038e+10 |         103357 |           4.49304e-06 |
+| CRTP Expensive     |                   2.60163e+10 |                  6.30247e+10 |         126241 |           2.00304e-06 |
+
+#### 🐢 Optimization Level: -O1
+
+| Test Name         |   mem_inst_retired.all_stores |   mem_inst_retired.all_loads |   cache-misses |   cache-Miss Fraction |
+|:------------------|------------------------------:|-----------------------------:|---------------:|----------------------:|
+| Runtime FMA        |                   2.00067e+09 |                  7.00035e+09 |         120655 |           1.72356e-05 |
+| Runtime Expensive  |                   1.10183e+10 |                  4.51358e+10 |         136076 |           3.01481e-06 |
+| Concepts FMA       |              113367           |             207912           |         104863 |           0.504362    |
+| Concepts Expensive |                   1.09808e+10 |                  4.28297e+10 |         149766 |           3.49678e-06 |
+| CRTP FMA           |              103279           |             178090           |         100107 |           0.562115    |
+| CRTP Expensive     |               98230           |             181020           |         101927 |           0.56307     |
+
+#### 🚗 Optimization Level: -O2
+
+| Test Name         |   mem_inst_retired.all_stores |   mem_inst_retired.all_loads |   cache-misses |   cache-Miss Fraction |
+|:------------------|------------------------------:|-----------------------------:|---------------:|----------------------:|
+| Runtime FMA        |                   2.00467e+09 |                  7.01407e+09 |         126230 |           1.79967e-05 |
+| Runtime Expensive  |                   1.00014e+10 |                  4.40329e+10 |         100436 |           2.28093e-06 |
+| Concepts FMA       |                   2.00108e+09 |                  5.00331e+09 |         104256 |           2.08374e-05 |
+| Concepts Expensive |                   9.91248e+09 |                  4.16685e+10 |         120469 |           2.89113e-06 |
+| CRTP FMA           |                        116233 |             212866           |          99111 |           0.465603    |
+| CRTP Expensive     |                        105460 |             202577           |          89321 |           0.440924    |
+
+#### 🚀 Optimization Level: -O3
+
+| Test Name         |   mem_inst_retired.all_stores |   mem_inst_retired.all_loads |   cache-misses |   cache-Miss Fraction |
+|:------------------|------------------------------:|-----------------------------:|---------------:|----------------------:|
+| Runtime FMA        |                   2.00139e+09 |                  7.00331e+09 |         134751 |           1.9241e-05  |
+| Runtime Expensive  |                   9.97602e+09 |                  4.39428e+10 |         129370 |           2.94406e-06 |
+| Concepts FMA       |                         96455 |             180536           |         124091 |           0.687348    |
+| Concepts Expensive |                         94656 |             181633           |         131838 |           0.725848    |
+| CRTP FMA           |                        109071 |             215144           |         112663 |           0.523663    |
+| CRTP Expensive     |                        107460 |             201802           |         118616 |           0.587784    |
+
+---
