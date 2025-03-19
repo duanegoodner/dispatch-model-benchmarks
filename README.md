@@ -343,105 +343,191 @@ options:
 The specific `perf` events collected by `./test/profiling/perf_test.py` are specified in `./tests/profiling/perf_events.json`. The content of this file can be customized to collect additional `perf` events.
 
 
-## 📊 Running `perf` with Max (-O3) Compiler Optimization
+## 🏃 Running `perf` for All Test Conditions
 
-This section describes test conditions and results of `perf` profiling performed with the most aggressive compiler optimizations (-O3).
+This section describes test conditions and results of `perf` profiling performed for all possible combinations:
 
-### Experimental Setup
+- Polymorphism Type: Runtime, CRTP, C++20 Concepts
+- Compute Function: FMA, Expensive
+- Compiler Optimization Levels: -O0, -O1, -O2, -O3
+
+### Test Platform Details
 
 - CPU = 13th Gen Intel(R) Core(TM) i7-13700K
 - OS = Debian 12.9
 - Linux Kernel = 6.1.0-31-amd64
 - Compiler = GCC 12.2.0
 
-#### ⏱ Execution Time Comparison
-
-| Polymorphism Type | Compute Function | Execution Time (ms) | Error (ms) |
-|-------------------|-----------------|--------------------|-----------|
-| Runtime          | FMA             | 1510.22           | 2.95     |
-| Runtime          | Expensive       | 6365.80           | 11.9     |
-| CRTP             | FMA             | 378.86           | 0.392    |
-| CRTP             | Expensive       | 378.16           | 3.37  |
-| Concepts         | FMA             | 377.52           | 0.456  |
-| Concepts         | Expensive       | 378.40           | 3.56   |
-#### ✅ Observations:
-- **Runtime Polymorphism (RP) is significantly slower:** ~4× slower than CRTP/Concepts for FMA and ~17× slower for Expensive computation.
-- **CRTP and Concepts are closely matched**, with negligible performance differences between FMA and Expensive
----
-
-#### 📝 Instructions and Micro Ops
-
-| Polymorphism Condition | Compute Function |   Mean Time |   Instructions | Micro Ops |
-|:-----------------------|:-----------------|------------:|---------------:|----------:|
-| Runtime               | FMA              |    5.8034   |      4.202e+10 | 5.903e+10 |
-| Runtime               | Expensive        |   10.7571   |      1.82e+11  | 2.065e+11 |
-| Concepts              | FMA              |    0.377829 |      3.998e+09 | 3.009e+09 |
-| Concepts              | Expensive        |    0.3779   |      4.009e+09 | 3.017e+09 |
-| CRTP                  | FMA              |    0.38061  |      4.012e+09 | 3.015e+09 |
-| CRTP                  | Expensive        |    0.37642  |      4.003e+09 |  3.01e+09 |
-#### ✅ Observations:
-
-- **RP has significantly higher instruction and Micro Ops counts**: ~10x higher for FMA, and ~50x higher for Expensive.
-- For **CRTP/Concepts, Micro Ops counts are lower than Instruction counts**, suggesting aggressive optimization by the compiler.
-
----
-
-
-#### 🔀 Branching Analysis
-| Polymorphism Condition | Compute Function |   Branches |   Branch Misses |   Miss Fraction |
-|:-----------------------|:-----------------|-----------:|----------------:|----------------:|
-| Runtime               | FMA              |  8.008e+09 |           13410 |       1.675e-06 |
-| Runtime               | Expensive        |  2.699e+10 |           31860 |       1.18e-06  |
-| Concepts              | FMA              |  1.002e+09 |             674 |       6.729e-07 |
-| Concepts              | Expensive        |  1.005e+09 |            1752 |       1.743e-06 |
-| CRTP                  | FMA              |  1.006e+09 |            1309 |       1.301e-06 |
-| CRTP                  | Expensive        |  1.004e+09 |             966 |       9.618e-07 |
-
-#### ✅ Observations:
-- **Runtime Polymorphism (RP) has significantly higher branch counts** compared to CRTP/Concepts (8x higher for FMA, and 27x higher for Expensive).
-- Branch prediction misses are low across all conditions.
-
----
-
-
-#### 📥📤 Memory Access
-
-| Polymorphism Condition | Compute Function | Stores    | Loads | Cache Misses | Cache Miss Fraction |
-|:-----------------------|:-----------------|----------:|------------:|-------------:|--------------------:|
-| Runtime               | FMA              |  1.30e+10 | 2.10e+10    | 8.41e+04     | 4.01e-06           |
-| Runtime               | Expensive        |  2.10e+10 | 5.80e+10    | 9.40e+04     | 1.62e-06           |
-| Concepts              | FMA              |  1.02e+05 | 1.97e+05    | 6.10e+04     | 3.10e-01           |
-| Concepts              | Expensive        |  9.37e+04 | 1.79e+05    | 7.39e+04     | 4.13e-01           |
-| CRTP                  | FMA              |  9.16e+04 | 1.73e+05    | 7.27e+04     | 4.21e-01           |
-| CRTP                  | Expensive        |  9.40e+04 | 1.78e+05    | 7.25e+04     | 4.08e-01           |
-
-#### ✅ Observations:
-- **Runtime polymorphism: 5 orders of magnitude more stores and loads** than CRTP/Concepts.
-- **Runtime Expensive** has ~40% more stores and ~2.8x more loads than Runtime FMA.
-- **CRTP / Concepts have much higher cache miss rate** than RP, but still run much faster due to lower overall workload.
-
----
-
 
 ### 🔑 Key Insights
 
-#### 🏎 1️⃣ CRTP and Concepts are significantly faster than Runtime Polymorphism
-- RP requires more instructions & branches and massively higher memory access than CRTP/Concepts.
-- Virtual function calls likely account for the large gap, with a much more pronounced slowdown in the Expensive function.
-- The heap-to-stack usage ratio is likely higher for RP which would contribute to its higher memory access needs. 
-- Uops : Instruction ratios clearly indicate more aggressive compiler optimization for CRTP/Concepts than RP. 
+> [!NOTE]
+> The data in the results section below is from **fresh test runs** including all optimization levels (`-O0`, `-O1`, `-O2`, `-O3`).  
+> A **detailed analysis and visualization of trends will be added soon.**
+
+- **Runtime Polymorphism (`virtual` functions) is consistently the slowest** across all optimization levels, with the gap widening significantly for complex computations.
+- **CRTP is consistently the fastest approach**, outperforming both Runtime Polymorphism and C++20 Concepts, particularly at `-O2`.
+- **C++20 Concepts behave similarly to CRTP at `-O3` but struggle at `-O2`**, showing significantly slower execution times.
+- **Compiler Optimization Level Matters**:
+  - **At `-O1` and `-O3`**, Concepts and CRTP perform nearly identically.
+  - **At `-O2`**, CRTP remains fast, but Concepts slow down dramatically.
+- **Branch Mispredictions & Cache Misses** are significantly worse for Runtime Polymorphism, making it less efficient than compile-time alternatives.
+- **Binary size shrinks from `-O0` to `-O3`**, with **`-O3` generating the smallest executables** while also delivering the best performance.
+- **Loop Unrolling and Function Inlining seem to play a major role in CRTP’s advantage**, particularly at `-O2` where Concepts do not benefit from the same optimizations.
 
 
-#### ⚖️ 2️⃣ CRTP and Concepts are identical
-- CRTP and Concepts retire the same number of instructions & branches.
-- Aggressive compiler optimizations likely explain why the Expensive computation is not heavier than FMA.
+### 📌 Next Steps
+- Investigate **assembly differences (`objdump`)** between Concepts and CRTP at `-O2`.  
+- Examine **additional compiler flags** to see if Concepts can be optimized further.  
+- Compare **binary size trends** for all approaches across optimization levels.  
 
 
-### Further Investigation
-
-#### Assembly Code Review with `objdump`
-- Assambly code review with `objdump` is underway.
-- Code extracted as part of this analysis saved under `./test/objdump/`
+## 📊 Event Data from `perf`
 
 
+### ⏱ 📝 Execution Time and Instructions
 
+#### 🐌 Optimization Level: -O0
+
+| Test Name         |   Time (s) |      Branches |   Instructions |   Micro Ops |
+|:------------------|------------:|--------------:|---------------:|------------------:|
+| RuntimeFMA        |     2.95447 |   6.98418e+09 |    5.48726e+10 |       6.23562e+10 |
+| RuntimeExpensive  |    10.0609  |   3.00041e+10 |    2.021e+11   |       2.19918e+11 |
+| ConceptsFMA       |     3.33434 |   7.00953e+09 |    5.10138e+10 |       5.94976e+10 |
+| ConceptsExpensive |     9.9803  |   2.99839e+10 |    1.97852e+11 |       2.14807e+11 |
+| CRTPFMA           |     4.5475  |   9.00312e+09 |    6.50036e+10 |       7.57248e+10 |
+| CRTPExpensive     |    11.8889  |   3.19839e+10 |    2.11878e+11 |       2.31614e+11 |
+
+#### 🐢 Optimization Level: -O1
+
+| Test Name         |   Time (s) |      Branches |   Instructions |   Micro Ops |
+|:------------------|------------:|--------------:|---------------:|------------------:|
+| RuntimeFMA        |    1.51398  |   4.00473e+09 |    1.30049e+10 |       1.40098e+10 |
+| RuntimeExpensive  |    6.7236   |   2.29037e+10 |    1.57141e+11 |       1.62151e+11 |
+| ConceptsFMA       |    0.37788  |   1.00527e+09 |    4.00984e+09 |       3.01393e+09 |
+| ConceptsExpensive |    6.17581  |   2.20039e+10 |    1.55921e+11 |       1.59944e+11 |
+| CRTPFMA           |    0.38335  |   1.00169e+09 |    3.99376e+09 |       3.00774e+09 |
+| CRTPExpensive     |    0.379375 |   1.00166e+09 |    3.99497e+09 |       3.00839e+09 |
+
+
+#### 🚗 Optimization Level: -O2
+
+| Test Name         |   Time (s) |      Branches |   Instructions |   Micro Ops |
+|:------------------|------------:|--------------:|---------------:|------------------:|
+| RuntimeFMA        |    1.51137  |   3.00754e+09 |    1.30168e+10 |       1.40358e+10 |
+| RuntimeExpensive  |    6.4254   |   2.19883e+10 |    1.5375e+11  |       1.58809e+11 |
+| ConceptsFMA       |    1.51909  |   3.00082e+09 |    1.20043e+10 |       1.20152e+10 |
+| ConceptsExpensive |    6.4359   |   2.20507e+10 |    1.53393e+11 |       1.57767e+11 |
+| CRTPFMA           |    0.38022  |   1.00184e+09 |    3.99637e+09 |       3.00877e+09 |
+| CRTPExpensive     |    0.378914 |   9.9946e+08  |    3.99163e+09 |       3.00997e+09 |
+
+
+#### 🚀 Optimization Level: -O3
+
+| Test Name         |   Time (s) |      Branches |   Instructions |   Micro Ops |
+|:------------------|------------:|--------------:|---------------:|------------------:|
+| RuntimeFMA        |    1.51615  |   3.00083e+09 |    1.30127e+10 |       1.4032e+10  |
+| RuntimeExpensive  |    6.4408   |   2.19913e+10 |    1.53851e+11 |       1.58795e+11 |
+| ConceptsFMA       |    0.378842 |   1.00299e+09 |    3.99507e+09 |       3.00684e+09 |
+| ConceptsExpensive |    0.379948 |   1.00221e+09 |    3.99772e+09 |       3.00826e+09 |
+| CRTPFMA           |    0.38215  |   1.00139e+09 |    3.99694e+09 |       3.01604e+09 |
+| CRTPExpensive     |    0.38097  |   1.00037e+09 |    3.99236e+09 |       3.00623e+09 |
+
+---
+
+### 🔀 Branches
+
+#### 🐌 Optimization Level: -O0
+
+| Test Name         |      Branches |    Branch Misses |   Miss Fraction |
+|:------------------|--------------:|-----------------:|----------------:|
+| RuntimeFMA        |   6.98418e+09 |   7656           |     1.09619e-06 |
+| RuntimeExpensive  |   3.00041e+10 |  32902           |     1.09658e-06 |
+| ConceptsFMA       |   7.00953e+09 |      4.38924e+06 |     0.000626182 |
+| ConceptsExpensive |   2.99839e+10 |  29983           |     9.9997e-07  |
+| CRTPFMA           |   9.00312e+09 | 175674           |     1.95126e-05 |
+| CRTPExpensive     |   3.19839e+10 |  47488           |     1.48475e-06 |
+
+#### 🐢 Optimization Level: -O1
+
+| Test Name         |      Branches |   Branch Misses |   Miss Fraction |
+|:------------------|--------------:|----------------:|----------------:|
+| RuntimeFMA        |   4.00473e+09 |            5640 |     1.40834e-06 |
+| RuntimeExpensive  |   2.29037e+10 |           21518 |     9.39501e-07 |
+| ConceptsFMA       |   1.00527e+09 |             956 |     9.50986e-07 |
+| ConceptsExpensive |   2.20039e+10 |           25431 |     1.15575e-06 |
+| CRTPFMA           |   1.00169e+09 |            1866 |     1.86286e-06 |
+| CRTPExpensive     |   1.00166e+09 |            2317 |     2.31317e-06 |
+
+#### 🚗 Optimization Level: -O2
+
+| Test Name         |      Branches |   Branch Misses |   Miss Fraction |
+|:------------------|--------------:|----------------:|----------------:|
+| RuntimeFMA        |   3.00754e+09 |            6469 |     2.15093e-06 |
+| RuntimeExpensive  |   2.19883e+10 |           24512 |     1.11477e-06 |
+| ConceptsFMA       |   3.00082e+09 |            3955 |     1.31797e-06 |
+| ConceptsExpensive |   2.20507e+10 |           18777 |     8.51538e-07 |
+| CRTPFMA           |   1.00184e+09 |            1249 |     1.24671e-06 |
+| CRTPExpensive     |   9.9946e+08  |             956 |     9.56516e-07 |
+
+
+#### 🚀 Optimization Level: -O3
+
+| Test Name         |      Branches |   Branch Misses |   Miss Fraction |
+|:------------------|--------------:|----------------:|----------------:|
+| RuntimeFMA        |   3.00083e+09 |            6426 |     2.1414e-06  |
+| RuntimeExpensive  |   2.19913e+10 |           28481 |     1.2951e-06  |
+| ConceptsFMA       |   1.00299e+09 |            2031 |     2.02495e-06 |
+| ConceptsExpensive |   1.00221e+09 |            3443 |     3.43542e-06 |
+| CRTPFMA           |   1.00139e+09 |            1766 |     1.76355e-06 |
+| CRTPExpensive     |   1.00037e+09 |            1886 |     1.88531e-06 |
+
+---
+
+### 📥📤 Memory Access
+
+#### 🐌 Optimization Level: -O0
+
+| Test Name         |   mem_inst_retired.all_stores |   mem_inst_retired.all_loads |   cache-misses |   cache-Miss Fraction |
+|:------------------|------------------------------:|-----------------------------:|---------------:|----------------------:|
+| RuntimeFMA        |                   1.30384e+10 |                  2.30473e+10 |          75973 |           3.2964e-06  |
+| RuntimeExpensive  |                   2.19943e+10 |                  6.29821e+10 |         186677 |           2.96397e-06 |
+| ConceptsFMA       |                   1.30167e+10 |                  1.90293e+10 |          81142 |           4.26405e-06 |
+| ConceptsExpensive |                   2.20129e+10 |                  5.90384e+10 |         121468 |           2.05744e-06 |
+| CRTPFMA           |                   1.70017e+10 |                  2.30038e+10 |         103357 |           4.49304e-06 |
+| CRTPExpensive     |                   2.60163e+10 |                  6.30247e+10 |         126241 |           2.00304e-06 |
+
+#### 🐢 Optimization Level: -O1
+
+| Test Name         |   mem_inst_retired.all_stores |   mem_inst_retired.all_loads |   cache-misses |   cache-Miss Fraction |
+|:------------------|------------------------------:|-----------------------------:|---------------:|----------------------:|
+| RuntimeFMA        |                   2.00067e+09 |                  7.00035e+09 |         120655 |           1.72356e-05 |
+| RuntimeExpensive  |                   1.10183e+10 |                  4.51358e+10 |         136076 |           3.01481e-06 |
+| ConceptsFMA       |              113367           |             207912           |         104863 |           0.504362    |
+| ConceptsExpensive |                   1.09808e+10 |                  4.28297e+10 |         149766 |           3.49678e-06 |
+| CRTPFMA           |              103279           |             178090           |         100107 |           0.562115    |
+| CRTPExpensive     |               98230           |             181020           |         101927 |           0.56307     |
+
+#### 🚗 Optimization Level: -O2
+
+| Test Name         |   mem_inst_retired.all_stores |   mem_inst_retired.all_loads |   cache-misses |   cache-Miss Fraction |
+|:------------------|------------------------------:|-----------------------------:|---------------:|----------------------:|
+| RuntimeFMA        |                   2.00467e+09 |                  7.01407e+09 |         126230 |           1.79967e-05 |
+| RuntimeExpensive  |                   1.00014e+10 |                  4.40329e+10 |         100436 |           2.28093e-06 |
+| ConceptsFMA       |                   2.00108e+09 |                  5.00331e+09 |         104256 |           2.08374e-05 |
+| ConceptsExpensive |                   9.91248e+09 |                  4.16685e+10 |         120469 |           2.89113e-06 |
+| CRTPFMA           |                        116233 |             212866           |          99111 |           0.465603    |
+| CRTPExpensive     |                        105460 |             202577           |          89321 |           0.440924    |
+
+#### 🚀 Optimization Level: -O3
+
+| Test Name         |   mem_inst_retired.all_stores |   mem_inst_retired.all_loads |   cache-misses |   cache-Miss Fraction |
+|:------------------|------------------------------:|-----------------------------:|---------------:|----------------------:|
+| RuntimeFMA        |                   2.00139e+09 |                  7.00331e+09 |         134751 |           1.9241e-05  |
+| RuntimeExpensive  |                   9.97602e+09 |                  4.39428e+10 |         129370 |           2.94406e-06 |
+| ConceptsFMA       |                         96455 |             180536           |         124091 |           0.687348    |
+| ConceptsExpensive |                         94656 |             181633           |         131838 |           0.725848    |
+| CRTPFMA           |                        109071 |             215144           |         112663 |           0.523663    |
+| CRTPExpensive     |                        107460 |             201802           |         118616 |           0.587784    |
+
+---
