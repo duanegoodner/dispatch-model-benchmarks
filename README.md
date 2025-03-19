@@ -20,23 +20,34 @@ As I explored this, I expected to find many benchmark results from developers ev
 ## 🎯 What This Project Does
 
 
-### 🔹 Compares Runtime vs Compile-Time Polymorphism Performance
-This project benchmarks runtime vs compile-time polymorphism for two compute functions:
+### 🔹 Examines how Permance is Affected by...
 
-#### Simple Computation – Fused Multiply-Add (FMA):
+#### Approach to Polymorphism
+
+- **Runtime polymorphism** via virtual function calls.
+- **Compile-time polymorphism** using the Curiously Recurring Template Pattern (CRTP).
+- **C++20 Concepts**  which enable compile-time type enforcement and selection, achieving behavior similar to polymorphism without inheritance.
+
+#### Different Compute Functions
+
+*Simple Computation – Fused Multiply-Add (FMA):*
 ```cpp
 inline double ComputeFMA(double x) { return x * 1.414 + 2.718; }
 ```
-#### Complex Computation – Sin, Log and a Square Root:
+*Complex Computation – Sin, Log and a Square Root:*
 ```cpp
 inline double ComputeExpensive(double x) {
     return std::sin(x) * std::log(x + 1) + std::sqrt(x);
 }
 ```
-Each function is tested using:
-- **Runtime polymorphism** via virtual function calls.
-- **Compile-time polymorphism** using the Curiously Recurring Template Pattern (CRTP).
-- **C++20 Concepts**  which enable compile-time type enforcement and selection, achieving behavior similar to polymorphism without inheritance.
+
+#### Compiler Optimization Levels
+
+ - O0
+ - O1
+ - O2
+ - O3
+
 
 ### 🔹 Provides a Template for Benchmarking Other Compute Functions
 
@@ -216,18 +227,10 @@ FMA Computation: Runtime Polymorphism Time = 0.00343413 seconds
 
 We can use the Linux tool `perf` to gain more insight into differences among various forms of polymorphism and compute functions.
 
-### 🔹 Build with Profiling
-
-In order to use perf, we need to build with profiling enabled.
-
-```shell
-cmake -B build -DENABLE_PROFILING=ON
-cmake --build build
-```
 
 ### 🔹 Automated Test Module
 
-Python module `./test/profiling/perf_tests.py` can be used to run the benchmarks and save results as both raw `.txt` files and as cleaned `.feather` files that can be easily read into a Pandas DataFrame. All Python dependencies needed to run this module are specified in `environment.yml`.
+Python module `./test/profiling/multi_build_per_tester` can be used to run the benchmarks and save results as both raw `.txt` files and as cleaned `.feather` files that can be easily read into a Pandas DataFrame. All Python dependencies needed to run this module are specified in `environment.yml`.
 
 #### Create and Activate Conda Environment
 From the project root, run:
@@ -238,88 +241,79 @@ conda activate polymorphism-compare-env
 Once our Conda environment is activated, can get command line help by running:
 
 ```shell
-python test/profiling/perf_tests.py --help
+python test/profiling/multi_build_perf_tester.py --help
 ```
 **Output:**
 ```
-usage: perf_tests.py [-h] [-p POLYMORPHISM_TYPES [POLYMORPHISM_TYPES ...]]
-                     [-c COMPUTE_FUNCTIONS [COMPUTE_FUNCTIONS ...]] [-r RUNS_PER_CONDITION]
-                     [-i ITERATIONS_PER_RUN]
+usage: multi_build_perf_tester.py [-h] [-o OPTIMIZATION_LEVELS [OPTIMIZATION_LEVELS ...]] [-p POLYMORPHISM_TYPES [POLYMORPHISM_TYPES ...]]
+                                  [-c COMPUTE_FUNCTIONS [COMPUTE_FUNCTIONS ...]] [-r NUM_RUNS_PER_CONDITION] [-i NUM_ITERATIONS_PER_RUN]
 
-Runs perf tests for various combinations of polymorphism types and compute functions. Saves raw (.txt) and
-cleaned (.feather) data to a timestamped directory under ./data/perf.
+Run performance tests for multiple build configurations.
 
 options:
   -h, --help            show this help message and exit
+  -o OPTIMIZATION_LEVELS [OPTIMIZATION_LEVELS ...], --optimization_levels OPTIMIZATION_LEVELS [OPTIMIZATION_LEVELS ...]
+                        List of optimization levels to test (default = O0, O1, O2, O3).
   -p POLYMORPHISM_TYPES [POLYMORPHISM_TYPES ...], --polymorphism_types POLYMORPHISM_TYPES [POLYMORPHISM_TYPES ...]
-                        List of polymorphism types to test (default: crtp concepts runtime)
+                        List of polymorphism types to test (default = crtp, concepts, runtime).
   -c COMPUTE_FUNCTIONS [COMPUTE_FUNCTIONS ...], --compute_functions COMPUTE_FUNCTIONS [COMPUTE_FUNCTIONS ...]
-                        List of compute functions to test (default: fma expensive)
-  -r RUNS_PER_CONDITION, --runs_per_condition RUNS_PER_CONDITION
-                        Number of runs per test condition (default: 5)
-  -i ITERATIONS_PER_RUN, --iterations_per_run ITERATIONS_PER_RUN
-                        Number of iterations per run (default: 1000000000)
+                        List of compute functions to test (default = fma, expensive).
+  -r NUM_RUNS_PER_CONDITION, --num_runs_per_condition NUM_RUNS_PER_CONDITION
+                        Number of runs per condition (default = 5).
+  -i NUM_ITERATIONS_PER_RUN, --num_iterations_per_run NUM_ITERATIONS_PER_RUN
+                        Number of iterations per run (default = 1000000000).
 
 ```
 
 
 ### 🔹 Example: Profiling a Single Test Condition
 
+To profile our FMA compute function using C++20 Concepts and aggressive (-O3) compiler optimization, we can run:
+
 ```
-python test/profiling/perf_tests.py -p concepts -c fma
+python -o 03 -p concepts -c fma
 ```
-**Output:**
+This will initiate a fresh build of the project binary (`./build/bin/benchmark`) prior to running the test. The terminal output should look similar to
 ```
+...
+
+✅ Build completed for -O3
+
+Binary size for optimization levelO3: 79936 bytes (78.06 KB)
+
 ------------------------------------------------
 Running perf for: Polymorphism Type = concepts
 Compute Function = fma
 Number of Runs = 5
 Number of Iterations per Run = 1000000000
-Results saved to: /home/duane/dproj/polymorphism-compare/data/perf/2025-03-17_09-03-37/1_concepts_fma.txt
-Re-running to collect perf summary...
-Results saved to: /home/duane/dproj/polymorphism-compare/data/perf/2025-03-17_09-03-37/1_concepts_fma_summary.txt
-Building Dataframe from detailed perf output
-DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-17_09-03-37/perf_detailed_runs.feather
-Building Dataframe from summary perf output
-DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-17_09-03-37/perf_summary_runs.feather
+Running perf to collect detailed event data...
+Results saved to: /home/duane/dproj/polymorphism-compare/data/perf/2025-03-19_15-37-38_O3/1_concepts_fma.txt
+Re-running perf to collect summary data...
+Results saved to: /home/duane/dproj/polymorphism-compare/data/perf/2025-03-19_15-37-38_O3/1_concepts_fma_summary.txt
+Building Dataframe from detailed perf output...
+DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-19_15-37-38_O3/perf_detailed_runs.feather
+Building Dataframe from summary perf output...
+DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-19_15-37-38_O3/perf_summary_runs.feather
 ```
 
 Note that there are two sets of runs for each condition: one for detailed perf output and one for summary perf output (perf does not support collecting summary info and custom events in the same run).
 
-### 🔹 Customizing Number of Iterations
-
-The default setting is to run 5 tests per condition and 1e+9 iterations per test. We can customize these values with the `-r` and `-i` flags, respectively:
-```
-python test/profiling/perf_tests.py -p crtp -c expensive -n 10 -i 50000000
-```
-**Output:**
-```
-------------------------------------------------
-Running perf for: Polymorphism Type = crtp
-Compute Function = expensive
-Number of Runs = 10
-Number of Iterations per Run = 50000000
-[...]
-```
 
 ### 🔹 Run All Tests
 
-To run all possible combinations of polymorphism type and compute function, we can run the script without passing any arguments for `-p` or `-c`: 
+To run all possible combinations of polymorphism type and compute function, we can run the test module without passing any: 
 ```shell
-python test/profiling/perf_tests.py
+python test/profiling/multi_build_perf_tester.py
 ```
-The final lines of output will tell us where the .feather files with cleaned output data are saved:
-```
-...
-Building Dataframe from detailed perf output...
-DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-18_14-01-51/perf_detailed_runs.feather
-Building Dataframe from summary perf output...
-DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-18_14-01-51/perf_summary_runs.feather
-```
+This will result in builds at four different optimization levels, and will all possible combinations of Polymorphism Type and Compute Function with each resulting binary.
+
 
 ### 🔹 Profiling Data
 
 Output from the profiling runs will be saved in a timestamped directory under `./data/perf/`. The directory  will include raw .txt data produced by `perf` as well as cleaned data in two `.feather` files: `perf_detailed_runs.feather` and `perf_summary_runs.feather`. Each of these can be imported into Python as a Pandas Dataframe. For example usage, see the code in`./test/profiling/view_dfs.py`.
+
+> [!TIP]
+> The compiler optimizaton level for a particular set of runs is indicated in the output directory name and is also included in `.txt` files located in the output directory.
 
 
 #### 🔹 View Key Profiling Data
