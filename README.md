@@ -13,8 +13,7 @@
 - C++20 Concepts perform similarly to CRTP at -O3, but miss out on CRTP’s -O2 performance gains.
 
 > [!IMPORTANT]
-> **Polymorphism performance differences depend on your specific use case.**  
-> While these benchmarks highlight significant trends, **your mileage may vary** depending on factors like **CPU architecture, compiler version, optimization settings, and workload characteristics**.  Always **profile in your own environment** before making design decisions!
+> **Polymorphism performance is highly use-case dependent.**  While these benchmarks highlight significant trends, **your mileage may vary** depending on factors like CPU architecture, compiler version, optimization settings, and workload characteristics.  Always profile your own use case before making big design decisions!
 
 
 ## 📖 Background
