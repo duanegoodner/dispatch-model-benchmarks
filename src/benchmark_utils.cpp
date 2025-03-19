@@ -22,6 +22,7 @@ std::chrono::duration<double> RunTestCase(
 ) {
   std::cout << "Running: " << test_case.name << std::endl;
   std::cout << "Iteration Count: " << iterations << std::endl;
+  std::cout << "Compiler Flags: " << COMPILER_FLAGS << std::endl;
 
   auto start = std::chrono::high_resolution_clock::now();
   test_case.function(iterations);
