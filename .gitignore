@@ -5,3 +5,5 @@ data/run_all_tests_results/
 data/single_test_results/
 
 data/perf/
+data/perf_record/
+data/perf_record_old/
