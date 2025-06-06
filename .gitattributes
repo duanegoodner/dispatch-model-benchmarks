@@ -1,5 +1,5 @@
 # Ignore Python files in stats
-# *.py linguist-vendored
+*.py linguist-vendored
 
 # Or optionally, more narrowly:
 test/*.py linguist-vendored
