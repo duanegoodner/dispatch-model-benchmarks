@@ -1,10 +1,10 @@
 # Ignore Python files in stats
-# *.py linguist-documentation
+*.py linguist-vendored
 
 # Or optionally, more narrowly:
-test/*.py linguist-documentation
+test/*.py linguist-vendored
 
 # Force C++ to be treated as the main language
-*.cpp linguist-language=C++
-*.hpp linguist-language=C++
-*.h   linguist-language=C++
+# *.cpp linguist-language=C++
+# *.hpp linguist-language=C++
+# *.h   linguist-language=C++
