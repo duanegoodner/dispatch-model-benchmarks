@@ -1,5 +1,5 @@
 # Dispatch Model Benchmarks
-*Benchmarking Runtime vs Compile-Time Polymorphism for compute functions in C++*
+*Benchmarks runtime vs compile-time polymorphism for compute functions in C++*
 
 ## ⚡ TL;DR
 - This project benchmarks Runtime Polymorphism vs. Compile-Time Polymorphism (CRTP & C++20 Concepts) across multiple compiler optimization levels (-O0, -O1, -O2, -O3).
