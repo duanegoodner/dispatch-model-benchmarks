@@ -1,4 +1,4 @@
-# polymorphism-compare
+# Dispatch Model Benchmarks
 *Benchmarking Runtime vs Compile-Time Polymorphism for compute functions in C++*
 
 ## ⚡ TL;DR
@@ -84,8 +84,8 @@ This project is designed with modularity and ease of modification in mind, makin
 Clone this repository and change working directory:
 
 ```shell
-https://github.com/duanegoodner/polymorphism-compare
-cd polymorphism-compare
+https://github.com/duanegoodner/dispatch-model-benchmarks
+cd dispatch-model-benchmarks
 ```
 
 Create the build directory:
@@ -242,7 +242,7 @@ Python module `./test/profiling/multi_build_per_tester` can be used to run the b
 From the project root, run:
 ```shell
 conda env create -f environment.yml
-conda activate polymorphism-compare-env
+conda activate dispatch-model-benchmarks-env
 ````
 Once our Conda environment is activated, can get command line help by running:
 
@@ -293,13 +293,13 @@ Compute Function = fma
 Number of Runs = 5
 Number of Iterations per Run = 1000000000
 Running perf to collect detailed event data...
-Results saved to: /home/duane/dproj/polymorphism-compare/data/perf/2025-03-19_15-37-38_O3/1_concepts_fma.txt
+Results saved to: /home/duane/dproj/dispatch-model-benchmarks/data/perf/2025-03-19_15-37-38_O3/1_concepts_fma.txt
 Re-running perf to collect summary data...
-Results saved to: /home/duane/dproj/polymorphism-compare/data/perf/2025-03-19_15-37-38_O3/1_concepts_fma_summary.txt
+Results saved to: /home/duane/dproj/dispatch-model-benchmarks/data/perf/2025-03-19_15-37-38_O3/1_concepts_fma_summary.txt
 Building Dataframe from detailed perf output...
-DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-19_15-37-38_O3/perf_detailed_runs.feather
+DataFrame saved to /home/duane/dproj/dispatch-model-benchmarks/data/perf/2025-03-19_15-37-38_O3/perf_detailed_runs.feather
 Building Dataframe from summary perf output...
-DataFrame saved to /home/duane/dproj/polymorphism-compare/data/perf/2025-03-19_15-37-38_O3/perf_summary_runs.feather
+DataFrame saved to /home/duane/dproj/dispatch-model-benchmarks/data/perf/2025-03-19_15-37-38_O3/perf_summary_runs.feather
 ```
 
 Note that there are two sets of runs for each condition: one for detailed perf output and one for summary perf output (perf does not support collecting summary info and custom events in the same run).
